@@ -1,9 +1,9 @@
 <?php
 
-namespace crmapp\models;
+namespace application\models;
 
 use crm\db\DBC;
-use crmapp\Exception;
+use crm\CRMException;
 
 class Model
 {
@@ -14,20 +14,28 @@ class Model
     /**
      * Model constructor.
      *
-     * @throws Exception
+     * @throws CRMException
      */
     public function __construct()
     {
         if ( is_null(self::$db_inst) ) {
             if ( ! file_exists(__DIR__ . '/../../config/db.php') ) {
-                throw new Exception("File db.php not found.");
+                throw new CRMException("File db.php not found.");
             }
 
             $connected = require_once __DIR__ . '/../../config/db.php';
-            
+
             self::$db_inst = new DBC($connected, ['charset' => 'UTF8']);
         }
 
         $this->pdo = self::$db_inst;
+    }
+
+    /**
+     * Model destructor.
+     */
+    public function __destruct()
+    {
+        $this->pdo = null;
     }
 }

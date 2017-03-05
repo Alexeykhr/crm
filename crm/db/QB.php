@@ -4,5 +4,5 @@ namespace crm\db;
 
 class QB
 {
-
+    //
 }

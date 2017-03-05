@@ -2,7 +2,7 @@
 
 namespace crm\db;
 
-use crmapp\Exception;
+use crm\CRMException;
 
 class DBC
 {
@@ -12,7 +12,7 @@ class DBC
      * @param $connect
      * @param $config
      *
-     * @throws Exception
+     * @throws CRMException
      */
     public function __construct($connect, $config)
     {
@@ -24,7 +24,7 @@ class DBC
                 $config
             );
         } catch (\PDOException $e) {
-            throw new Exception("Error to connect with Database");
+            throw new CRMException("Error to connect with Database");
         }
     }
 }
