@@ -27,4 +27,9 @@ class DBC
             throw new CRMException("Error to connect with Database");
         }
     }
+
+    public function q($query)
+    {
+        return $this->pdo->query($query);
+    }
 }

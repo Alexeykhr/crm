@@ -1,6 +1,6 @@
 <?php
 
-namespace application\models;
+namespace application\models\common;
 
 use core\db\DBC;
 use core\CRMException;
@@ -19,11 +19,11 @@ class Model
     public function __construct()
     {
         if ( is_null(self::$db_inst) ) {
-            if ( ! file_exists(__DIR__ . '/../../config/db.php') ) {
+            if ( ! file_exists(__DIR__ . '/../../../config/db.php') ) {
                 throw new CRMException("File db.php not found.");
             }
 
-            $connected = require_once __DIR__ . '/../../config/db.php';
+            $connected = require_once __DIR__ . '/../../../config/db.php';
 
             self::$db_inst = new DBC($connected, ['charset' => 'UTF8']);
         }
