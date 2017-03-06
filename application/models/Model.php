@@ -2,8 +2,8 @@
 
 namespace application\models;
 
-use crm\db\DBC;
-use crm\CRMException;
+use core\db\DBC;
+use core\CRMException;
 
 class Model
 {
@@ -37,5 +37,6 @@ class Model
     public function __destruct()
     {
         $this->pdo = null;
+        self::$db_inst = null;
     }
 }

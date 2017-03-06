@@ -1,20 +1,20 @@
 <?php
 
-namespace crm\db;
+namespace core\db;
 
-use crm\CRMException;
+use core\CRMException;
 
 class DBC
 {
     /**
      * DBC constructor.
      *
-     * @param $connect
-     * @param $config
+     * @param array $connect
+     * @param array $config
      *
      * @throws CRMException
      */
-    public function __construct($connect, $config)
+    public function __construct($connect, $config = [])
     {
         try {
             return $this->pdo = new \PDO(

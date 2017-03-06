@@ -1,6 +1,6 @@
 <?php
 
-namespace crm;
+namespace core;
 
 class CRMException extends \Exception
 {

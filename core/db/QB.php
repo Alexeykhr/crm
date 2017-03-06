@@ -1,6 +1,6 @@
 <?php
 
-namespace crm\db;
+namespace core\db;
 
 class QB
 {
