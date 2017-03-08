@@ -1,0 +1,22 @@
+{
+  "name": "Alexeykhr/crm",
+  "description": "CRM for Company.",
+  "keywords": ["CRM"],
+  "license": "MIT",
+  "type": "project",
+  "require":
+  {
+    "php": ">=5.6.4",
+    "usmanhalalit/pixie": "2.*@dev"
+  },
+  "autoload":
+  {
+    "classmap": [
+      "application",
+      "core"
+    ],
+    "psr-4": {
+      "crm\\": "/"
+    }
+  }
+}

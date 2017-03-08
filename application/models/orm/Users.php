@@ -1,29 +1,17 @@
 <?php
 
-namespace application\models\orm;
+namespace crm\application\models\orm;
 
-use application\models\common\Model;
-use core\db\QB;
+use crm\application\models\common\Model;
 
 class Users extends Model
 {
     const TABLE_USER = 'users';
 
-    /**
-     * For tests.
-     *
-     * @return int
-     */
-    public function getCount()
+    public function test()
     {
-        $sql = QB::inst()->select('*')->from(self::TABLE_USER)->get();
+        $query = \QB::table(self::TABLE_USER)->where('id', '=', '2');
 
-        $query = $this->db->q1( $sql );
-        print_r( $query );
-        echo '<br>';
-        die('ok');
-//        echo $query . '<br>';
-
-        return 0;
+        print_r( $query->get() );
     }
 }
