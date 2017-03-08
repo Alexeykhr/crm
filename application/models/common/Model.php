@@ -1,18 +1,20 @@
 <?php
 
-namespace application\models\common;
+namespace crm\application\models\common;
 
-use core\db\DBC;
-use core\CRMException;
+use crm\core\CRMException;
+use Pixie\Connection;
 
 class Model
 {
-    protected $pdo;
+    protected $db;
 
     static protected $db_inst = null;
 
     /**
      * Model constructor.
+     *
+     * @see https://github.com/usmanhalalit/pixie
      *
      * @throws CRMException
      */
@@ -23,12 +25,12 @@ class Model
                 throw new CRMException("File db.php not found.");
             }
 
-            $connected = require_once __DIR__ . '/../../../config/db.php';
+            $config = require __DIR__ . '/../../../config/db.php';
 
-            self::$db_inst = new DBC($connected, ['charset' => 'UTF8']);
+            self::$db_inst = new Connection($config['driver'], $config, 'QB');
         }
 
-        $this->pdo = self::$db_inst;
+        $this->db = self::$db_inst;
     }
 
     /**
@@ -36,7 +38,7 @@ class Model
      */
     public function __destruct()
     {
-        $this->pdo = null;
+        $this->db = null;
         self::$db_inst = null;
     }
 }

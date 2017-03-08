@@ -1,6 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$model = new application\models\orm\Users(); // Test
-echo $model->getCount();
+$configDB = require __DIR__ . '/../config/db.php';
+new \Pixie\Connection($configDB['driver'], $configDB);
+
+// For test
+$user = new \crm\application\models\orm\Users();
+$user->test();
