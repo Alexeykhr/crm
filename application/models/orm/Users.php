@@ -16,17 +16,13 @@ class Users extends Model
      */
     public function getCount()
     {
-        $query = QB::table(self::TABLE_USER)->select('*')->run();
-        echo $query . '<br>';
+        $sql = QB::inst()->select('*')->from(self::TABLE_USER)->get();
 
-        $query = QB::table(self::TABLE_USER)->select('1')->run();
-        echo $query . '<br>';
-
-        $query = QB::table('people')->select('*')->run();
-        echo $query . '<br>';
-
-        $query = QB::table('s')->run();
-        echo $query . '<br>';
+        $query = $this->db->q1( $sql );
+        print_r( $query );
+        echo '<br>';
+        die('ok');
+//        echo $query . '<br>';
 
         return 0;
     }

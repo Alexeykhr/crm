@@ -6,6 +6,8 @@ use core\CRMException;
 
 class DBC
 {
+    private $_pdo = null;
+
     /**
      * DBC constructor.
      *
@@ -17,19 +19,26 @@ class DBC
     public function __construct($connect, $config = [])
     {
         try {
-            return $this->pdo = new \PDO(
-                'mysql:host' . $connect['db_host'] . ';dbname=' . $connect['db_name'],
+            $this->_pdo = new \PDO(
+                'mysql:host=' . $connect['db_host'] . ';dbname=' . $connect['db_name'],
                 $connect['db_user'],
                 $connect['db_pass'],
                 $config
             );
+
+            // Temporary!
+            $this->_pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
         } catch (\PDOException $e) {
             throw new CRMException("Error to connect with Database");
         }
     }
 
-    public function q($query)
+    public function q1($query)
     {
-        return $this->pdo->query($query);
+        $dbh = $this->_pdo->prepare($query);
+        $dbh->execute();
+
+        return $dbh->fetch();
     }
 }

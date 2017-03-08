@@ -9,19 +9,17 @@ namespace core\db;
 class QB
 {
     public static $query;
-    public static $table;
 
     private static $_instance = null;
 
     public function __construct()
     {
-        // Disable creation of public instances
+        // Disable creation of public instances.
     }
 
-    public static function table($table)
+    public static function inst()
     {
         if (self::$_instance === null) {
-            self::$table = $table;
             self::$_instance = new self;
         }
 
@@ -30,19 +28,29 @@ class QB
 
     public function select($q)
     {
-        self::$query = 'SELECT ';
+        if ( is_array($q) ) {
+            $q = implode(',', $q);
+        }
+
+        self::$query = 'SELECT ' . $q;
 
         return $this;
     }
 
-    public function where()
+    public function from($table)
     {
-        self::$query = 'WHERE ';
+        self::$query .= ' FROM ' . $table;
 
         return $this;
     }
 
-    public function run() {
+    public function getQuery()
+    {
+        return self::$query;
+    }
+
+    public function get()
+    {
         self::$_instance = null;
 
         return self::$query;

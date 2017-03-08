@@ -7,7 +7,7 @@ use core\CRMException;
 
 class Model
 {
-    protected $pdo;
+    protected $db;
 
     static protected $db_inst = null;
 
@@ -28,7 +28,7 @@ class Model
             self::$db_inst = new DBC($connected, ['charset' => 'UTF8']);
         }
 
-        $this->pdo = self::$db_inst;
+        $this->db = self::$db_inst;
     }
 
     /**
@@ -36,7 +36,7 @@ class Model
      */
     public function __destruct()
     {
-        $this->pdo = null;
+        $this->db = null;
         self::$db_inst = null;
     }
 }
