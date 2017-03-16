@@ -21,11 +21,11 @@ class Model
     public function __construct()
     {
         if ( is_null(self::$db_inst) ) {
-            if ( ! file_exists(__DIR__ . '/../../../config/db.php') ) {
+            if ( ! file_exists(CRM_DIR . '/config/db.php') ) {
                 throw new CRMException("File db.php not found.");
             }
 
-            $config = require __DIR__ . '/../../../config/db.php';
+            $config = require CRM_DIR . '/config/db.php';
 
             self::$db_inst = new Connection($config['driver'], $config, 'QB');
         }
