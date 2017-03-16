@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * Connect to BD.
+ *
+ * @see \application\models\common\Model
+ */
+
 return [
-    'db_name' => "crm",
-    'db_host' => "localhost",
-    'db_user' => "root",
-    'db_pass' => "",
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'crm',
+    'username'  => 'root',
+    'password'  => '',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
 ];
