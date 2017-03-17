@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CRM - Login</title>
+
+    <link href="/public/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/public/css/login/style.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/public/assets/js/html5shiv.min.js"></script>
+    <script src="/public/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="login-out">
+    <div class="login-in">
+        <div class="place">
+            <span class="welcome">Welcome!</span>
+
+            <form>
+                <div class="form-group">
+                    <label class="sr-only" for="login">Login</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-user-circle" aria-hidden="true"></i></div>
+                        <input type="text" class="form-control" id="login" placeholder="Логин">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only" for="pass">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></div>
+                        <input type="password" class="form-control" id="pass" placeholder="Пароль">
+                        <div class="input-group-addon">
+                            <div class="custom-checkbox" data-toggle="tooltip" title="Запомнить">
+                                <input type="checkbox" value="1" id="checkbox" name="" />
+                                <label for="checkbox"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-default">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/public/assets/js/jquery-3.1.1.min.js"></script>
+<script src="/public/assets/js/bootstrap.min.js"></script>
+<script src="/public/assets/js/parsley.min.js"></script>
+<script src="/public/js/main.js"></script>
+</body>
+</html>

@@ -14,8 +14,6 @@ class Model
     /**
      * Model constructor.
      *
-     * @see https://github.com/usmanhalalit/pixie
-     *
      * @throws CRMException
      */
     public function __construct()
