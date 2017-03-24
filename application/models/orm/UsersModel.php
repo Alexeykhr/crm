@@ -1,14 +1,14 @@
 <?php
 
-namespace crm\application\models\orm;
+namespace crm\app\models\orm;
 
-use crm\application\models\common\Model;
+use crm\app\models\common\MainModel;
 
-class Users extends Model
+class UsersModel extends MainModel
 {
     const TABLE_USER = 'users';
 
-    public function test()
+    public function getUser()
     {
         $query = \QB::table(self::TABLE_USER)->where('id', '=', '2');
 

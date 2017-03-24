@@ -8,9 +8,12 @@ define('CRM_DIR', __DIR__ . '/../');
  * For test
  */
 
-//$user = new \crm\application\models\orm\Users();
-//$user->test();
+// Test PSR - 4
+new \crm\app\models\common\MainModel();
 
-$loader = new Twig_Loader_Filesystem(CRM_DIR . '/application/views/login');
-$twig = new Twig_Environment($loader);
-echo $twig->render('index.twig');
+// Test lib and render page
+//$loader = new Twig_Loader_Filesystem(CRM_DIR . '/application/views/login');
+//$twig = new Twig_Environment($loader);
+//echo $twig->render('index.twig');
+
+//echo $_SERVER['REQUEST_URI'];

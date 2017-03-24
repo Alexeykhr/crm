@@ -3,7 +3,7 @@
 /**
  * Connect to BD.
  *
- * @see \application\models\common\Model
+ * @see https://github.com/usmanhalalit/pixie docs
  */
 
 return [

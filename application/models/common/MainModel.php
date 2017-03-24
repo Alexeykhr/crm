@@ -1,11 +1,11 @@
 <?php
 
-namespace crm\application\models\common;
+namespace crm\app\models\common;
 
-use crm\core\CRMException;
+use crm\core\exceptions\ConfigException;
 use Pixie\Connection;
 
-class Model
+class MainModel
 {
     protected $db;
 
@@ -14,13 +14,13 @@ class Model
     /**
      * Model constructor.
      *
-     * @throws CRMException
+     * @throws ConfigException
      */
     public function __construct()
     {
         if ( is_null(self::$db_inst) ) {
-            if ( ! file_exists(CRM_DIR . '/config/db.php') ) {
-                throw new CRMException("File db.php not found.");
+            if ( ! file_exists(CRM_DIR . '/conf2ig/db.php') ) {
+                throw new ConfigException("File db.php not found.");
             }
 
             $config = require CRM_DIR . '/config/db.php';

@@ -1,23 +1,29 @@
 {
   "name": "Alexeykhr/crm",
   "description": "CRM for Company.",
-  "keywords": ["CRM"],
+  "keywords": ["CRM", "PHP", "MVC"],
   "license": "MIT",
   "type": "project",
+  "homepage": "https://github.com/Alexeykhr/crm",
+  "authors": [
+    {
+      "name": "Alexey Khrusch",
+      "role": "Developer"
+    }
+  ],
   "require":
   {
-    "php": "^7.0",
+    "php": ">=7.0.0",
     "usmanhalalit/pixie": "2.*@dev",
-    "twig/twig": "~2.0"
+    "twig/twig": "~2.0",
+    "ext-pdo": "*",
+    "ext-mbstring": "*"
   },
   "autoload":
   {
-    "classmap": [
-      "application",
-      "core"
-    ],
     "psr-4": {
-      "crm\\": "/"
+      "crm\\app\\": "application/",
+      "crm\\core\\": "core/"
     }
   }
 }
