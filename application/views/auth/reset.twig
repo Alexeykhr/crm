@@ -1,0 +1,15 @@
+{% extends "auth/index.html" %}
+
+{% block title %}Reset{% endblock %}
+
+{% block links %}
+    <a href="#" class="go_form l"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Authorization form</a>
+    <a href="#" class="go_form r">Registration form <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+{% endblock %}
+
+{% block form %}
+    <form method="POST">
+        <input type="text" class="f_in" id="email" placeholder="Email" required>
+        <button type="submit" class="f_btn">Send</button>
+    </form>
+{% endblock %}

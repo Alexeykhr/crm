@@ -12,6 +12,6 @@ class ConfigException extends \Exception
     {
         parent::__construct($message);
 
-        // Files -> write.
+        // Write to file.
     }
 }

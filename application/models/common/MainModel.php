@@ -19,7 +19,7 @@ class MainModel
     public function __construct()
     {
         if ( is_null(self::$db_inst) ) {
-            if ( ! file_exists(CRM_DIR . '/conf2ig/db.php') ) {
+            if ( ! file_exists(CRM_DIR . '/config/db.php') ) {
                 throw new ConfigException("File db.php not found.");
             }
 
