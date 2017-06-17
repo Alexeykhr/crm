@@ -1,17 +1,58 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
 
-define('CRM_DIR', __DIR__ . '/..');
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels great to relax.
+|
+*/
 
-// Test PSR - 4
-new \crm\app\models\common\MainModel();
+require __DIR__.'/../bootstrap/autoload.php';
 
-// Test lib and render page
-$loader = new Twig_Loader_Filesystem(CRM_DIR . '/application/views/');
-$twig = new Twig_Environment($loader);
-echo $twig->render('auth/authorization.twig');
-//echo $twig->render('auth/registration.twig');
-//echo $twig->render('auth/reset.twig');
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+*/
 
-//echo $_SERVER['REQUEST_URI'];
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
