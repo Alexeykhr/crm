@@ -15,13 +15,26 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('nick')->unique();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
             $table->string('password');
-            $table->integer('role_id')->default(0);
-            $table->rememberToken();
+            $table->string('role')->default('user');
+            $table->string('phone')->nullable();
+            $table->string('work_phone')->nullable();
+            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('delete')->default(0);
+            $table->timestamp('hire')->nullable();
+            $table->timestamp('birth')->nullable();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'nick'     => 'admin',
+            'name'     => 'Admin',
+            'role'     => 'administrator',
+            'password' => bcrypt('admin'),
+        ]);
     }
 
     /**
