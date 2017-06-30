@@ -10551,6 +10551,7 @@ window.Vue.material.registerTheme({
 
 Vue.component('login', __webpack_require__(36));
 Vue.component('navbar', __webpack_require__(37));
+Vue.component('users', __webpack_require__(55));
 
 var app = new Vue({
     el: '#app'
@@ -11486,13 +11487,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['nick', 'photo'],
+    props: ['name', 'photo'],
 
     data: function data() {
         return {};
@@ -39196,9 +39193,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "1"
     }
-  }), _vm._v(" "), _c('md-button', {
-    staticClass: "md-icon-button"
-  }, [_c('md-icon', [_vm._v("view_module")])], 1), _vm._v(" "), _c('md-menu', {
+  }), _vm._v(" "), _c('md-menu', {
     attrs: {
       "md-align-trigger": ""
     }
@@ -39206,10 +39201,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-menu-trigger": ""
     }
-  }, [_vm._v(_vm._s(_vm.nick) + "\n                "), _c('md-avatar', [_c('img', {
+  }, [_vm._v(_vm._s(_vm.name) + "\n                "), _c('md-avatar', [_c('img', {
     attrs: {
       "src": _vm.photo ? _vm.photo : '/img/user.png',
-      "alt": 'Користувач ' + _vm.nick
+      "alt": 'Користувач ' + _vm.name
     }
   })])], 1), _vm._v(" "), _c('md-menu-content', [_c('md-menu-item', {
     attrs: {
@@ -39364,6 +39359,187 @@ module.exports = function(module) {
 __webpack_require__(10);
 module.exports = __webpack_require__(11);
 
+
+/***/ }),
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['data'],
+
+    data: function data() {
+        nutrition = null;
+    },
+    created: function created() {
+        this.nutrition = JSON.parse(this.data);
+
+        console.log(this.nutrition);
+    }
+});
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(7)(
+  /* script */
+  __webpack_require__(54),
+  /* template */
+  __webpack_require__(56),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\users\\Users.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Users.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7840b0aa", Component.options)
+  } else {
+    hotAPI.reload("data-v-7840b0aa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('md-table-card', [_c('md-toolbar', [_c('h1', {
+    staticClass: "md-title"
+  }, [_vm._v("Nutrition")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-icon-button"
+  }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-icon-button"
+  }, [_c('md-icon', [_vm._v("search")])], 1)], 1), _vm._v(" "), _c('md-table', {
+    attrs: {
+      "md-sort": "dessert",
+      "md-sort-type": "desc"
+    },
+    on: {
+      "select": _vm.onSelect,
+      "sort": _vm.onSort
+    }
+  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+    attrs: {
+      "md-sort-by": "dessert"
+    }
+  }, [_vm._v("Dessert (100g serving)")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-sort-by": "calories",
+      "md-numeric": "",
+      "md-tooltip": "The total amount of food energy and the given serving size"
+    }
+  }, [_vm._v("Calories (g)")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-sort-by": "fat",
+      "md-numeric": ""
+    }
+  }, [_vm._v("Fat (g)")]), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("message")]), _vm._v(" "), _c('span', [_vm._v("Comments")])], 1)], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.nutrition), function(row, rowIndex) {
+    return _c('md-table-row', {
+      key: rowIndex,
+      attrs: {
+        "md-item": row,
+        "md-auto-select": "",
+        "md-selection": ""
+      }
+    }, _vm._l((row), function(column, columnIndex) {
+      return (columnIndex !== 'type') ? _c('md-table-cell', {
+        key: columnIndex,
+        attrs: {
+          "md-numeric": columnIndex !== 'dessert' && columnIndex !== 'comment'
+        }
+      }, [_vm._v("\n                        " + _vm._s(column) + "\n                    ")]) : _vm._e()
+    }))
+  }))], 1), _vm._v(" "), _c('md-table-pagination', {
+    attrs: {
+      "md-size": "5",
+      "md-total": "10",
+      "md-page": "1",
+      "md-label": "Rows",
+      "md-separator": "of"
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7840b0aa", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

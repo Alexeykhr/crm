@@ -14,8 +14,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+
     <div id="app">
-        <navbar nick="{{ Auth::user()->nick }}" photo="{{ Auth::user()->photo }}"></navbar>
+        <navbar name="{{ Auth::user()->name }}" photo="{{ Auth::user()->photo }}"></navbar>
 
         @yield('content')
     </div>

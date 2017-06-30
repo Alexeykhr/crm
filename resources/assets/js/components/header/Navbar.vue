@@ -7,14 +7,10 @@
 
             <span style="flex: 1"></span>
 
-            <md-button class="md-icon-button">
-                <md-icon>view_module</md-icon>
-            </md-button>
-
             <md-menu md-align-trigger>
-                <md-button md-menu-trigger>{{ nick }}
+                <md-button md-menu-trigger>{{ name }}
                     <md-avatar>
-                        <img :src="photo ? photo : '/img/user.png'" :alt="'Користувач ' + nick">
+                        <img :src="photo ? photo : '/img/user.png'" :alt="'Користувач ' + name">
                     </md-avatar>
                 </md-button>
 
@@ -30,7 +26,7 @@
 <script>
     export default {
         props: [
-            'nick', 'photo'
+            'name', 'photo'
         ],
 
         data () {

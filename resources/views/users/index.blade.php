@@ -1,7 +1,5 @@
-<div class="container">
-    @foreach ($users as $user)
-        {{ $user->name }}
-    @endforeach
-</div>
+@extends('layouts.app')
 
-{{ $users->links() }}
+@section('content')
+    <users data="{{ $users }}"></users>
+@endsection
