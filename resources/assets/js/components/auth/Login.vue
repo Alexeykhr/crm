@@ -1,57 +1,52 @@
 <template>
-    <div class="text-xs-center">
-        <h3>Вітаємо</h3>
+    <div class="auth">
+        <h2>Вітаємо</h2>
 
-        <v-text-field
-            name="nick"
-            prepend-icon="perm_identity"
-            label="Логін"
-            id="nick"
-            type="text"
-            autofocus
-            required
-        ></v-text-field>
+        <form action="login" method="POST">
+            <input type="hidden" name="_token" :value="csrf">
 
-        <v-text-field
-            name="password"
-            prepend-icon="lock_outline"
-            label="Пароль"
-            id="password"
-            type="password"
-            required
-        ></v-text-field>
+            <md-input-container style="margin-bottom: 10px;">
+                <md-icon>perm_identity</md-icon>
+                <label>Логін</label>
+                <md-input name="nick" autofocus required></md-input>
+            </md-input-container>
 
-        <v-checkbox label="Запам'ятати мене" v-model="remember" primary dark></v-checkbox>
-        <input type="hidden" name="remember" :value="remember ? 'on' : ''">
+            <md-input-container>
+                <md-icon>lock_outline</md-icon>
+                <label>Пароль</label>
+                <md-input type="password" name="password" required></md-input>
+            </md-input-container>
 
-        <v-btn class="blue darken-2" type="submit" block secondary light>Увійти</v-btn>
+            <md-checkbox name="remember" class="md-primary" v-model="remember">Запам'ятати мене</md-checkbox>
 
-        <v-snackbar
-            :error="true"
-            :top="true"
-            :right="true"
-            v-model="snackbar">
-                Неправильний логін або пароль
-                <v-btn light flat @click.native="snackbar = false">Close</v-btn>
-        </v-snackbar>
+            <md-button class="md-raised md-primary" type="submit">Увійти</md-button>
+        </form>
+
+        <md-snackbar md-position="top right" ref="snackbar" md-duration="40000">
+            <span>Логін або пароль невірний</span>
+            <md-button class="md-accent" md-theme="light-blue" @click="$refs.snackbar.close()">Закрити</md-button>
+        </md-snackbar>
     </div>
 </template>
 
 <script>
     export default {
         props: [
-            'is-errors'
+            'error', 'csrf'
         ],
 
         data () {
             return {
-                snackbar: false,
-                remember: true,
+                remember: true
             }
         },
 
         mounted () {
-            this.snackbar = this.isErrors;
+            if (this.error) {
+                this.$nextTick(() => {
+                    this.$refs.snackbar.open();
+                });
+            }
         }
     }
 </script>

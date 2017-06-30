@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +12,8 @@
 </head>
 <body>
 
-<div id="app" class="auth">
-    <form action="{{ url('login') }}" method="POST">
-        {{ csrf_field() }}
-        <login is-errors="{{ count($errors) > 0 }}"></login>
-    </form>
+<div id="app">
+    <login error="{{ count($errors) > 0 }}" csrf="{{ csrf_token() }}"></login>
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>

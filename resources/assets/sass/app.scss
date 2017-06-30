@@ -6,6 +6,7 @@
 // Variables
 @import "variables";
 
-@import "node_modules/vuetify/dist/vuetify.min";
+@import "node_modules/vue-material/dist/vue-material";
 
 @import "auth/login";
+@import "header/navbar";

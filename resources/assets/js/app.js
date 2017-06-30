@@ -8,8 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
-window.Vue.use(require('vuetify'));
+window.Vue.use(require('vue-material'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,7 +16,23 @@ window.Vue.use(require('vuetify'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// window.Vue.material.registerTheme({
+//     default: {
+//         primary: 'blue',
+//         accent: 'red'
+//     },
+//     green: {
+//         primary: 'green',
+//         accent: 'pink'
+//     },
+//     orange: {
+//         primary: 'orange',
+//         accent: 'green'
+//     },
+// });
+
 Vue.component('login', require('./components/auth/Login.vue'));
+Vue.component('navbar', require('./components/header/Navbar.vue'));
 
 const app = new Vue({
     el: '#app'

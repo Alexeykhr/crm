@@ -1,17 +1,31 @@
 .auth {
   max-width: 450px;
-  margin: 0 auto;
-  display: flex;
+  margin: 50px auto 20px;
   vertical-align: middle;
   align-items: center;
   height: 100%;
 
-  h3 {
+  h2 {
     text-transform: uppercase;
-    margin-bottom: 30px;
+    text-align: center;
+    font-size: 30px;
   }
 
-  form {
+  .md-checkbox {
+    margin-top: 5px;
+  }
+
+  .md-input-container:first-child {
+    margin-bottom: 10px;
+  }
+
+  .md-button {
+    display: block;
+    margin: 10px 0 0 0;
     width: 100%;
   }
+}
+
+.md-snackbar-container {
+  background: #f44336;
 }
