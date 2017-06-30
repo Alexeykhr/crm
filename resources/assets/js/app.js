@@ -16,20 +16,12 @@ window.Vue.use(require('vue-material'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// window.Vue.material.registerTheme({
-//     default: {
-//         primary: 'blue',
-//         accent: 'red'
-//     },
-//     green: {
-//         primary: 'green',
-//         accent: 'pink'
-//     },
-//     orange: {
-//         primary: 'orange',
-//         accent: 'green'
-//     },
-// });
+window.Vue.material.registerTheme({
+    default: {
+        primary: 'blue',
+        accent: 'teal'
+    },
+});
 
 Vue.component('login', require('./components/auth/Login.vue'));
 Vue.component('navbar', require('./components/header/Navbar.vue'));

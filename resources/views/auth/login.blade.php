@@ -13,7 +13,9 @@
 <body>
 
 <div id="app">
-    <login error="{{ count($errors) > 0 }}" csrf="{{ csrf_token() }}"></login>
+    <login nick="{{ old('nick') }}" remember="{{ old('remember') }}"
+           error="{{ count($errors) > 0 }}" csrf="{{ csrf_token() }}"
+    ></login>
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>

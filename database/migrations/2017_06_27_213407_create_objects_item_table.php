@@ -15,7 +15,7 @@ class CreateObjectsItemTable extends Migration
     {
         Schema::create('objects_item', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('build_id');
+            $table->integer('object_id');
             $table->integer('order')->default(0);
             $table->string('type');
             $table->timestamps();

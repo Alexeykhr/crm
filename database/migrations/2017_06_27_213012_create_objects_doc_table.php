@@ -15,7 +15,7 @@ class CreateObjectsDocTable extends Migration
     {
         Schema::create('objects_doc', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('build_id');
+            $table->integer('object_id');
             $table->integer('item_id');
             $table->string('desc');
             $table->string('file');

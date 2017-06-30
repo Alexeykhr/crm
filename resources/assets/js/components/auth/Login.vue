@@ -8,7 +8,7 @@
             <md-input-container style="margin-bottom: 10px;">
                 <md-icon>perm_identity</md-icon>
                 <label>Логін</label>
-                <md-input name="nick" autofocus required></md-input>
+                <md-input name="nick" :value="nick" autofocus required></md-input>
             </md-input-container>
 
             <md-input-container>
@@ -32,14 +32,8 @@
 <script>
     export default {
         props: [
-            'error', 'csrf'
+            'error', 'csrf', 'nick', 'remember'
         ],
-
-        data () {
-            return {
-                remember: true
-            }
-        },
 
         mounted () {
             if (this.error) {
