@@ -16,15 +16,18 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('color');
             $table->timestamps();
         });
 
         DB::table('roles')->insert([
             'title' => 'Адміністратор',
+            'color' => '#EF5350',
         ]);
 
         DB::table('roles')->insert([
             'title' => 'Користувач',
+            'color' => '#78909C',
         ]);
     }
 

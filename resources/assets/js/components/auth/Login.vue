@@ -24,7 +24,7 @@
 
         <md-snackbar md-position="top right" ref="snackbar" md-duration="4000">
             <span>Логін або пароль невірний</span>
-            <md-button class="md-accent" @click="$refs.snackbar.close()">Закрити</md-button>
+            <md-button class="md-primary" style="color: #fff;" @click="$refs.snackbar.close()">Закрити</md-button>
         </md-snackbar>
     </div>
 </template>

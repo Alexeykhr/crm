@@ -22,7 +22,10 @@ window.Vue.material.registerTheme({
             color: 'light-blue',
             hue: 700
         },
-        accent: 'white'
+        accent: {
+            color: 'red',
+            hue: 600
+        }
     }
 });
 

@@ -30,7 +30,7 @@ class User extends Authenticatable
     /**
      * Overrides the method to get the token value for the "remember me" session.
      *
-     * @return string
+     * @return null
      */
     public function getRememberTokenName()
     {
