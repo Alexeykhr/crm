@@ -1,12 +1,13 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
 
-// Variables
-@import "variables";
+// Media
+@import "media";
 
-@import "node_modules/vue-material/dist/vue-material";
+// Modules
+@import "../../../node_modules/vue-material/dist/vue-material";
 
+// Templates
 @import "auth/login";
 @import "header/navbar";
