@@ -49,4 +49,9 @@ class User extends Authenticatable
             parent::setAttribute($key, $value);
         }
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

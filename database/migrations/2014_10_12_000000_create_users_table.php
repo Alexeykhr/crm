@@ -18,11 +18,13 @@ class CreateUsersTable extends Migration
             $table->string('nick')->unique();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
+            $table->string('work_email')->nullable();
             $table->string('photo')->nullable();
             $table->string('password');
-            $table->string('role')->default('user');
+            $table->integer('role_id')->default(2);
             $table->string('phone')->nullable();
             $table->string('work_phone')->nullable();
+            $table->string('position')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->tinyInteger('delete')->default(0);
             $table->timestamp('hire')->nullable();
@@ -33,7 +35,7 @@ class CreateUsersTable extends Migration
         DB::table('users')->insert([
             'nick'     => 'admin',
             'name'     => 'Admin',
-            'role'     => 'administrator',
+            'role_id'  => 1,
             'password' => bcrypt('admin'),
         ]);
     }

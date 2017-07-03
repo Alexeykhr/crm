@@ -11530,9 +11530,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['users']
+    props: ['data'],
+
+    data: function data() {
+        return {
+            users: null
+        };
+    },
+    created: function created() {
+        this.users = JSON.parse(this.data);
+
+        console.log(this.users.data);
+    }
 });
 
 /***/ }),
@@ -39375,12 +39415,20 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-layout', {
-    attrs: {
-      "md-align": "center"
-    }
-  }, [_c('md-layout', [_c('span', [_vm._v("center")])])], 1)
-},staticRenderFns: []}
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач / Логін")]), _vm._v(" "), _c('md-table-head', [_vm._v("П.І.Б.")]), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
+    return _c('md-table-row', {
+      key: user.id
+    }, [_c('md-table-cell', [_c('img', {
+      attrs: {
+        "src": user.photo ? user.photo : 'img/user.png'
+      }
+    }), _vm._v(" "), (user.active) ? [_vm._v("\n                    " + _vm._s(user.nick) + "\n                    " + _vm._s('[' + user.role.title + ']') + "\n                ")] : [_vm._v("\n                    No\n                ")]], 2), _vm._v(" "), _c('md-table-cell', [_vm._v("\n                " + _vm._s(user.name) + "\n            ")]), _vm._v(" "), _c('md-table-cell', [(user.phone) ? _c('span', {
+      staticClass: "user_phone"
+    }, [_c('md-icon', [_vm._v("call")]), _vm._v(" " + _vm._s(user.phone))], 1) : _vm._e()])], 1)
+  }))], 1)
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

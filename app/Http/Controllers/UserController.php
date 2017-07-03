@@ -10,11 +10,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::select('id', 'nick', 'name', 'role', 'phone', 'work_phone', 'active')
+        $users = User::select('id', 'nick', 'name', 'role_id', 'phone', 'work_phone', 'email', 'work_email', 'active')
+            ->with(['role'])
             ->where('delete', '=', 0)
-            ->paginate(50);
-
-        dd($users);
+            ->paginate(10); // temporary
 
         return view('users.index', ['users' => $users]);
     }

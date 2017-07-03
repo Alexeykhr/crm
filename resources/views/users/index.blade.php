@@ -5,5 +5,9 @@
 @endsection
 
 @section('content')
-    <users></users>
+
+    <users data="{{ json_encode($users) }}"></users>
+
+    {{ $users->links() }}
+
 @endsection
