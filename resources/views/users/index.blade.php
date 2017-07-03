@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Користувачі
+@endsection
+
 @section('content')
-    <users data="{{ $users }}"></users>
+    <users></users>
 @endsection

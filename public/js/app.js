@@ -10544,7 +10544,10 @@ window.Vue.use(__webpack_require__(43));
 
 window.Vue.material.registerTheme({
     default: {
-        primary: 'blue',
+        primary: {
+            color: 'light-blue',
+            hue: 700
+        },
         accent: 'white'
     }
 });
@@ -11492,9 +11495,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['name', 'photo'],
+    props: ['name', 'photo', 'firm'],
 
     data: function data() {
         return {};
@@ -11526,57 +11530,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['data'],
-
-    data: function data() {
-        nutrition = null;
-    },
-    created: function created() {
-        this.nutrition = JSON.parse(this.data);
-
-        console.log(this.nutrition);
-    }
+    props: ['users']
 });
 
 /***/ }),
@@ -39287,7 +39243,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-whiteframe', {
     attrs: {
       "md-tag": "md-toolbar",
-      "md-elevation": "2"
+      "md-elevation": "0"
     }
   }, [_c('div', {
     staticClass: "md-toolbar-container"
@@ -39295,7 +39251,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/"
     }
-  }, [_vm._v("\n            Crew Resource Management\n        ")]), _vm._v(" "), _c('span', {
+  }, [_c('span', {
+    staticClass: "h_firm"
+  }, [_vm._v(_vm._s(_vm.firm))])]), _vm._v(" "), _c('span', {
     staticStyle: {
       "flex": "1"
     }
@@ -39307,7 +39265,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-menu-trigger": ""
     }
-  }, [_vm._v(_vm._s(_vm.name) + "\n                "), _c('md-avatar', [_c('img', {
+  }, [_c('span', {
+    staticClass: "h_name"
+  }, [_vm._v(_vm._s(_vm.name))]), _vm._v(" "), _c('md-avatar', [_c('img', {
     attrs: {
       "src": _vm.photo ? _vm.photo : '/img/user.png',
       "alt": 'Користувач ' + _vm.name
@@ -39415,61 +39375,11 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('md-table-card', [_c('md-toolbar', [_c('h1', {
-    staticClass: "md-title"
-  }, [_vm._v("Nutrition")]), _vm._v(" "), _c('md-button', {
-    staticClass: "md-icon-button"
-  }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-button', {
-    staticClass: "md-icon-button"
-  }, [_c('md-icon', [_vm._v("search")])], 1)], 1), _vm._v(" "), _c('md-table', {
+  return _c('md-layout', {
     attrs: {
-      "md-sort": "dessert",
-      "md-sort-type": "desc"
-    },
-    on: {
-      "select": _vm.onSelect,
-      "sort": _vm.onSort
+      "md-align": "center"
     }
-  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
-    attrs: {
-      "md-sort-by": "dessert"
-    }
-  }, [_vm._v("Dessert (100g serving)")]), _vm._v(" "), _c('md-table-head', {
-    attrs: {
-      "md-sort-by": "calories",
-      "md-numeric": "",
-      "md-tooltip": "The total amount of food energy and the given serving size"
-    }
-  }, [_vm._v("Calories (g)")]), _vm._v(" "), _c('md-table-head', {
-    attrs: {
-      "md-sort-by": "fat",
-      "md-numeric": ""
-    }
-  }, [_vm._v("Fat (g)")]), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("message")]), _vm._v(" "), _c('span', [_vm._v("Comments")])], 1)], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.nutrition), function(row, rowIndex) {
-    return _c('md-table-row', {
-      key: rowIndex,
-      attrs: {
-        "md-item": row,
-        "md-auto-select": "",
-        "md-selection": ""
-      }
-    }, _vm._l((row), function(column, columnIndex) {
-      return (columnIndex !== 'type') ? _c('md-table-cell', {
-        key: columnIndex,
-        attrs: {
-          "md-numeric": columnIndex !== 'dessert' && columnIndex !== 'comment'
-        }
-      }, [_vm._v("\n                        " + _vm._s(column) + "\n                    ")]) : _vm._e()
-    }))
-  }))], 1), _vm._v(" "), _c('md-table-pagination', {
-    attrs: {
-      "md-size": "5",
-      "md-total": "10",
-      "md-page": "1",
-      "md-label": "Rows",
-      "md-separator": "of"
-    }
-  })], 1)], 1)
+  }, [_c('md-layout', [_c('span', [_vm._v("center")])])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

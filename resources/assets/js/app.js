@@ -18,9 +18,12 @@ window.Vue.use(require('vue-material'));
 
 window.Vue.material.registerTheme({
     default: {
-        primary: 'blue',
+        primary: {
+            color: 'light-blue',
+            hue: 700
+        },
         accent: 'white'
-    },
+    }
 });
 
 Vue.component('login', require('./components/auth/Login.vue'));

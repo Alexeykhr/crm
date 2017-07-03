@@ -1,14 +1,15 @@
 <template>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="2">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="0">
         <div class="md-toolbar-container">
             <md-button href="/">
-                Crew Resource Management
+                <span class="h_firm">{{ firm }}</span>
             </md-button>
 
             <span style="flex: 1"></span>
 
             <md-menu md-align-trigger>
-                <md-button md-menu-trigger>{{ name }}
+                <md-button md-menu-trigger>
+                    <span class="h_name">{{ name }}</span>
                     <md-avatar>
                         <img :src="photo ? photo : '/img/user.png'" :alt="'Користувач ' + name">
                     </md-avatar>
@@ -26,7 +27,7 @@
 <script>
     export default {
         props: [
-            'name', 'photo'
+            'name', 'photo', 'firm'
         ],
 
         data () {

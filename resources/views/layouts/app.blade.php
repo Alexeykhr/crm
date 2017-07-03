@@ -16,7 +16,10 @@
 <body>
 
     <div id="app">
-        <navbar name="{{ Auth::user()->name }}" photo="{{ Auth::user()->photo }}"></navbar>
+        <navbar firm="{{ config('app.name', 'CRM') }}"
+                name="{{ Auth::user()->name }}"
+                photo="{{ Auth::user()->photo }}"
+        ></navbar>
 
         @yield('content')
     </div>
