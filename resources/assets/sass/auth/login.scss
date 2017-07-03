@@ -1,9 +1,17 @@
+#login {
+  background: #f5f5f5;
+  min-height: 0;
+}
+
 .auth {
   max-width: 450px;
   margin: 50px auto 20px;
   vertical-align: middle;
   align-items: center;
   height: 100%;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
 
   h2 {
     text-transform: uppercase;

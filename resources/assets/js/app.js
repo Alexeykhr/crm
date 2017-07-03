@@ -19,7 +19,7 @@ window.Vue.use(require('vue-material'));
 window.Vue.material.registerTheme({
     default: {
         primary: 'blue',
-        accent: 'teal'
+        accent: 'white'
     },
 });
 

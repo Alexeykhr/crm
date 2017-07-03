@@ -17,14 +17,14 @@
                 <md-input type="password" name="password" required></md-input>
             </md-input-container>
 
-            <md-checkbox name="remember" class="md-primary" v-model="remember">Запам'ятати мене</md-checkbox>
+            <md-checkbox name="remember" class="md-primary" v-model="save">Запам'ятати мене</md-checkbox>
 
             <md-button class="md-raised md-primary" type="submit">Увійти</md-button>
         </form>
 
-        <md-snackbar md-position="top right" ref="snackbar" md-duration="40000">
+        <md-snackbar md-position="top right" ref="snackbar" md-duration="4000">
             <span>Логін або пароль невірний</span>
-            <md-button class="md-accent" md-theme="light-blue" @click="$refs.snackbar.close()">Закрити</md-button>
+            <md-button class="md-accent" @click="$refs.snackbar.close()">Закрити</md-button>
         </md-snackbar>
     </div>
 </template>
@@ -34,6 +34,12 @@
         props: [
             'error', 'csrf', 'nick', 'remember'
         ],
+
+        data () {
+            return {
+                save: this.remember,
+            }
+        },
 
         mounted () {
             if (this.error) {

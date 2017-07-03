@@ -10,7 +10,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body id="login">
 
 <div id="app">
     <login nick="{{ old('nick') }}" remember="{{ old('remember') }}"
