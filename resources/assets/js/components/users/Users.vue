@@ -9,19 +9,19 @@
         </form>
 
         <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1' : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>first_page</md-icon>
             </md-button>
-            <md-button :href="users.prev_page_url" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.prev_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_left</md-icon>
             </md-button>
 
-            <md-button class="md-dense">{{ users.from + '/' + users.to }}</md-button>
+            <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
 
-            <md-button :href="users.next_page_url" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.next_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>last_page</md-icon>
             </md-button>
         </div>
@@ -62,7 +62,8 @@
                     </md-table-cell>
 
                     <md-table-cell>
-                        <md-chip v-if="user.active" :style="'color:#fff;background:' + user.role.color">{{ user.role.title }}</md-chip>
+                        <md-chip v-if="!user.active">Немає доступ</md-chip>
+                        <md-chip v-else :style="'color:#fff;background:' + user.role.color">{{ user.role.title }}</md-chip>
                     </md-table-cell>
 
                     <md-table-cell>
@@ -101,48 +102,92 @@
 
                 </md-table-row>
             </md-table-body>
-
-            <md-button href="/users/create" class="md-fab btn_fixed">
-                <md-icon>add</md-icon>
-            </md-button>
         </md-table>
 
         <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1' : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>first_page</md-icon>
             </md-button>
-            <md-button :href="users.prev_page_url" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.prev_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_left</md-icon>
             </md-button>
 
-            <md-button class="md-dense">{{ users.total }}</md-button>
+            <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
 
-            <md-button :href="users.next_page_url" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.next_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>last_page</md-icon>
             </md-button>
         </div>
+
+        <md-button href="/users/create" class="md-fab btn_fixed_br">
+            <md-icon>add</md-icon>
+        </md-button>
+
+        <md-button class="md-fab md-primary btn_fixed_bl" id="fab" @click="openDialog('filters')">
+            <md-icon>filter_list</md-icon>
+        </md-button>
+
+        <md-dialog md-open-from="#fab" md-close-to="#fab" ref="filters">
+            <md-dialog-title>Налаштування фільтрів</md-dialog-title>
+
+            <md-dialog-content>
+                <md-input-container>
+                    <label>Кількість працівників</label>
+                    <md-input min="1" :value="count > 100 ? 100 : count"
+                              max="100" type="number" v-model="g_count"></md-input>
+                </md-input-container>
+                <md-input-container>
+                    <label for="role">Ролі</label>
+                    <md-select name="role" id="role" v-model="g_role">
+                        <md-option v-for="role in roles"
+                                   :key="role.id"
+                                   :value="role.id">
+                            {{ role.title }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('filters')">Вихід</md-button>
+                <md-button class="md-primary" @click="setFilters()">Застосувати</md-button>
+            </md-dialog-actions>
+        </md-dialog>
     </md-layout>
 </template>
 
 <script>
     export default {
         props: [
-            'data',
+            'inUsers', 'inRoles', 'count', 'role', 'active'
         ],
 
         data () {
             return {
-                users: null,
+                users: [],
+                roles: [],
+
                 q: null,
+
+                g_count: 10,
+                g_role: null,
+                g_active: 1,
+                g_delete: 0,
             }
         },
 
         created () {
-            this.users = JSON.parse(this.data);
+            this.users = JSON.parse(this.inUsers);
+            this.roles = JSON.parse(this.inRoles);
+
+            this.g_count = this.count;
+            this.g_role = this.roles[this.role - 1].id;
+
             console.log(this.users);
+            console.log(this.roles);
         },
 
         methods: {
@@ -151,6 +196,25 @@
                     return;
 
                 console.log('search');
+            },
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            closeDialog(ref) {
+                this.$refs[ref].close();
+            },
+            setFilters() {
+                if (this.g_count > 100) {
+                    this.g_count = 100;
+                } else if (this.g_count < 1) {
+                    this.g_count = 10;
+                }
+
+                console.log(this.g_count);
+                location.href = this.users.path+'?page=1'+this.getAttribute();
+            },
+            getAttribute() {
+                return '&count='+this.g_count+'&role='+this.g_role+'&active='+this.g_active+'&delete='+this.g_delete;
             }
         }
     }

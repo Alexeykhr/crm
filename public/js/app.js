@@ -10548,10 +10548,7 @@ window.Vue.material.registerTheme({
             color: 'light-blue',
             hue: 700
         },
-        accent: {
-            color: 'red',
-            hue: 600
-        }
+        accent: 'red'
     }
 });
 
@@ -11654,19 +11651,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['data'],
+    props: ['inUsers', 'inRoles', 'count', 'role', 'active'],
 
     data: function data() {
         return {
-            users: null,
-            q: null
+            users: [],
+            roles: [],
+
+            q: null,
+
+            g_count: 10,
+            g_role: null,
+            g_active: 1,
+            g_delete: 0
         };
     },
     created: function created() {
-        this.users = JSON.parse(this.data);
+        this.users = JSON.parse(this.inUsers);
+        this.roles = JSON.parse(this.inRoles);
+
+        this.g_count = this.count;
+        this.g_role = this.roles[this.role - 1].id;
+
         console.log(this.users);
+        console.log(this.roles);
     },
 
 
@@ -11675,6 +11717,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.q === null) return;
 
             console.log('search');
+        },
+        openDialog: function openDialog(ref) {
+            this.$refs[ref].open();
+        },
+        closeDialog: function closeDialog(ref) {
+            this.$refs[ref].close();
+        },
+        setFilters: function setFilters() {
+            if (this.g_count > 100) {
+                this.g_count = 100;
+            } else if (this.g_count < 1) {
+                this.g_count = 10;
+            }
+
+            console.log(this.g_count);
+            location.href = this.users.path + '?page=1' + this.getAttribute();
+        },
+        getAttribute: function getAttribute() {
+            return '&count=' + this.g_count + '&role=' + this.g_role + '&active=' + this.g_active + '&delete=' + this.g_delete;
         }
     }
 });
@@ -39557,50 +39618,122 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.prev_page_url ? _vm.users.path + '?page=1' : ''
+      "href": _vm.users.prev_page_url ? _vm.users.path + '?page=1' + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("first_page")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.prev_page_url
+      "href": _vm.users.prev_page_url ? _vm.users.prev_page_url + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("keyboard_arrow_left")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-dense"
-  }, [_vm._v(_vm._s(_vm.users.from + '/' + _vm.users.to))]), _vm._v(" "), _c('md-button', {
+  }, [_vm._v(_vm._s(_vm.users.current_page + ' / ' + _vm.users.last_page))]), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.next_page_url
+      "href": _vm.users.next_page_url ? _vm.users.next_page_url + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("keyboard_arrow_right")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.next_page_url ? _vm.users.path + '?page=' + _vm.users.last_page : ''
+      "href": _vm.users.next_page_url ? _vm.users.path + '?page=' + _vm.users.last_page + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("last_page")])], 1)], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "pagination"
   }, [_c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.prev_page_url ? _vm.users.path + '?page=1' : ''
+      "href": _vm.users.prev_page_url ? _vm.users.path + '?page=1' + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("first_page")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.prev_page_url
+      "href": _vm.users.prev_page_url ? _vm.users.prev_page_url + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("keyboard_arrow_left")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-dense"
-  }, [_vm._v(_vm._s(_vm.users.total))]), _vm._v(" "), _c('md-button', {
+  }, [_vm._v(_vm._s(_vm.users.current_page + ' / ' + _vm.users.last_page))]), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.next_page_url
+      "href": _vm.users.next_page_url ? _vm.users.next_page_url + _vm.getAttribute() : ''
     }
   }, [_c('md-icon', [_vm._v("keyboard_arrow_right")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-icon-button md-raised md-dense",
     attrs: {
-      "href": _vm.users.next_page_url ? _vm.users.path + '?page=' + _vm.users.last_page : ''
+      "href": _vm.users.next_page_url ? _vm.users.path + '?page=' + _vm.users.last_page + _vm.getAttribute() : ''
     }
-  }, [_c('md-icon', [_vm._v("last_page")])], 1)], 1)], 1)
+  }, [_c('md-icon', [_vm._v("last_page")])], 1)], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-fab btn_fixed_br",
+    attrs: {
+      "href": "/users/create"
+    }
+  }, [_c('md-icon', [_vm._v("add")])], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-fab md-primary btn_fixed_bl",
+    attrs: {
+      "id": "fab"
+    },
+    on: {
+      "click": function($event) {
+        _vm.openDialog('filters')
+      }
+    }
+  }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-dialog', {
+    ref: "filters",
+    attrs: {
+      "md-open-from": "#fab",
+      "md-close-to": "#fab"
+    }
+  }, [_c('md-dialog-title', [_vm._v("Налаштування фільтрів")]), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "min": "1",
+      "value": _vm.count > 100 ? 100 : _vm.count,
+      "max": "100",
+      "type": "number"
+    },
+    model: {
+      value: (_vm.g_count),
+      callback: function($$v) {
+        _vm.g_count = $$v
+      },
+      expression: "g_count"
+    }
+  })], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "role"
+    }
+  }, [_vm._v("Ролі")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "role",
+      "id": "role"
+    },
+    model: {
+      value: (_vm.g_role),
+      callback: function($$v) {
+        _vm.g_role = $$v
+      },
+      expression: "g_role"
+    }
+  }, _vm._l((_vm.roles), function(role) {
+    return _c('md-option', {
+      key: role.id,
+      attrs: {
+        "value": role.id
+      }
+    }, [_vm._v("\n                        " + _vm._s(role.title) + "\n                    ")])
+  }))], 1)], 1), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+    staticClass: "md-primary",
+    on: {
+      "click": function($event) {
+        _vm.closeDialog('filters')
+      }
+    }
+  }, [_vm._v("Вихід")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-primary",
+    on: {
+      "click": function($event) {
+        _vm.setFilters()
+      }
+    }
+  }, [_vm._v("Застосувати")])], 1)], 1)], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посада")]), _vm._v(" "), _c('md-table-head', [_vm._v("Роль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
     return _c('md-table-row', {
@@ -39611,9 +39744,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": 'Користувач: ' + user.name,
         "atl": 'Користувач: ' + user.name
       }
-    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), _c('md-table-cell', [_vm._v("\n                    " + _vm._s(user.position) + "\n                ")]), _vm._v(" "), _c('md-table-cell', [(user.active) ? _c('md-chip', {
+    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), _c('md-table-cell', [_vm._v("\n                    " + _vm._s(user.position) + "\n                ")]), _vm._v(" "), _c('md-table-cell', [(!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
       style: ('color:#fff;background:' + user.role.color)
-    }, [_vm._v(_vm._s(user.role.title))]) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
+    }, [_vm._v(_vm._s(user.role.title))])], 1), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
         "md-align-trigger": "",
         "md-size": "6"
@@ -39645,12 +39778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "href": '/user' + user.id + '/edit'
       }
     }, [_c('md-icon', [_vm._v("edit")])], 1)], 1)], 1)
-  })), _vm._v(" "), _c('md-button', {
-    staticClass: "md-fab btn_fixed",
-    attrs: {
-      "href": "/users/create"
-    }
-  }, [_c('md-icon', [_vm._v("add")])], 1)], 1)
+  }))], 1)
 }]}
 module.exports.render._withStripped = true
 if (false) {
