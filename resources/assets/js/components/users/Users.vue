@@ -1,38 +1,64 @@
 <template>
-    <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center">
+    <md-layout class="users_page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center">
         <form novalidate @submit.stop.prevent="submit">
             <md-input-container>
-                <label>Autocomplete (with fetch)</label>
-                <md-input v-model="autocompleteValue" :fetch="fetchFunction(autocompleteValue)"></md-input>
+                <md-icon>search</md-icon>
+                <label>Пошук працівника</label>
+                <md-input v-model="q" :fetch="search()"></md-input>
             </md-input-container>
         </form>
 
-        <md-table class="users_table" v-once>
+        <div class="pagination">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1' : ''" class="md-icon-button md-raised md-dense">
+                <md-icon>first_page</md-icon>
+            </md-button>
+            <md-button :href="users.prev_page_url" class="md-icon-button md-raised md-dense">
+                <md-icon>keyboard_arrow_left</md-icon>
+            </md-button>
+
+            <md-button class="md-dense">{{ users.from + '/' + users.to }}</md-button>
+
+            <md-button :href="users.next_page_url" class="md-icon-button md-raised md-dense">
+                <md-icon>keyboard_arrow_right</md-icon>
+            </md-button>
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page : ''" class="md-icon-button md-raised md-dense">
+                <md-icon>last_page</md-icon>
+            </md-button>
+        </div>
+
+        <md-table v-once>
             <md-table-header>
                 <md-table-row>
                     <md-table-head>Фото</md-table-head>
                     <md-table-head>Користувач</md-table-head>
+                    <md-table-head>Посада</md-table-head>
                     <md-table-head>Роль</md-table-head>
                     <md-table-head>Контакти</md-table-head>
+                    <md-table-head></md-table-head>
                 </md-table-row>
             </md-table-header>
 
             <md-table-body>
                 <md-table-row v-for="user in users.data" :key="user.id">
                     <md-table-cell>
-                        <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
-                             :atl="'Користувач: ' + user.name">
+                        <md-avatar>
+                            <!-- Temporary-->
+                            <img :src="user.photo ? user.photo : 'https://randomuser.me/api/portraits/men/'+Math.floor(Math.random() * 100)+'.jpg'" :title="'Користувач: ' + user.name"
+                                 :atl="'Користувач: ' + user.name">
+                            <!--End-->
+
+                            <!--<img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"-->
+                                 <!--:atl="'Користувач: ' + user.name">-->
+                        </md-avatar>
                     </md-table-cell>
 
                     <md-table-cell>
                         <b>{{ user.name }}</b><br>
-                        <template v-if="user.active">
-                            {{ user.nick }}
-                        </template>
+                        <span v-if="user.active">{{ user.nick }}</span>
+                    </md-table-cell>
 
-                        <template v-else>
-                            Немає доступу
-                        </template>
+                    <md-table-cell>
+                        {{ user.position }}
                     </md-table-cell>
 
                     <md-table-cell>
@@ -40,7 +66,7 @@
                     </md-table-cell>
 
                     <md-table-cell>
-                        <md-menu md-align-trigger md-size="5">
+                        <md-menu md-align-trigger md-size="6" v-if="user.phone || user.work_phone || user.email || user.work_email">
                             <md-button class="md-icon-button" md-menu-trigger><md-icon>contact_mail</md-icon></md-button>
 
                             <md-menu-content>
@@ -66,6 +92,13 @@
                             </md-menu-content>
                         </md-menu>
                     </md-table-cell>
+
+                    <md-table-cell>
+                        <md-button :href="'/user'+user.id+'/edit'" class="md-icon-button">
+                            <md-icon>edit</md-icon>
+                        </md-button>
+                    </md-table-cell>
+
                 </md-table-row>
             </md-table-body>
 
@@ -73,6 +106,24 @@
                 <md-icon>add</md-icon>
             </md-button>
         </md-table>
+
+        <div class="pagination">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1' : ''" class="md-icon-button md-raised md-dense">
+                <md-icon>first_page</md-icon>
+            </md-button>
+            <md-button :href="users.prev_page_url" class="md-icon-button md-raised md-dense">
+                <md-icon>keyboard_arrow_left</md-icon>
+            </md-button>
+
+            <md-button class="md-dense">{{ users.total }}</md-button>
+
+            <md-button :href="users.next_page_url" class="md-icon-button md-raised md-dense">
+                <md-icon>keyboard_arrow_right</md-icon>
+            </md-button>
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page : ''" class="md-icon-button md-raised md-dense">
+                <md-icon>last_page</md-icon>
+            </md-button>
+        </div>
     </md-layout>
 </template>
 
@@ -85,33 +136,22 @@
         data () {
             return {
                 users: null,
-                initialValue: 'My initial value',
-                autocompleteValue: null,
+                q: null,
             }
         },
 
         created () {
             this.users = JSON.parse(this.data);
+            console.log(this.users);
         },
 
-        // Temporary
         methods: {
-            fetchFunction(param) {
-                if (param === null)
+            search() {
+                if (this.q === null)
                     return;
 
-                for (let i = 0; i < this.users.total; i++) {
-                    if (this.users.data[i].name.toLowerCase() === param.toLowerCase()) {
-                        console.log(this.users.data[i].name);
-                    }
-                }
-            },
-        },
+                console.log('search');
+            }
+        }
     }
 </script>
-
-<style>
-    form {
-        width: 100%;
-    }
-</style>

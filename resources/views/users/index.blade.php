@@ -8,6 +8,4 @@
 
     <users data="{{ json_encode($users) }}"></users>
 
-    {{ $users->links() }}
-
 @endsection
