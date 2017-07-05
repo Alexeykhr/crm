@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Get page users
+     * Get page users with filters.
      *
      * @param Request $request
      *
@@ -24,12 +24,18 @@ class UserController extends Controller
                 'phone', 'work_phone', 'email', 'work_email', 'active', 'delete')
             ->with(['role']);
 
-        if (!empty($request->role)) {
-            $users->where('role_id', '=', $request->role);
+        if (!empty($request->role) && $request->role > 0) {
+            $users->where('role_id', '=', (int) $request->role);
+        }
+
+        if (!empty($request->q)) {
+            $users->where('name', 'LIKE', '%'.$request->q.'%');
         }
 
         if (!empty($request->delete)) {
             $users->where('delete', '=', $request->delete > 0);
+        } elseif (!isset($request->delete)) {
+            $users->where('delete', '=', 0);
         }
 
         if (!empty($request->active)) {

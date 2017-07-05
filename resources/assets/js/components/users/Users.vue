@@ -1,10 +1,10 @@
 <template>
-    <md-layout class="users_page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center">
-        <form novalidate @submit.stop.prevent="submit">
-            <md-input-container>
+    <md-layout class="users_page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center" v-once>
+        <form novalidate v-on:submit.prevent="setFilters()">
+            <md-input-container md-clearable>
                 <md-icon>search</md-icon>
                 <label>Пошук працівника</label>
-                <md-input v-model="q" :fetch="search()"></md-input>
+                <md-input v-model="g_q" autofocus></md-input>
             </md-input-container>
         </form>
 
@@ -26,7 +26,7 @@
             </md-button>
         </div>
 
-        <md-table v-once>
+        <md-table>
             <md-table-header>
                 <md-table-row>
                     <md-table-head>Фото</md-table-head>
@@ -131,7 +131,12 @@
         </md-button>
 
         <md-dialog md-open-from="#fab" md-close-to="#fab" ref="filters">
-            <md-dialog-title>Налаштування фільтрів</md-dialog-title>
+            <md-dialog-title>Налаштування фільтрів
+
+                <md-button @click="resetFilters()" class="md-icon-button md-raised md-warn md-mini">
+                    <md-icon>restore</md-icon>
+                </md-button>
+            </md-dialog-title>
 
             <md-dialog-content>
                 <md-input-container>
@@ -140,8 +145,9 @@
                               max="100" type="number" v-model="g_count"></md-input>
                 </md-input-container>
                 <md-input-container>
-                    <label for="role">Ролі</label>
+                    <label for="role">Роль</label>
                     <md-select name="role" id="role" v-model="g_role">
+                        <md-option :key="-1" :value="-1">Всі</md-option>
                         <md-option v-for="role in roles"
                                    :key="role.id"
                                    :value="role.id">
@@ -149,11 +155,23 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
+                <div>
+                    <span>Має доступ:</span>
+                    <md-radio v-model="g_active" name="active" md-value="1">Так</md-radio>
+                    <md-radio v-model="g_active" name="active" md-value="0">-</md-radio>
+                    <md-radio v-model="g_active" name="active" md-value="-1">Ні</md-radio>
+                </div>
+                <div>
+                    <span>Видалений:</span>
+                    <md-radio v-model="g_delete" name="delete" md-value="1">Так</md-radio>
+                    <md-radio v-model="g_delete" name="delete" md-value="0">-</md-radio>
+                    <md-radio v-model="g_delete" name="delete" md-value="-1">Ні</md-radio>
+                </div>
             </md-dialog-content>
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('filters')">Вихід</md-button>
-                <md-button class="md-primary" @click="setFilters()">Застосувати</md-button>
+                <md-button class="md-primary md-raised" @click="setFilters()">Застосувати</md-button>
             </md-dialog-actions>
         </md-dialog>
     </md-layout>
@@ -162,7 +180,7 @@
 <script>
     export default {
         props: [
-            'inUsers', 'inRoles', 'count', 'role', 'active'
+            'inUsers', 'inRoles', 'count', 'role', 'active', 'delete', 'q',
         ],
 
         data () {
@@ -170,12 +188,11 @@
                 users: [],
                 roles: [],
 
-                q: null,
-
+                g_q: '',
                 g_count: 10,
-                g_role: null,
+                g_role: 0,
                 g_active: 1,
-                g_delete: 0,
+                g_delete: -1,
             }
         },
 
@@ -184,19 +201,20 @@
             this.roles = JSON.parse(this.inRoles);
 
             this.g_count = this.count;
-            this.g_role = this.roles[this.role - 1].id;
+            this.g_active = this.active;
+            this.g_delete = this.delete;
+            this.g_q = this.q;
+
+            if (this.roles[this.role - 1] != null)
+                this.g_role = this.roles[this.role - 1].id;
+            else
+                this.g_role = -1;
 
             console.log(this.users);
             console.log(this.roles);
         },
 
         methods: {
-            search() {
-                if (this.q === null)
-                    return;
-
-                console.log('search');
-            },
             openDialog(ref) {
                 this.$refs[ref].open();
             },
@@ -204,18 +222,22 @@
                 this.$refs[ref].close();
             },
             setFilters() {
+                location.href = this.users.path+'?page=1'+this.getAttribute();
+            },
+            resetFilters() {
+                location.href = this.users.path;
+            },
+            getAttribute() {
                 if (this.g_count > 100) {
                     this.g_count = 100;
                 } else if (this.g_count < 1) {
                     this.g_count = 10;
                 }
 
-                console.log(this.g_count);
-                location.href = this.users.path+'?page=1'+this.getAttribute();
+                return '&count='+this.g_count+'&role='+this.g_role
+                    +'&active='+this.g_active+'&delete='+this.g_delete
+                    +'&q='+this.g_q;
             },
-            getAttribute() {
-                return '&count='+this.g_count+'&role='+this.g_role+'&active='+this.g_active+'&delete='+this.g_delete;
-            }
         }
     }
 </script>

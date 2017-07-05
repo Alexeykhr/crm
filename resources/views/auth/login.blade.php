@@ -12,12 +12,12 @@
 </head>
 <body id="login">
 
-<div id="app">
-    <login nick="{{ old('nick') }}" remember="{{ old('remember') }}"
-           error="{{ count($errors) > 0 }}" csrf="{{ csrf_token() }}"
-    ></login>
-</div>
+    <div id="app">
+        <login nick="{{ old('nick') }}" remember="{{ old('remember') }}"
+               error="{{ count($errors) > 0 }}" csrf="{{ csrf_token() }}"
+        ></login>
+    </div>
 
-<script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
