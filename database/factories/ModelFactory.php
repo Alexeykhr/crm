@@ -21,11 +21,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
         'work_email' => $faker->email,
         'role_id' => mt_rand(1, 2),
+        'job_id' => mt_rand(1, 20),
         'active' => mt_rand(0, 1),
         'delete' => mt_rand(0, 1),
         'phone' => $faker->phoneNumber,
         'work_phone' => $faker->phoneNumber,
-        'position' => $faker->jobTitle,
         'password' => $password ?: $password = bcrypt('secret'),
+    ];
+});
+
+$factory->define(App\Job::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->unique()->jobTitle,
     ];
 });

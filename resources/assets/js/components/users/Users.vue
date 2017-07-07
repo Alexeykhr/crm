@@ -1,5 +1,5 @@
 <template>
-    <md-layout class="users_page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center" v-once>
+    <md-layout class="page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center">
         <form novalidate v-on:submit.prevent="setFilters()">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
@@ -9,24 +9,24 @@
         </form>
 
         <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>first_page</md-icon>
             </md-button>
-            <md-button :href="users.prev_page_url ? users.prev_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.prev_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_left</md-icon>
             </md-button>
 
             <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
 
-            <md-button :href="users.next_page_url ? users.next_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.next_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>last_page</md-icon>
             </md-button>
         </div>
 
-        <md-table>
+        <md-table v-once>
             <md-table-header>
                 <md-table-row>
                     <md-table-head>Фото</md-table-head>
@@ -58,12 +58,15 @@
                     </md-table-cell>
 
                     <md-table-cell>
-                        {{ user.position }}
+                        <span v-if="user.job_id">{{ user.job.title }}</span>
                     </md-table-cell>
 
                     <md-table-cell>
-                        <md-chip v-if="!user.active">Немає доступ</md-chip>
-                        <md-chip v-else :style="'color:#fff;background:' + user.role.color">{{ user.role.title }}</md-chip>
+                        <md-chip v-if="user.delete">Видалений</md-chip>
+                        <md-chip v-else-if="!user.active">Немає доступ</md-chip>
+                        <md-chip v-else :style="'color:#fff;background:' + user.role.color + ';'">
+                            {{ user.role.title }}
+                        </md-chip>
                     </md-table-cell>
 
                     <md-table-cell>
@@ -105,19 +108,19 @@
         </md-table>
 
         <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>first_page</md-icon>
             </md-button>
-            <md-button :href="users.prev_page_url ? users.prev_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.prev_page_url ? users.prev_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_left</md-icon>
             </md-button>
 
             <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
 
-            <md-button :href="users.next_page_url ? users.next_page_url+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.next_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>keyboard_arrow_right</md-icon>
             </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getAttribute() : ''" class="md-icon-button md-raised md-dense">
+            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
                 <md-icon>last_page</md-icon>
             </md-button>
         </div>
@@ -155,6 +158,17 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
+                <md-input-container>
+                    <label for="job">Посада</label>
+                    <md-select name="job" id="job" v-model="g_job">
+                        <md-option :key="-1" :value="-1">Всі</md-option>
+                        <md-option v-for="job in jobs"
+                                   :key="job.id"
+                                   :value="job.id">
+                            {{ job.title }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
                 <div>
                     <span>Має доступ:</span>
                     <md-radio v-model="g_active" name="active" md-value="1">Так</md-radio>
@@ -180,38 +194,44 @@
 <script>
     export default {
         props: [
-            'inUsers', 'inRoles', 'count', 'role', 'active', 'delete', 'q',
+            'inUsers', 'inRoles', 'inJobs', 'count', 'role', 'job', 'active', 'delete', 'q',
         ],
 
         data () {
             return {
                 users: [],
                 roles: [],
+                jobs: [],
 
-                g_q: '',
-                g_count: 10,
-                g_role: 0,
-                g_active: 1,
-                g_delete: -1,
+                g_q: null,
+                g_count: null,
+                g_role: null,
+                g_active: null,
+                g_delete: null,
             }
         },
 
         created () {
             this.users = JSON.parse(this.inUsers);
             this.roles = JSON.parse(this.inRoles);
+            this.jobs = JSON.parse(this.inJobs);
 
             this.g_count = this.count;
             this.g_active = this.active;
             this.g_delete = this.delete;
             this.g_q = this.q;
 
+            console.log(this.users);
+
             if (this.roles[this.role - 1] != null)
                 this.g_role = this.roles[this.role - 1].id;
             else
                 this.g_role = -1;
 
-            console.log(this.users);
-            console.log(this.roles);
+            if (this.jobs[this.job - 1] != null)
+                this.g_job = this.jobs[this.job - 1].id;
+            else
+                this.g_job = -1;
         },
 
         methods: {
@@ -222,21 +242,24 @@
                 this.$refs[ref].close();
             },
             setFilters() {
-                location.href = this.users.path+'?page=1'+this.getAttribute();
+                location.href = this.users.path+'?page=1'+this.getNewAttribute();
             },
             resetFilters() {
                 location.href = this.users.path;
             },
-            getAttribute() {
-                if (this.g_count > 100) {
-                    this.g_count = 100;
-                } else if (this.g_count < 1) {
-                    this.g_count = 10;
-                }
+            getNewAttribute() {
+                this.g_count = this.g_count > 100 ? 100 : (this.g_count < 1 ? 10 : this.g_count);
 
                 return '&count='+this.g_count+'&role='+this.g_role
                     +'&active='+this.g_active+'&delete='+this.g_delete
-                    +'&q='+this.g_q;
+                    +'&job='+this.g_job+'&q='+this.g_q;
+            },
+            getCurrentAttribute() {
+                this.count = this.count > 100 ? 100 : (this.count < 1 ? 10 : this.count);
+
+                return '&count='+this.count+'&role='+this.role
+                    +'&active='+this.active+'&delete='+this.delete
+                    +'&job='+this.job+'&q='+this.q;
             },
         }
     }

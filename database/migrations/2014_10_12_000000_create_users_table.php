@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('photo')->nullable();
             $table->string('password');
             $table->integer('role_id')->nullable();
+            $table->string('job_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('work_phone')->nullable();
-            $table->string('position')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->tinyInteger('delete')->default(0);
             $table->timestamp('hire')->nullable();

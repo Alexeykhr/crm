@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,16 +21,22 @@ class UserController extends Controller
     {
         $count = (int) $request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
 
-        $users = User::select('id', 'nick', 'name', 'role_id', 'position',
-                'phone', 'work_phone', 'email', 'work_email', 'active', 'delete')
-            ->with(['role']);
+        $users = User::with(['role', 'job']);
+
+        if (!empty($request->q)) {
+            $users->where('name', 'LIKE', '%' . $request->q . '%');
+        }
 
         if (!empty($request->role) && $request->role > 0) {
             $users->where('role_id', '=', (int) $request->role);
         }
 
-        if (!empty($request->q)) {
-            $users->where('name', 'LIKE', '%'.$request->q.'%');
+        if (!empty($request->job) && $request->job > 0) {
+            $users->where('job_id', '=', (int) $request->job);
+        }
+
+        if (!empty($request->active)) {
+            $users->where('active', '=', $request->active > 0);
         }
 
         if (!empty($request->delete)) {
@@ -38,19 +45,20 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
-        if (!empty($request->active)) {
-            $users->where('active', '=', $request->active > 0);
-        }
-
         return view('users.index', [
             'users' => $users->paginate($count),
             'roles' => Role::get(),
+            'jobs' => Job::get(),
         ]);
     }
 
-    public function user(User $user)
+    public function user($id)
     {
+        $user = User::with('role', 'job')->where('id', '=', $id)->first();
+
         dd($user);
+
+        return view('users.user', ['user' => $user]);
     }
 
     public function profile()

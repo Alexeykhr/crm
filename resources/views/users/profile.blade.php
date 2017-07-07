@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
-@section('title')Профіль користувача {{ $user->name }}@endsection
+@section('title'){{ $user->name }}@endsection
 
 @section('content')
 
-    <?php dd($user); ?>
+    <profile user="{{ json_encode($user) }}"
+             role="{{ json_encode($user->role) }}"
+    ></profile>
 
 @endsection
