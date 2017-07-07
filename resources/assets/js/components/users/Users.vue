@@ -98,8 +98,8 @@
                     </md-table-cell>
 
                     <md-table-cell>
-                        <md-button :href="'/user'+user.id+'/edit'" class="md-icon-button">
-                            <md-icon>edit</md-icon>
+                        <md-button :href="'/user'+user.id" class="md-icon-button">
+                            <md-icon>remove_red_eye</md-icon>
                         </md-button>
                     </md-table-cell>
 
@@ -221,17 +221,8 @@
             this.g_delete = this.delete;
             this.g_q = this.q;
 
-            console.log(this.users);
-
-            if (this.roles[this.role - 1] != null)
-                this.g_role = this.roles[this.role - 1].id;
-            else
-                this.g_role = -1;
-
-            if (this.jobs[this.job - 1] != null)
-                this.g_job = this.jobs[this.job - 1].id;
-            else
-                this.g_job = -1;
+            this.g_role = this.roles[this.role - 1] != null ? this.roles[this.role - 1].id : -1;
+            this.g_job = this.jobs[this.job - 1] != null ? this.jobs[this.job - 1].id : -1;
         },
 
         methods: {

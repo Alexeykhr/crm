@@ -19,7 +19,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $count = (int) $request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
+        // 0 < count <= 100
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
 
         $users = User::with(['role', 'job']);
 
@@ -48,10 +49,17 @@ class UserController extends Controller
         return view('users.index', [
             'users' => $users->paginate($count),
             'roles' => Role::get(),
-            'jobs' => Job::get(),
+            'jobs'  => Job::get(),
         ]);
     }
 
+    /**
+     * Get an employee profile
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function user($id)
     {
         $user = User::with('role', 'job')->where('id', '=', $id)->first();
@@ -61,10 +69,13 @@ class UserController extends Controller
         return view('users.user', ['user' => $user]);
     }
 
+    /**
+     * Get your own profile.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function profile()
     {
-        $user = Auth::user();
-
-        return view('users.profile', ['user' => $user]);
+        return view('users.profile', ['user' => Auth::user()]);
     }
 }

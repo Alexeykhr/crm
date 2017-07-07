@@ -11531,20 +11531,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'role'],
+    props: ['user', 'role', 'job'],
 
     data: function data() {
         return {
             u: null,
-            r: null
+            r: null,
+            j: null
         };
     },
     created: function created() {
         this.u = JSON.parse(this.user);
         this.r = JSON.parse(this.role);
+        this.j = JSON.parse(this.job);
 
         console.log(this.u);
         console.log(this.r);
+        console.log(this.j);
     }
 });
 
@@ -11774,11 +11777,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.g_delete = this.delete;
         this.g_q = this.q;
 
-        console.log(this.users);
-
-        if (this.roles[this.role - 1] != null) this.g_role = this.roles[this.role - 1].id;else this.g_role = -1;
-
-        if (this.jobs[this.job - 1] != null) this.g_job = this.jobs[this.job - 1].id;else this.g_job = -1;
+        this.g_role = this.roles[this.role - 1] != null ? this.roles[this.role - 1].id : -1;
+        this.g_job = this.jobs[this.job - 1] != null ? this.jobs[this.job - 1].id : -1;
     },
 
 
@@ -39992,9 +39992,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_email))])], 1) : _vm._e()], 1)], 1) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
-        "href": '/user' + user.id + '/edit'
+        "href": '/user' + user.id
       }
-    }, [_c('md-icon', [_vm._v("edit")])], 1)], 1)], 1)
+    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
   }))], 1)
 }]}
 module.exports.render._withStripped = true
@@ -40018,7 +40018,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-flex-medium": "100",
       "md-align": "center"
     }
-  }, [_c('span', [_vm._v(_vm._s(_vm.u.name))])])
+  }, [_vm._v("\n    " + _vm._s(_vm.u.name) + "\n")])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
