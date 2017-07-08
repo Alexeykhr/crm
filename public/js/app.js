@@ -11497,12 +11497,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['name', 'photo', 'firm'],
+    props: ['user', 'role', 'firm'],
 
     data: function data() {
-        return {};
+        return {
+            u: null,
+            r: null
+        };
+    },
+    created: function created() {
+        this.u = JSON.parse(this.user);
+        this.r = JSON.parse(this.role);
     },
 
 
@@ -39547,14 +39600,25 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-whiteframe', {
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "phone-viewport"
+  }, [_c('md-whiteframe', {
+    staticClass: "md-dense",
     attrs: {
-      "md-tag": "md-toolbar",
-      "md-elevation": "0"
+      "md-tag": "md-toolbar"
     }
   }, [_c('div', {
     staticClass: "md-toolbar-container"
   }, [_c('md-button', {
+    staticClass: "md-icon-button",
+    on: {
+      "click": function($event) {
+        _vm.$refs.sidenav.toggle()
+      }
+    }
+  }, [_c('md-icon', [_vm._v("menu")])], 1), _vm._v(" "), _c('md-button', {
     attrs: {
       "href": "/"
     }
@@ -39574,14 +39638,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "h_name"
-  }, [_vm._v(_vm._s(_vm.name))]), _vm._v(" "), _c('md-avatar', [_c('img', {
+  }, [_vm._v(_vm._s(_vm.u.name))]), _vm._v(" "), _c('md-avatar', [_c('img', {
     attrs: {
-      "src": _vm.photo ? _vm.photo : '/img/user.png',
-      "alt": 'Користувач ' + _vm.name
+      "src": _vm.u.photo ? _vm.u.photo : '/img/user.png',
+      "alt": 'Користувач: ' + _vm.u.name
     }
   })])], 1), _vm._v(" "), _c('md-menu-content', [_c('md-menu-item', {
     attrs: {
-      "href": "/profile"
+      "href": "/me"
     }
   }, [_vm._v("Профіль")]), _vm._v(" "), _c('md-menu-item', {
     on: {
@@ -39590,8 +39654,43 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.logout()
       }
     }
-  }, [_vm._v("Вихід")])], 1)], 1)], 1)])
-},staticRenderFns: []}
+  }, [_vm._v("Вихід")])], 1)], 1)], 1)]), _vm._v(" "), _c('md-sidenav', {
+    ref: "sidenav",
+    staticClass: "md-left"
+  }, [_c('md-list', [_c('md-list-item', {
+    attrs: {
+      "href": "/"
+    }
+  }, [_c('md-icon', [_vm._v("home")]), _vm._v(" "), _c('span', [_vm._v("Головна сторінка")])], 1), _vm._v(" "), _c('md-list-item', {
+    attrs: {
+      "href": "/me"
+    }
+  }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.r.acs_user % 2 == 1) ? _c('md-list-item', {
+    attrs: {
+      "href": "/u"
+    }
+  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Користувачі")])], 1) : _vm._e(), _vm._v(" "), (_vm.r.acs_role % 2 == 1) ? _c('md-list-item', {
+    attrs: {
+      "href": "/r"
+    }
+  }, [_c('md-icon', [_vm._v("label")]), _vm._v(" "), _c('span', [_vm._v("Ролі")])], 1) : _vm._e(), _vm._v(" "), (_vm.r.acs_job % 2 == 1) ? _c('md-list-item', {
+    attrs: {
+      "href": "/j"
+    }
+  }, [_c('md-icon', [_vm._v("star")]), _vm._v(" "), _c('span', [_vm._v("Посади")])], 1) : _vm._e(), _vm._v(" "), _c('hr'), _vm._v(" "), _c('md-list-item', {
+    attrs: {
+      "href": "/o"
+    }
+  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Об'єкти")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.r.acs_log) ? _c('md-list-item', {
+    attrs: {
+      "href": "/logs"
+    }
+  }, [_c('md-icon', [_vm._v("event_note")]), _vm._v(" "), _c('span', [_vm._v("Журнал")])], 1) : _vm._e(), _vm._v(" "), _c('md-list-item', {
+    attrs: {
+      "href": "/birthday"
+    }
+  }, [_c('md-icon', [_vm._v("event")]), _vm._v(" "), _c('span', [_vm._v("День народження")])], 1)], 1)], 1)], 1)
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -39769,7 +39868,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('md-icon', [_vm._v("last_page")])], 1)], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-fab btn_fixed_br",
     attrs: {
-      "href": "/users/create"
+      "href": "/u/add"
     }
   }, [_c('md-icon', [_vm._v("add")])], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-fab md-primary btn_fixed_bl",
@@ -39992,7 +40091,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_email))])], 1) : _vm._e()], 1)], 1) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
-        "href": '/user' + user.id
+        "href": '/u/' + user.id
       }
     }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
   }))], 1)

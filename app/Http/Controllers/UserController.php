@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->role->acs_user < 1) {
-            return view('error.access');
+            return redirect('/');
         }
 
         // 0 < count <= 100
@@ -72,17 +72,18 @@ class UserController extends Controller
             return $this->profile();
         }
 
-        $access = Auth::user()->role->acs_user;
-
-        if ($access % 2 == 0) {
-            return view('error.access');
-        }
-
         $user = User::where('id', '=', $id)->firstOrFail();
+        $role = Auth::user()->role;
+
+        if ($role->acs_user % 2 == 0) {
+            return redirect('/');
+        }
 
         return view('users.user', [
             'user' => $user,
-            'edit' => $this->access($access, 'edit')
+            'role' => $role,
+            'job'  => Auth::user()->job,
+            'edit' => $this->access($role->acs_user, 'edit')
         ]);
     }
 
@@ -93,9 +94,32 @@ class UserController extends Controller
      */
     public function profile()
     {
+        $role = Auth::user()->role;
+
         return view('users.user', [
             'user' => Auth::user(),
-            'edit' => Auth::user()->role->acs_profile > 0
+            'role' => $role,
+            'job'  => Auth::user()->job,
+            'edit' => $role->acs_profile > 0
+        ]);
+    }
+
+    /**
+     * Create a new user.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $role = Auth::user()->role;
+
+        if ( ! $this->access($role->acs_user, 'create') ) {
+            return redirect('/');
+        }
+
+        return view('users.create', [
+            'user' => Auth::user(),
+            'role' => $role,
         ]);
     }
 

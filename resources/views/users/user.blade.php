@@ -5,9 +5,9 @@
 @section('content')
 
     <profile user="{{ json_encode($user) }}"
+             role="{{ json_encode($role) }}"
+             job="{{ json_encode($job) }}"
              edit="{{ $edit }}"
-             role="{{ json_encode($user->role) }}"
-             job="{{ json_encode($user->job) }}"
     ></profile>
 
 @endsection

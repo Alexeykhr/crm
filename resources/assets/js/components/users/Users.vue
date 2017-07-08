@@ -98,7 +98,7 @@
                     </md-table-cell>
 
                     <md-table-cell>
-                        <md-button :href="'/user'+user.id" class="md-icon-button">
+                        <md-button :href="'/u/'+user.id" class="md-icon-button">
                             <md-icon>remove_red_eye</md-icon>
                         </md-button>
                     </md-table-cell>
@@ -125,7 +125,7 @@
             </md-button>
         </div>
 
-        <md-button href="/users/create" class="md-fab btn_fixed_br">
+        <md-button href="/u/add" class="md-fab btn_fixed_br">
             <md-icon>add</md-icon>
         </md-button>
 
