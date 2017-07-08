@@ -39420,7 +39420,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\components\\auth\\Login.vue"
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\auth\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39454,7 +39454,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\components\\header\\Navbar.vue"
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\header\\Navbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navbar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39488,7 +39488,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\components\\users\\Profile.vue"
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\users\\Profile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Profile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39522,7 +39522,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\components\\users\\Users.vue"
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\users\\Users.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Users.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -39962,7 +39962,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "atl": 'Користувач: ' + user.name
       }
     })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]), _vm._v(" "), _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
-      style: ('color:#fff;background:' + user.role.color + ';')
+      style: ('color:' + user.role.color + ';background:' + user.role.background + ';')
     }, [_vm._v("\n                        " + _vm._s(user.role.title) + "\n                    ")])], 1), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
         "md-align-trigger": "",

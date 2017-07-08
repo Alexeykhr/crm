@@ -17,7 +17,6 @@ class CreateObjectsItemTable extends Migration
             $table->increments('id');
             $table->integer('object_id');
             $table->integer('order')->default(0);
-            $table->string('type');
             $table->timestamps();
         });
     }

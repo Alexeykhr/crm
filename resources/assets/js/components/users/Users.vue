@@ -64,7 +64,7 @@
                     <md-table-cell>
                         <md-chip v-if="user.delete">Видалений</md-chip>
                         <md-chip v-else-if="!user.active">Немає доступ</md-chip>
-                        <md-chip v-else :style="'color:#fff;background:' + user.role.color + ';'">
+                        <md-chip v-else :style="'color:' + user.role.color + ';background:' + user.role.background + ';'">
                             {{ user.role.title }}
                         </md-chip>
                     </md-table-cell>
