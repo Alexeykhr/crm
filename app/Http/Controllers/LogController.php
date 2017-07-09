@@ -11,12 +11,18 @@ class LogController extends Controller
 {
     public function index()
     {
+        $me = Auth::user()->load('role');
+
+        if ($me->role->level < 7) {
+            return abort(404);
+        }
+
         // TODO add filters
         
-        $logs = Log::paginate(20);
+        $logs = Log::orderBy('date', 'desc')->paginate(20);
 
         return view('logs.index', [
-            'me'   => Auth::user()->load('role'),
+            'me'   => $me,
             'logs' => $logs,
         ]);
     }
@@ -29,12 +35,11 @@ class LogController extends Controller
             'action' => $action,
             'ref_id' => $refID,
             'desc'  => $desc,
-            'date'  => date('m-d-y H:i:s'),
         ]);
     }
 
     public static function logAuth()
     {
-        self::log('auth', 'enter', 'Користувач увійшов в систему');
+        self::log('auth', 'logged', 'Користувач увійшов в систему');
     }
 }

@@ -81,7 +81,7 @@ class UserController extends Controller
 
         $me->load('role');
 
-        if ($me->role->acs_user % 2 == 0) {
+        if ($this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
 
@@ -103,7 +103,7 @@ class UserController extends Controller
 
         return view('users.user', [
             'me'   => $me,
-            'edit' => $me->role->acs_profile > 0
+            'edit' => $me->role->level > 4
         ]);
     }
 
@@ -116,7 +116,7 @@ class UserController extends Controller
     {
         $me = Auth::user()->load('role');
 
-        if ( ! $this->access($me->role->acs_user, 'create') ) {
+        if (! $this->access($me->role->acs_user, 'create')) {
             return abort(404);
         }
 
