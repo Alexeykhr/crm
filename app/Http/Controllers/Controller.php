@@ -21,4 +21,29 @@ class Controller extends BaseController
         $this->middleware('auth');
         $this->middleware('validate');
     }
+
+    /**
+     * Get access.
+     *
+     * @param int $access
+     * @param string $action
+     *
+     * @return bool
+     */
+    protected function access($access, $action)
+    {
+        if ($action === 'create') {
+            return $access > 3;
+        }
+
+        if ($action === 'edit') {
+            return in_array($access, [2, 3, 6, 7]);
+        }
+
+        if ($action === 'view') {
+            return $access % 2 == 1;
+        }
+
+        return false;
+    }
 }

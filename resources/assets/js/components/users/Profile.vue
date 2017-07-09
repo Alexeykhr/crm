@@ -7,25 +7,17 @@
 <script>
     export default {
         props: [
-            'user', 'role', 'job',
+            'iUser',
         ],
 
         data () {
             return {
                 u: null,
-                r: null,
-                j: null,
             }
         },
 
         created () {
-            this.u = JSON.parse(this.user);
-            this.r = JSON.parse(this.role);
-            this.j = JSON.parse(this.job);
-
-            console.log(this.u);
-            console.log(this.r);
-            console.log(this.j);
+            this.u = JSON.parse(this.iUser);
         },
     }
 </script>

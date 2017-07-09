@@ -28,7 +28,7 @@ window.Vue.material.registerTheme({
 
 Vue.component('login', require('./components/auth/Login.vue'));
 Vue.component('navbar', require('./components/header/Navbar.vue'));
-Vue.component('users', require('./components/users/Users.vue'));
+Vue.component('users', require('./components/users/Index.vue'));
 Vue.component('profile', require('./components/users/Profile.vue'));
 
 const app = new Vue({

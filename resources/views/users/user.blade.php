@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('title'){{ $user->name }}@endsection
+@section('title'){{ $me->name }}@endsection
 
 @section('content')
 
-    <profile user="{{ json_encode($user) }}"
-             role="{{ json_encode($role) }}"
-             job="{{ json_encode($job) }}"
+    <profile i-user="{{ json_encode($me) }}"
              edit="{{ $edit }}"
     ></profile>
 

@@ -14,8 +14,7 @@
 
     <div id="app">
         <navbar firm="{{ config('app.name', 'CRM') }}"
-                user="{{ Auth::user() }}"
-                role="{{ Auth::user()->role }}"
+                i-user="{{ $me }}"
         ></navbar>
 
         @yield('content')

@@ -38,15 +38,15 @@
                     <md-icon>account_circle</md-icon> <span>Мій профіль</span>
                 </md-list-item>
 
-                <md-list-item v-if="r.acs_user % 2 == 1" href="/u">
+                <md-list-item v-if="u.role.acs_user % 2 == 1" href="/u">
                     <md-icon>people</md-icon> <span>Користувачі</span>
                 </md-list-item>
 
-                <md-list-item v-if="r.acs_role % 2 == 1" href="/r">
+                <md-list-item v-if="u.role.acs_role % 2 == 1" href="/r">
                     <md-icon>label</md-icon> <span>Ролі</span>
                 </md-list-item>
 
-                <md-list-item v-if="r.acs_job % 2 == 1" href="/j">
+                <md-list-item v-if="u.role.acs_job % 2 == 1" href="/j">
                     <md-icon>star</md-icon> <span>Посади</span>
                 </md-list-item>
 
@@ -58,12 +58,12 @@
 
                 <hr>
 
-                <md-list-item v-if="r.acs_log" href="/logs">
+                <md-list-item v-if="u.role.level > 6" href="/logs">
                     <md-icon>event_note</md-icon> <span>Журнал</span>
                 </md-list-item>
 
-                <md-list-item href="/birthday">
-                    <md-icon>event</md-icon> <span>День народження</span>
+                <md-list-item v-if="u.role.level > 2" href="/birthday">
+                    <md-icon>event</md-icon> <span>Дні народження</span>
                 </md-list-item>
             </md-list>
         </md-sidenav>
@@ -73,19 +73,17 @@
 <script>
     export default {
         props: [
-            'user', 'role', 'firm',
+            'iUser', 'firm',
         ],
 
         data () {
             return {
                 u: null,
-                r: null,
             }
         },
 
         created () {
-            this.u = JSON.parse(this.user);
-            this.r = JSON.parse(this.role);
+            this.u = JSON.parse(this.iUser);
         },
 
         methods: {

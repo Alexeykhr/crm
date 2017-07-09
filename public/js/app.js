@@ -10554,8 +10554,8 @@ window.Vue.material.registerTheme({
 
 Vue.component('login', __webpack_require__(38));
 Vue.component('navbar', __webpack_require__(39));
-Vue.component('users', __webpack_require__(41));
-Vue.component('profile', __webpack_require__(40));
+Vue.component('users', __webpack_require__(40));
+Vue.component('profile', __webpack_require__(41));
 
 var app = new Vue({
     el: '#app'
@@ -11545,17 +11545,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'role', 'firm'],
+    props: ['iUser', 'firm'],
 
     data: function data() {
         return {
-            u: null,
-            r: null
+            u: null
         };
     },
     created: function created() {
-        this.u = JSON.parse(this.user);
-        this.r = JSON.parse(this.role);
+        this.u = JSON.parse(this.iUser);
     },
 
 
@@ -11572,40 +11570,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 32 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'role', 'job'],
-
-    data: function data() {
-        return {
-            u: null,
-            r: null,
-            j: null
-        };
-    },
-    created: function created() {
-        this.u = JSON.parse(this.user);
-        this.r = JSON.parse(this.role);
-        this.j = JSON.parse(this.job);
-
-        console.log(this.u);
-        console.log(this.r);
-        console.log(this.j);
-    }
-});
-
-/***/ }),
-/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11858,6 +11822,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return '&count=' + this.count + '&role=' + this.role + '&active=' + this.active + '&delete=' + this.delete + '&job=' + this.job + '&q=' + this.q;
         }
+    }
+});
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['iUser'],
+
+    data: function data() {
+        return {
+            u: null
+        };
+    },
+    created: function created() {
+        this.u = JSON.parse(this.iUser);
     }
 });
 
@@ -39535,6 +39525,40 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(32),
   /* template */
+  __webpack_require__(44),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\users\\Index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7e75cd75", Component.options)
+  } else {
+    hotAPI.reload("data-v-7e75cd75", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(33),
+  /* template */
   __webpack_require__(45),
   /* scopeId */
   null,
@@ -39555,40 +39579,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-9c9f57e8", Component.options)
   } else {
     hotAPI.reload("data-v-9c9f57e8", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(33),
-  /* template */
-  __webpack_require__(44),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\Rep\\crm\\resources\\assets\\js\\components\\users\\Users.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Users.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7840b0aa", Component.options)
-  } else {
-    hotAPI.reload("data-v-7840b0aa", Component.options)
   }
 })()}
 
@@ -39665,15 +39655,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/me"
     }
-  }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.r.acs_user % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.u.role.acs_user % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/u"
     }
-  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Користувачі")])], 1) : _vm._e(), _vm._v(" "), (_vm.r.acs_role % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Користувачі")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.acs_role % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/r"
     }
-  }, [_c('md-icon', [_vm._v("label")]), _vm._v(" "), _c('span', [_vm._v("Ролі")])], 1) : _vm._e(), _vm._v(" "), (_vm.r.acs_job % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("label")]), _vm._v(" "), _c('span', [_vm._v("Ролі")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.acs_job % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/j"
     }
@@ -39681,15 +39671,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/o"
     }
-  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Об'єкти")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.r.acs_log) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Об'єкти")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.u.role.level > 6) ? _c('md-list-item', {
     attrs: {
       "href": "/logs"
     }
-  }, [_c('md-icon', [_vm._v("event_note")]), _vm._v(" "), _c('span', [_vm._v("Журнал")])], 1) : _vm._e(), _vm._v(" "), _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("event_note")]), _vm._v(" "), _c('span', [_vm._v("Журнал")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.level > 2) ? _c('md-list-item', {
     attrs: {
       "href": "/birthday"
     }
-  }, [_c('md-icon', [_vm._v("event")]), _vm._v(" "), _c('span', [_vm._v("День народження")])], 1)], 1)], 1)], 1)
+  }, [_c('md-icon', [_vm._v("event")]), _vm._v(" "), _c('span', [_vm._v("Дні народження")])], 1) : _vm._e()], 1)], 1)], 1)
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -40100,7 +40090,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7840b0aa", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-7e75cd75", module.exports)
   }
 }
 

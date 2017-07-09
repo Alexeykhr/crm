@@ -19,12 +19,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if (Auth::user()->role->acs_user < 1) {
-            return redirect('/');
-        }
+        $me = User::with('role')
+            ->where('id', '=', Auth::user()->id)
+            ->first();
 
-        // 0 < count <= 100
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
+        if ($me->role->acs_user < 1) {
+            return abort(404);
+        }
 
         $users = User::with(['role', 'job']);
 
@@ -50,7 +51,11 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
+        // 0 < count <= 100
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
+
         return view('users.index', [
+            'me'    => $me,
             'users' => $users->paginate($count),
             'roles' => Role::get(),
             'jobs'  => Job::get(),
@@ -66,24 +71,28 @@ class UserController extends Controller
      */
     public function user($id)
     {
+        $me = User::with('role')
+            ->where('id', '=', Auth::user()->id)
+            ->first();
+
         $id = (int)$id;
 
-        if (Auth::user()->id === $id) {
+        if ($me->id === $id) {
             return $this->profile();
         }
 
-        $user = User::where('id', '=', $id)->firstOrFail();
-        $role = Auth::user()->role;
+        $user = User::with(['role', 'job'])
+            ->where('id', '=', $id)
+            ->firstOrFail();
 
-        if ($role->acs_user % 2 == 0) {
-            return redirect('/');
+        if ($me->role->acs_user % 2 == 0) {
+            return abort(404);
         }
 
         return view('users.user', [
+            'me'   => $me,
             'user' => $user,
-            'role' => $role,
-            'job'  => Auth::user()->job,
-            'edit' => $this->access($role->acs_user, 'edit')
+            'edit' => $this->access($me->role->acs_user, 'edit')
         ]);
     }
 
@@ -94,13 +103,13 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $role = Auth::user()->role;
+        $me = User::with(['role', 'job'])
+            ->where('id', '=', Auth::user()->id)
+            ->first();
 
         return view('users.user', [
-            'user' => Auth::user(),
-            'role' => $role,
-            'job'  => Auth::user()->job,
-            'edit' => $role->acs_profile > 0
+            'me'   => $me,
+            'edit' => $me->role->acs_profile > 0
         ]);
     }
 
@@ -111,40 +120,18 @@ class UserController extends Controller
      */
     public function create()
     {
-        $role = Auth::user()->role;
+        $me = User::with(['role'])
+            ->where('id', '=', Auth::user()->id)
+            ->first();
 
-        if ( ! $this->access($role->acs_user, 'create') ) {
-            return redirect('/');
+        if ( ! $this->access($me->role->acs_user, 'create') ) {
+            return abort(404);
         }
 
         return view('users.create', [
-            'user' => Auth::user(),
-            'role' => $role,
+            'me'    => $me,
+            'roles' => Role::get(),
+            'jobs'  => Job::get(),
         ]);
-    }
-
-    /**
-     * Get access.
-     *
-     * @param int $access
-     * @param string $action
-     *
-     * @return bool
-     */
-    private function access($access, $action)
-    {
-        if ($action === 'create') {
-            return $access > 3;
-        }
-
-        if ($action === 'edit') {
-            return in_array($access, [2, 3, 6, 7]);
-        }
-
-        if ($action === 'view') {
-            return $access % 2 == 1;
-        }
-
-        return false;
     }
 }
