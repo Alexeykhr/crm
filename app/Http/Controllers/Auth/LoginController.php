@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\LogController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -49,9 +50,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Get the needed authorization credentials from the request.
+     * Override. Get the needed authorization credentials from the request.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array
      */
     protected function credentials(Request $request)
@@ -64,7 +66,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Log the user out of the application.
+     * Override. Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
      */
@@ -75,5 +77,19 @@ class LoginController extends Controller
         $request->session()->flush();
 
         $request->session()->regenerate();
+    }
+
+    /**
+     * Override. The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     *
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        LogController::add('logged', 'auth', 'Користувач увійшов в систему');
+        dd($user);
     }
 }
