@@ -30,6 +30,7 @@ Vue.component('login', require('./components/auth/Login.vue'));
 Vue.component('navbar', require('./components/header/Navbar.vue'));
 Vue.component('users', require('./components/users/Index.vue'));
 Vue.component('profile', require('./components/users/Profile.vue'));
+Vue.component('logs', require('./components/logs/Index.vue'));
 
 const app = new Vue({
     el: '#app'

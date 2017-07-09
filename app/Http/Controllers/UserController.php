@@ -19,11 +19,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $me = User::with('role')
-            ->where('id', '=', Auth::user()->id)
-            ->first();
+        $me = Auth::user()->load('role');
 
-        if ($me->role->acs_user < 1) {
+        if (!$this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
 
@@ -51,7 +49,6 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
-        // 0 < count <= 100
         $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
 
         return view('users.index', [
@@ -71,10 +68,7 @@ class UserController extends Controller
      */
     public function user($id)
     {
-        $me = User::with('role')
-            ->where('id', '=', Auth::user()->id)
-            ->first();
-
+        $me = Auth::user();
         $id = (int)$id;
 
         if ($me->id === $id) {
@@ -84,6 +78,8 @@ class UserController extends Controller
         $user = User::with(['role', 'job'])
             ->where('id', '=', $id)
             ->firstOrFail();
+
+        $me->load('role');
 
         if ($me->role->acs_user % 2 == 0) {
             return abort(404);
@@ -103,9 +99,7 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $me = User::with(['role', 'job'])
-            ->where('id', '=', Auth::user()->id)
-            ->first();
+        $me = Auth::user()->load('role', 'job');
 
         return view('users.user', [
             'me'   => $me,
@@ -120,9 +114,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $me = User::with(['role'])
-            ->where('id', '=', Auth::user()->id)
-            ->first();
+        $me = Auth::user()->load('role');
 
         if ( ! $this->access($me->role->acs_user, 'create') ) {
             return abort(404);
