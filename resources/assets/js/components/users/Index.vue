@@ -32,7 +32,7 @@
                     <md-table-head>Фото</md-table-head>
                     <md-table-head>Користувач</md-table-head>
                     <md-table-head>Посада</md-table-head>
-                    <md-table-head>Роль</md-table-head>
+                    <md-table-head v-if="me.role.level > 5">Роль</md-table-head>
                     <md-table-head>Контакти</md-table-head>
                     <md-table-head></md-table-head>
                 </md-table-row>
@@ -61,7 +61,7 @@
                         <span v-if="user.job_id">{{ user.job.title }}</span>
                     </md-table-cell>
 
-                    <md-table-cell>
+                    <md-table-cell v-if="me.role.level > 5">
                         <md-chip v-if="user.delete">Видалений</md-chip>
                         <md-chip v-else-if="!user.active">Немає доступ</md-chip>
                         <md-chip v-else :style="'color:' + user.role.color + ';background:' + user.role.background + ';'">
@@ -125,7 +125,7 @@
             </md-button>
         </div>
 
-        <md-button href="/u/add" class="md-fab btn_fixed_br">
+        <md-button href="/u/create" class="md-fab btn_fixed_br">
             <md-icon>add</md-icon>
         </md-button>
 
@@ -147,7 +147,7 @@
                     <md-input min="1" :value="count > 100 ? 100 : count"
                               max="100" type="number" v-model="g_count"></md-input>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container v-if="me.role.level > 5">
                     <label for="role">Роль</label>
                     <md-select name="role" id="role" v-model="g_role">
                         <md-option :key="-1" :value="-1">Всі</md-option>
@@ -194,11 +194,13 @@
 <script>
     export default {
         props: [
-            'inUsers', 'inRoles', 'inJobs', 'count', 'role', 'job', 'active', 'delete', 'q',
+            'iUser', 'inUsers', 'inRoles', 'inJobs',
+            'count', 'role', 'job', 'active', 'delete', 'q',
         ],
 
         data () {
             return {
+                me: [],
                 users: [],
                 roles: [],
                 jobs: [],
@@ -212,6 +214,7 @@
         },
 
         created () {
+            this.me = JSON.parse(this.iUser);
             this.users = JSON.parse(this.inUsers);
             this.roles = JSON.parse(this.inRoles);
             this.jobs = JSON.parse(this.inJobs);

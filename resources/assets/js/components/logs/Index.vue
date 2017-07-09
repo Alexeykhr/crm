@@ -14,13 +14,17 @@
             <md-table-body>
                 <md-table-row v-for="log in logs.data" :key="logs.id">
 
-                    <md-table-cell>{{ log.user_id }}</md-table-cell>
+                    <md-table-cell>
+                        <md-button style="width:100%;text-transform: none;" :href="'/u/'+log.user_id">
+                            {{ log.user.name }}
+                        </md-button>
+                    </md-table-cell>
                     <md-table-cell>{{ log.action }}</md-table-cell>
                     <md-table-cell>{{ log.desc }}</md-table-cell>
                     <md-table-cell>{{ timestamp(log.date) }}</md-table-cell>
                     <!--<md-table-cell v-if="log.ref_id">-->
                     <md-table-cell>
-                        <md-button :href="'/u/'+log.user_id" class="md-icon-button">
+                        <md-button v-if="log.module != 'auth'" :href="'/u/'+log.user_id" class="md-icon-button">
                             <md-icon>remove_red_eye</md-icon>
                         </md-button>
                     </md-table-cell>
@@ -34,9 +38,11 @@
 
 <script>
     var moment = require('moment');
+    import MdButton from "../../../../../node_modules/vue-material/src/components/mdButton/mdButton";
     moment.locale('uk');
 
     export default {
+        components: {MdButton},
         props: [
             'data',
         ],

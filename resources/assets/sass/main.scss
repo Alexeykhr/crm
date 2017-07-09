@@ -1,27 +1,24 @@
-.btn_fixed_br {
-  position: fixed;
+.btn_fixed_br, .btn_fixed_bl {
+  position: fixed !important;
   bottom: 10px;
-  right: 10px;
 
   @include media-down(xs) {
     position: relative;
   }
 }
 
-.btn_fixed_bl {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
+.btn_fixed_br {
+  right: 10px;
+}
 
-  @include media-down(xs) {
-    position: relative;
-  }
+.btn_fixed_bl {
+  left: 10px;
 }
 
 .page {
   max-width: 900px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto 0;
   padding: 0 15px;
 
   > * {

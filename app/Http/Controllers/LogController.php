@@ -17,9 +17,11 @@ class LogController extends Controller
             return abort(404);
         }
 
-        // TODO add filters
+        // TODO: add filters
         
-        $logs = Log::orderBy('date', 'desc')->paginate(20);
+        $logs = Log::with('user')
+            ->orderBy('date', 'desc')
+            ->paginate(20);
 
         return view('logs.index', [
             'me'   => $me,
@@ -31,15 +33,15 @@ class LogController extends Controller
     {
         Log::insert([
             'user_id' => Auth::user()->id,
-            'module' => $module,
-            'action' => $action,
-            'ref_id' => $refID,
-            'desc'  => $desc,
+            'module'  => $module,
+            'action'  => $action,
+            'ref_id'  => $refID,
+            'desc'    => $desc,
         ]);
     }
 
     public static function logAuth()
     {
-        self::log('auth', 'logged', 'Користувач увійшов в систему');
+        self::log('auth', 'Авторизація', 'Користувач увійшов в систему');
     }
 }

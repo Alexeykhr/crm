@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Job::class);
     }
+
+    public function log()
+    {
+        return $this->belongsTo(Log::class);
+    }
 }

@@ -4,6 +4,6 @@
 
 @section('content')
 
-    Новий користувач..
+    <user-create></user-create>
 
 @endsection

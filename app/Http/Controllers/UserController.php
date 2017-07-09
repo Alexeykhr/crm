@@ -31,7 +31,7 @@ class UserController extends Controller
             $users->where('name', 'LIKE', '%' . $request->q . '%');
         }
 
-        if (!empty($request->role) && $request->role > 0) {
+        if (!empty($request->role) && $request->role > 0 && $me->role->level > 5) {
             $users->where('role_id', '=', (int) $request->role);
         }
 

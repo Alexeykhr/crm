@@ -4,7 +4,8 @@
 
 @section('content')
 
-    <users in-users="{{ json_encode($users) }}"
+    <users i-user="{{ json_encode($me) }}"
+           in-users="{{ json_encode($users) }}"
            in-roles="{{ json_encode($roles) }}"
            in-jobs="{{ json_encode($jobs) }}"
            count="{{ empty($_GET['count']) ? 10 : $_GET['count'] }}"
