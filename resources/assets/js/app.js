@@ -26,6 +26,9 @@ window.Vue.material.registerTheme({
     }
 });
 
+
+Vue.component('paginate', require('./components/parts/Pagination.vue'));
+
 Vue.component('login', require('./components/auth/Login.vue'));
 Vue.component('navbar', require('./components/header/Navbar.vue'));
 

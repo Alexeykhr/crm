@@ -8,23 +8,7 @@
             </md-input-container>
         </form>
 
-        <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>first_page</md-icon>
-            </md-button>
-            <md-button :href="users.prev_page_url ? users.prev_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>keyboard_arrow_left</md-icon>
-            </md-button>
-
-            <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
-
-            <md-button :href="users.next_page_url ? users.next_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>keyboard_arrow_right</md-icon>
-            </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>last_page</md-icon>
-            </md-button>
-        </div>
+        <paginate :data="users" :attr="getCurrentAttribute()"></paginate>
 
         <md-table v-once>
             <md-table-header>
@@ -107,23 +91,7 @@
             </md-table-body>
         </md-table>
 
-        <div class="pagination">
-            <md-button :href="users.prev_page_url ? users.path+'?page=1'+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>first_page</md-icon>
-            </md-button>
-            <md-button :href="users.prev_page_url ? users.prev_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>keyboard_arrow_left</md-icon>
-            </md-button>
-
-            <md-button class="md-dense">{{ users.current_page + ' / ' + users.last_page }}</md-button>
-
-            <md-button :href="users.next_page_url ? users.next_page_url+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>keyboard_arrow_right</md-icon>
-            </md-button>
-            <md-button :href="users.next_page_url ? users.path+'?page='+users.last_page+getCurrentAttribute() : ''" class="md-icon-button md-raised md-dense">
-                <md-icon>last_page</md-icon>
-            </md-button>
-        </div>
+        <paginate :data="users" :attr="getCurrentAttribute()"></paginate>
 
         <md-button href="/u/create" class="md-fab btn_fixed_br">
             <md-icon>add</md-icon>
@@ -244,14 +212,18 @@
             getNewAttribute() {
                 this.g_count = this.g_count > 100 ? 100 : (this.g_count < 1 ? 10 : this.g_count);
 
-                return '&count='+this.g_count+'&role='+this.g_role
+                let role = this.me.role.level > 5 ? '&role='+this.g_role : '';
+
+                return '&count='+this.g_count+role
                     +'&active='+this.g_active+'&delete='+this.g_delete
                     +'&job='+this.g_job+'&q='+this.g_q;
             },
             getCurrentAttribute() {
                 this.count = this.count > 100 ? 100 : (this.count < 1 ? 10 : this.count);
 
-                return '&count='+this.count+'&role='+this.role
+                let role = this.me.role.level > 5 ? '&role='+this.role : '';
+
+                return '&count='+this.count+role
                     +'&active='+this.active+'&delete='+this.delete
                     +'&job='+this.job+'&q='+this.q;
             },

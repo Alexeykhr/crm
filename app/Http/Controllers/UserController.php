@@ -49,7 +49,7 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 10;
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 20;
 
         return view('users.index', [
             'me'    => $me,

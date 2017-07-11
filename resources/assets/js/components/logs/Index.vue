@@ -1,5 +1,8 @@
 <template>
     <md-layout class="page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center" v-once>
+
+        <paginate :data="logs" :attr="getCurrentAttribute()"></paginate>
+        
         <md-table>
             <md-table-header>
                 <md-table-row>
@@ -31,18 +34,18 @@
 
                 </md-table-row>
             </md-table-body>
-
         </md-table>
+
+        <paginate :data="logs" :attr="getCurrentAttribute()"></paginate>
+
     </md-layout>
 </template>
 
 <script>
     var moment = require('moment');
-    import MdButton from "../../../../../node_modules/vue-material/src/components/mdButton/mdButton";
     moment.locale('uk');
 
     export default {
-        components: {MdButton},
         props: [
             'data',
         ],
@@ -56,13 +59,19 @@
         created () {
             this.logs = JSON.parse(this.data);
 
-            console.log(this.logs);
+//            console.log(this.logs);
         },
 
         methods: {
-            timestamp: function(date) {
+            timestamp (date) {
                 return moment(date).format('llll');
-            }
+            },
+            getNewAttribute() {
+                return '';
+            },
+            getCurrentAttribute() {
+                return '';
+            },
         },
     }
 </script>
