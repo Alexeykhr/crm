@@ -88,7 +88,7 @@ class UserController extends Controller
         return view('users.user', [
             'me'   => $me,
             'user' => $user,
-            'edit' => $this->access($me->role->acs_user, 'edit')
+            'edit' => $this->access($me->role->acs_user, 'edit') && $me->role->level > $user->role->level,
         ]);
     }
 

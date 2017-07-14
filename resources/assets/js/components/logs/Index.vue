@@ -2,7 +2,7 @@
     <md-layout class="page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center" v-once>
 
         <paginate :data="logs" :attr="getCurrentAttribute()"></paginate>
-        
+
         <md-table>
             <md-table-header>
                 <md-table-row>
@@ -18,7 +18,7 @@
                 <md-table-row v-for="log in logs.data" :key="logs.id">
 
                     <md-table-cell>
-                        <md-button style="width:100%;text-transform: none;" :href="'/u/'+log.user_id">
+                        <md-button class="btn_width" :href="'/u/'+log.user_id">
                             {{ log.user.name }}
                         </md-button>
                     </md-table-cell>
@@ -27,7 +27,7 @@
                     <md-table-cell>{{ timestamp(log.date) }}</md-table-cell>
                     <!--<md-table-cell v-if="log.ref_id">-->
                     <md-table-cell>
-                        <md-button v-if="log.module != 'auth'" :href="'/u/'+log.user_id" class="md-icon-button">
+                        <md-button v-if="log.module != 'auth'" :href="'/u/'+log.ref_id" class="md-icon-button">
                             <md-icon>remove_red_eye</md-icon>
                         </md-button>
                     </md-table-cell>
@@ -37,6 +37,28 @@
         </md-table>
 
         <paginate :data="logs" :attr="getCurrentAttribute()"></paginate>
+
+        <md-button class="md-fab md-primary btn_fixed_bl" id="fab" @click="openDialog('filters')">
+            <md-icon>filter_list</md-icon>
+        </md-button>
+
+        <md-dialog md-open-from="#fab" md-close-to="#fab" ref="filters">
+            <md-dialog-title>Налаштування фільтрів
+
+                <md-button @click="resetFilters()" class="md-icon-button md-raised md-warn md-mini">
+                    <md-icon>restore</md-icon>
+                </md-button>
+            </md-dialog-title>
+
+            <md-dialog-content>
+                s
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('filters')">Вихід</md-button>
+                <md-button class="md-primary md-raised" @click="setFilters()">Застосувати</md-button>
+            </md-dialog-actions>
+        </md-dialog>
 
     </md-layout>
 </template>
@@ -59,12 +81,24 @@
         created () {
             this.logs = JSON.parse(this.data);
 
-//            console.log(this.logs);
+            console.log(this.logs);
         },
 
         methods: {
             timestamp (date) {
                 return moment(date).format('llll');
+            },
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            closeDialog(ref) {
+                this.$refs[ref].close();
+            },
+            setFilters() {
+                location.href = this.users.path+'?page=1'+this.getNewAttribute();
+            },
+            resetFilters() {
+                location.href = this.users.path;
             },
             getNewAttribute() {
                 return '';
