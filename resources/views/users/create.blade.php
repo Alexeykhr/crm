@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title')Створення користувача@endsection
+@section('title', 'Створення користувача')
 
 @section('content')
 

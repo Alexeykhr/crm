@@ -60,8 +60,8 @@ class User extends Authenticatable
         return $this->belongsTo(Job::class);
     }
 
-    public function log()
+    public function logs()
     {
-        return $this->belongsTo(Log::class);
+        return $this->hasMany(Log::class);
     }
 }

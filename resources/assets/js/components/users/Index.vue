@@ -104,8 +104,8 @@
         <md-dialog md-open-from="#fab" md-close-to="#fab" ref="filters">
             <md-dialog-title>Налаштування фільтрів
 
-                <md-button @click="resetFilters()" class="md-icon-button md-raised md-warn md-mini">
-                    <md-icon>restore</md-icon>
+                <md-button @click="resetFilters()" class="md-icon-button md-raised md-accent md-dense">
+                    <md-icon>undo</md-icon>
                 </md-button>
             </md-dialog-title>
 

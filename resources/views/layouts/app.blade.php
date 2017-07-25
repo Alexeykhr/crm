@@ -10,12 +10,14 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body id="@yield('id')">
 
     <div id="app">
-        <navbar firm="{{ config('app.name', 'CRM') }}"
-                i-user="{{ $me }}"
-        ></navbar>
+        @if (isset($me))
+            <navbar firm="{{ config('app.name', 'CRM') }}"
+                    i-user="{{ $me }}"
+            ></navbar>
+        @endif
 
         @yield('content')
     </div>

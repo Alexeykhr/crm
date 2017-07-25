@@ -74,9 +74,7 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
 
-        $request->session()->flush();
-
-        $request->session()->regenerate();
+        $request->session()->invalidate();
     }
 
     /**
@@ -85,7 +83,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
      *
-     * @return mixed
+     * @return void
      */
     protected function authenticated(Request $request, $user)
     {

@@ -26114,12 +26114,6 @@ __webpack_require__(154);
 window.Vue = __webpack_require__(124);
 window.Vue.use(__webpack_require__(173));
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 window.Vue.material.registerTheme({
     default: {
         primary: {
@@ -26129,6 +26123,12 @@ window.Vue.material.registerTheme({
         accent: 'red'
     }
 });
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
 Vue.component('paginate', __webpack_require__(162));
 
@@ -55670,9 +55670,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-layout', {
     staticClass: "page",
     attrs: {
-      "md-flex-xsmall": "100",
-      "md-flex-small": "50",
-      "md-flex-medium": "100",
       "md-align": "center"
     }
   }, [_c('paginate', {
@@ -55716,13 +55713,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-close-to": "#fab"
     }
   }, [_c('md-dialog-title', [_vm._v("Налаштування фільтрів\n\n            "), _c('md-button', {
-    staticClass: "md-icon-button md-raised md-warn md-mini",
+    staticClass: "md-icon-button md-raised md-accent md-dense",
     on: {
       "click": function($event) {
         _vm.resetFilters()
       }
     }
-  }, [_c('md-icon', [_vm._v("restore")])], 1)], 1), _vm._v(" "), _c('md-dialog-content', [_vm._v("\n            s\n        ")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+  }, [_c('md-icon', [_vm._v("undo")])], 1)], 1), _vm._v(" "), _c('md-dialog-content', [_vm._v("\n            Фільтри\n        ")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
     on: {
       "click": function($event) {
@@ -55940,9 +55937,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-layout', {
     staticClass: "page",
     attrs: {
-      "md-flex-xsmall": "100",
-      "md-flex-small": "50",
-      "md-flex-medium": "100",
       "md-align": "center"
     }
   }, [_c('md-avatar', [_c('img', {
@@ -56071,13 +56065,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-close-to": "#fab"
     }
   }, [_c('md-dialog-title', [_vm._v("Налаштування фільтрів\n\n            "), _c('md-button', {
-    staticClass: "md-icon-button md-raised md-warn md-mini",
+    staticClass: "md-icon-button md-raised md-accent md-dense",
     on: {
       "click": function($event) {
         _vm.resetFilters()
       }
     }
-  }, [_c('md-icon', [_vm._v("restore")])], 1)], 1), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("undo")])], 1)], 1), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "min": "1",
       "value": _vm.count > 100 ? 100 : _vm.count,
@@ -56296,9 +56290,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-layout', {
     staticClass: "page",
     attrs: {
-      "md-flex-xsmall": "100",
-      "md-flex-small": "50",
-      "md-flex-medium": "100",
       "md-align": "center"
     }
   }, [_vm._v("\n    " + _vm._s(_vm.u.name) + "\n")])
