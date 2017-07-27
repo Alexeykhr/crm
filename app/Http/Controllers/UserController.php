@@ -28,7 +28,8 @@ class UserController extends Controller
         $users = User::with(['role', 'job']);
 
         if (!empty($request->q)) {
-            $users->where('name', 'LIKE', '%' . $request->q . '%');
+            $users->where('name', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('nick', 'LIKE', '%' . $request->q . '%');
         }
 
         if (!empty($request->role) && $request->role > 0 && $me->role->level > 5) {

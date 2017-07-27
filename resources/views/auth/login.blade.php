@@ -2,7 +2,7 @@
 
 @section('title', 'Авторизація')
 
-@section('id', 'login')
+@section('body-classes', 'login')
 
 @section('content')
 

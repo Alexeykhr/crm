@@ -27,12 +27,12 @@
                     <md-table-cell>
                         <md-avatar>
                             <!-- Temporary-->
-                            <img :src="user.photo ? user.photo : 'https://randomuser.me/api/portraits/men/'+Math.floor(Math.random() * 100)+'.jpg'" :title="'Користувач: ' + user.name"
-                                 :atl="'Користувач: ' + user.name">
+                            <!--<img :src="user.photo ? user.photo : 'https://randomuser.me/api/portraits/men/'+Math.floor(Math.random() * 100)+'.jpg'" :title="'Користувач: ' + user.name"-->
+                                 <!--:atl="'Користувач: ' + user.name">-->
                             <!--End-->
 
-                            <!--<img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"-->
-                                 <!--:atl="'Користувач: ' + user.name">-->
+                            <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
+                                 :atl="'Користувач: ' + user.name">
                         </md-avatar>
                     </md-table-cell>
 

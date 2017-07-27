@@ -10,7 +10,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body id="@yield('id')">
+<body class="@yield('body-classes')">
 
     <div id="app">
         @if (isset($me))
