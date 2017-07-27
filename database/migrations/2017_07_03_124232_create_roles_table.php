@@ -19,9 +19,13 @@ class CreateRolesTable extends Migration
             $table->tinyInteger('level')->default(1);
             $table->string('background')->default('#e0e0e0');
             $table->string('color')->default('#000');
-            $table->tinyInteger('acs_user')->default(1);
-            $table->tinyInteger('acs_role')->default(1);
-            $table->tinyInteger('acs_job')->default(1);
+            $table->tinyInteger('acs_user')->default(1); // [0, ..,  15]
+            $table->tinyInteger('acs_role')->default(1); // [0, ..,  15]
+            $table->tinyInteger('acs_job')->default(1); // [0, ..,  15]
+            $table->tinyInteger('acs_folder')->default(1); // [0, ..,  15]
+            $table->tinyInteger('acs_file')->default(1); // [0, ..,  15]
+            $table->tinyInteger('acs_profile')->default(1); // [0, 1]
+            $table->tinyInteger('acs_birthday')->default(1); // [0, 1]
             $table->timestamps();
         });
 
@@ -30,9 +34,11 @@ class CreateRolesTable extends Migration
             'level' => 10,
             'background' => '#ef5350',
             'color' => '#fff',
-            'acs_user' => 7,
-            'acs_role' => 7,
-            'acs_job' => 7,
+            'acs_user' => 15,
+            'acs_role' => 15,
+            'acs_job' => 15,
+            'acs_folder' => 15,
+            'acs_file' => 15,
         ]);
 
         DB::table('roles')->insert([

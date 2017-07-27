@@ -99,7 +99,7 @@
             <md-icon>filter_list</md-icon>
         </md-button>
 
-        <md-dialog @close="getUsers(1)" md-open-from="#fab" md-close-to="#fab" ref="filters">
+        <md-dialog @close="getUsers()" md-open-from="#fab" md-close-to="#fab" ref="filters">
             <md-dialog-title>Налаштування фільтрів
 
                 <md-button @click="resetFilters()" class="md-icon-button md-raised md-accent md-dense">
@@ -194,7 +194,7 @@
             },
             closeDialog() {
                 this.$refs['filters'].close();
-                this.getUsers(1);
+                this.getUsers();
             },
             resetFilters () {
                 this.q = '';

@@ -25,23 +25,27 @@ class Controller extends BaseController
     /**
      * Get access.
      *
-     * @param int $level
+     * @param int    $acs
      * @param string $action
      *
      * @return bool
      */
-    protected function access($level, $action)
+    protected function access($acs, $action)
     {
-        if ($action === 'create') {
-            return $level > 3;
+        if ($action === 'view') {
+            return $acs % 2 == 1;
         }
 
         if ($action === 'edit') {
-            return in_array($level, [2, 3, 6, 7]);
+            return in_array($acs % 4, [2, 3]);
         }
 
-        if ($action === 'view') {
-            return $level % 2 == 1;
+        if ($action === 'create') {
+            return in_array($acs % 8, [4, 5, 6, 7]);
+        }
+
+        if ($action === 'delete') {
+            return $acs > 7;
         }
 
         return false;

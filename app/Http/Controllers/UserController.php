@@ -100,6 +100,13 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * For getting users through axios.
+     *
+     * @param Request $request
+     *
+     * @return string json_encode
+     */
     public function getUsers(Request $request)
     {
         $me = Auth::user()->load('role');

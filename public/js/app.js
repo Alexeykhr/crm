@@ -27533,7 +27533,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeDialog: function closeDialog() {
             this.$refs['filters'].close();
-            this.getUsers(1);
+            this.getUsers();
         },
         resetFilters: function resetFilters() {
             this.q = '';
@@ -55790,9 +55790,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-icon', [_vm._v("star")]), _vm._v(" "), _c('span', [_vm._v("Посади")])], 1) : _vm._e(), _vm._v(" "), _c('hr'), _vm._v(" "), _c('md-list-item', {
     attrs: {
-      "href": "/o"
+      "href": "/f"
     }
-  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Об'єкти")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.u.role.level > 6) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Папки")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.u.role.level > 6) ? _c('md-list-item', {
     attrs: {
       "href": "/logs"
     }
@@ -56062,7 +56062,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "close": function($event) {
-        _vm.getUsers(1)
+        _vm.getUsers()
       }
     }
   }, [_c('md-dialog-title', [_vm._v("Налаштування фільтрів\n\n            "), _c('md-button', {

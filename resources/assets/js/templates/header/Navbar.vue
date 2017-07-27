@@ -52,8 +52,8 @@
 
                 <hr>
 
-                <md-list-item href="/o">
-                    <md-icon>folder</md-icon> <span>Об'єкти</span>
+                <md-list-item href="/f">
+                    <md-icon>folder</md-icon> <span>Папки</span>
                 </md-list-item>
 
                 <hr>
