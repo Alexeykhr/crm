@@ -13,8 +13,6 @@ class UserController extends Controller
     /**
      * Get page users with filters.
      *
-     * @param Request $request
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
@@ -26,9 +24,10 @@ class UserController extends Controller
         }
 
         return view('users.index', [
-            'me'    => $me,
-            'jobs'  => Job::get(),
-            'roles' => Role::get(),
+            'me'     => $me,
+            'jobs'   => Job::get(),
+            'roles'  => Role::get(),
+            'canCreate' => $this->access($me->role->acs_user, 'create'),
         ]);
     }
 
@@ -48,15 +47,15 @@ class UserController extends Controller
             return $this->profile();
         }
 
-        $user = User::with(['role', 'job'])
-            ->where('id', '=', $id)
-            ->firstOrFail();
-
         $me->load('role');
 
         if (!$this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
+
+        $user = User::with(['role', 'job'])
+            ->where('id', '=', $id)
+            ->firstOrFail();
 
         return view('users.user', [
             'me'   => $me,
@@ -115,15 +114,14 @@ class UserController extends Controller
             return abort(404);
         }
 
-        $users = User::select('id', 'name', 'nick', 'photo', 'job_id', 'active', 'delete',
-            'email', 'work_email', 'phone', 'work_phone')
-            ->with('job');
+        $users = User::select('id', 'name', 'nick', 'photo', 'active', 'delete',
+            'email', 'work_email', 'phone', 'work_phone');
 
         if (!empty($request->q)) {
             $users->where('name', 'LIKE', '%' . $request->q . '%');
         }
 
-        if ($me->role->level > 5) {
+        if ($this->access($me->role->acs_role, 'view')) {
             $users->addSelect('role_id')->with('role');
 
             if (!empty($request->role) && $request->role > 0) {
@@ -131,8 +129,12 @@ class UserController extends Controller
             }
         }
 
-        if (!empty($request->job) && $request->job > 0) {
-            $users->where('job_id', '=', (int) $request->job);
+        if ($this->access($me->role->acs_job, 'view')) {
+            $users->addSelect('job_id')->with('job');
+
+            if (!empty($request->job) && $request->job > 0) {
+                $users->where('job_id', '=', (int) $request->job);
+            }
         }
 
         if (!empty($request->active)) {
@@ -145,7 +147,7 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 25;
+        $count = (int) $request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 25;
 
         return json_encode($users->paginate($count));
     }

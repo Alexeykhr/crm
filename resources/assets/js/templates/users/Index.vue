@@ -13,8 +13,8 @@
                 <md-table-row>
                     <md-table-head>Фото</md-table-head>
                     <md-table-head>Користувач</md-table-head>
-                    <md-table-head v-if="me.role.level > 5">Посада</md-table-head>
-                    <md-table-head>Роль</md-table-head>
+                    <md-table-head v-if="me.role.acs_job">Посада</md-table-head>
+                    <md-table-head v-if="me.role.acs_role">Роль</md-table-head>
                     <md-table-head>Контакти</md-table-head>
                     <md-table-head></md-table-head>
                 </md-table-row>
@@ -39,11 +39,11 @@
                         <span v-if="user.active">{{ user.nick }}</span>
                     </md-table-cell>
 
-                    <md-table-cell>
+                    <md-table-cell v-if="me.role.acs_job">
                         <span v-if="user.job_id">{{ user.job.title }}</span>
                     </md-table-cell>
 
-                    <md-table-cell v-if="me.role.level > 5">
+                    <md-table-cell v-if="me.role.acs_role">
                         <md-chip v-if="user.delete">Видалений</md-chip>
                         <md-chip v-else-if="!user.active">Немає доступ</md-chip>
                         <md-chip v-else :style="'color:' + user.role.color + ';background:' + user.role.background + ';'">
@@ -91,7 +91,7 @@
 
         <pagination :data="users" :func="getUsers"></pagination>
 
-        <md-button href="/u/create" class="md-fab btn_fixed_br">
+        <md-button v-if="canCreate" href="/u/create" class="md-fab btn_fixed_br">
             <md-icon>add</md-icon>
         </md-button>
 
@@ -113,7 +113,7 @@
                     <md-input min="1" :value="count > 100 ? 100 : count"
                               max="100" type="number" v-model="count"></md-input>
                 </md-input-container>
-                <md-input-container v-if="me.role.level > 5">
+                <md-input-container v-if="me.role.acs_role">
                     <label for="role">Роль</label>
                     <md-select name="role" id="role" v-model="role">
                         <md-option :key="-1" :value="-1">Всі</md-option>
@@ -124,7 +124,7 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container v-if="me.role.acs_job">
                     <label for="job">Посада</label>
                     <md-select name="job" id="job" v-model="job">
                         <md-option :key="-1" :value="-1">Всі</md-option>
@@ -159,7 +159,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'inJobs', 'inRoles',
+            'iUser', 'inJobs', 'inRoles', 'canCreate',
         ],
 
         data () {

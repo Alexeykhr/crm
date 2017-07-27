@@ -7,6 +7,7 @@
     <users i-user="{{ json_encode($me) }}"
            in-roles="{{ json_encode($roles) }}"
            in-jobs="{{ json_encode($jobs) }}"
+           can-create="{{ $canCreate }}"
     ></users>
 
 @endsection

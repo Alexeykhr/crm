@@ -27500,7 +27500,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inJobs', 'inRoles'],
+    props: ['iUser', 'inJobs', 'inRoles', 'canCreate'],
 
     data: function data() {
         return {
@@ -55991,7 +55991,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.users,
       "func": _vm.getUsers
     }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.level > 5) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Роль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
+  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
     return _c('md-table-row', {
       key: user.id
     }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
@@ -56000,7 +56000,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": 'Користувач: ' + user.name,
         "atl": 'Користувач: ' + user.name
       }
-    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.level > 5) ? _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
+    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
       style: ('color:' + user.role.color + ';background:' + user.role.background + ';')
     }, [_vm._v("\n                        " + _vm._s(user.role.title) + "\n                    ")])], 1) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
@@ -56039,12 +56039,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.users,
       "func": _vm.getUsers
     }
-  }), _vm._v(" "), _c('md-button', {
+  }), _vm._v(" "), (_vm.canCreate) ? _c('md-button', {
     staticClass: "md-fab btn_fixed_br",
     attrs: {
       "href": "/u/create"
     }
-  }, [_c('md-icon', [_vm._v("add")])], 1), _vm._v(" "), _c('md-button', {
+  }, [_c('md-icon', [_vm._v("add")])], 1) : _vm._e(), _vm._v(" "), _c('md-button', {
     staticClass: "md-fab md-primary btn_fixed_bl",
     attrs: {
       "id": "fab"
@@ -56086,7 +56086,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "count"
     }
-  })], 1), _vm._v(" "), (_vm.me.role.level > 5) ? _c('md-input-container', [_c('label', {
+  })], 1), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-input-container', [_c('label', {
     attrs: {
       "for": "role"
     }
@@ -56114,7 +56114,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": role.id
       }
     }, [_vm._v("\n                        " + _vm._s(role.title) + "\n                    ")])
-  })], 2)], 1) : _vm._e(), _vm._v(" "), _c('md-input-container', [_c('label', {
+  })], 2)], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-input-container', [_c('label', {
     attrs: {
       "for": "job"
     }
@@ -56142,7 +56142,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": job.id
       }
     }, [_vm._v("\n                        " + _vm._s(job.title) + "\n                    ")])
-  })], 2)], 1), _vm._v(" "), _c('div', [_c('span', [_vm._v("Має доступ:")]), _vm._v(" "), _c('md-radio', {
+  })], 2)], 1) : _vm._e(), _vm._v(" "), _c('div', [_c('span', [_vm._v("Має доступ:")]), _vm._v(" "), _c('md-radio', {
     attrs: {
       "name": "active",
       "md-value": "1"
