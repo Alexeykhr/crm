@@ -112,17 +112,16 @@ class UserController extends Controller
             'email', 'work_email', 'phone', 'work_phone')
             ->with('job');
 
+        if (!empty($request->q)) {
+            $users->where('name', 'LIKE', '%' . $request->q . '%');
+        }
+
         if ($me->role->level > 5) {
             $users->addSelect('role_id')->with('role');
 
             if (!empty($request->role) && $request->role > 0) {
                 $users->where('role_id', '=', (int) $request->role);
             }
-        }
-
-        if (!empty($request->q)) {
-            $users->where('name', 'LIKE', '%' . $request->q . '%')
-                ->orWhere('nick', 'LIKE', '%' . $request->q . '%');
         }
 
         if (!empty($request->job) && $request->job > 0) {

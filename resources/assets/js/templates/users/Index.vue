@@ -95,7 +95,7 @@
             <md-icon>add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-primary btn_fixed_bl" id="fab" @click="openDialog('filters')">
+        <md-button class="md-fab md-primary btn_fixed_bl" id="fab" @click="openDialog()">
             <md-icon>filter_list</md-icon>
         </md-button>
 
@@ -150,7 +150,7 @@
             </md-dialog-content>
 
             <md-dialog-actions>
-                <md-button class="md-primary md-raised" @click="closeDialog('filters')">Задіяти фільтри</md-button>
+                <md-button class="md-primary md-raised" @click="closeDialog()">Задіяти фільтри</md-button>
             </md-dialog-actions>
         </md-dialog>
     </md-layout>
@@ -189,17 +189,23 @@
         },
 
         methods: {
-            openDialog(ref) {
-                this.$refs[ref].open();
+            openDialog() {
+                this.$refs['filters'].open();
             },
-            closeDialog(ref) {
-                this.$refs[ref].close();
+            closeDialog() {
+                this.$refs['filters'].close();
                 this.getUsers(1);
             },
             resetFilters () {
-                window.location = "/u";
+                this.q = '';
+                this.count = 25;
+                this.role = -1;
+                this.job = -1;
+                this.active = 0;
+                this.del = -1;
+                this.closeDialog();
             },
-            getUsers (page) {
+            getUsers (page = 1) {
                 axios.get('/users/get', {
                     params: {
                         count: this.count,

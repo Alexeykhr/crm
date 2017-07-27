@@ -27528,18 +27528,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-        openDialog: function openDialog(ref) {
-            this.$refs[ref].open();
+        openDialog: function openDialog() {
+            this.$refs['filters'].open();
         },
-        closeDialog: function closeDialog(ref) {
-            this.$refs[ref].close();
+        closeDialog: function closeDialog() {
+            this.$refs['filters'].close();
             this.getUsers(1);
         },
         resetFilters: function resetFilters() {
-            window.location = "/u";
+            this.q = '';
+            this.count = 25;
+            this.role = -1;
+            this.job = -1;
+            this.active = 0;
+            this.del = -1;
+            this.closeDialog();
         },
-        getUsers: function getUsers(page) {
+        getUsers: function getUsers() {
             var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('/users/get', {
                 params: {
@@ -56043,7 +56051,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.openDialog('filters')
+        _vm.openDialog()
       }
     }
   }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-dialog', {
@@ -56210,7 +56218,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-primary md-raised",
     on: {
       "click": function($event) {
-        _vm.closeDialog('filters')
+        _vm.closeDialog()
       }
     }
   }, [_vm._v("Задіяти фільтри")])], 1)], 1)], 1)
