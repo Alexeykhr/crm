@@ -26,7 +26,7 @@ window.Vue.material.registerTheme({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('paginate', require('./templates/parts/Pagination.vue'));
+Vue.component('pagination', require('./templates/parts/Pagination.vue'));
 
 Vue.component('login', require('./templates/auth/Login.vue'));
 Vue.component('navbar', require('./templates/header/Navbar.vue'));

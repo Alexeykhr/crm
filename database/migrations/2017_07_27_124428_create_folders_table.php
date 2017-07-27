@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateObjectsDocTable extends Migration
+class CreateFoldersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateObjectsDocTable extends Migration
      */
     public function up()
     {
-        Schema::create('objects_doc', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('object_id');
-            $table->integer('item_id');
+            $table->integer('parent_id');
+            $table->string('title');
             $table->string('desc');
-            $table->string('file');
+            $table->smallInteger('status');
+            $table->smallInteger('delete');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateObjectsDocTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('objects_doc');
+        Schema::dropIfExists('folders');
     }
 }

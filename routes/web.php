@@ -11,3 +11,6 @@ Route::post('/u/{id}', 'UserController@save');
 Route::get('/me', 'UserController@profile');
 
 Route::get('/logs', 'LogController@index');
+
+// ...
+Route::get('/users/get', 'UserController@getUsers');

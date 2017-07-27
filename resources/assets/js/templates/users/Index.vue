@@ -1,22 +1,20 @@
 <template>
-    <md-layout class="page" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="100" md-align="center">
-        <form novalidate v-on:submit.prevent="setFilters()">
-            <md-input-container md-clearable>
-                <md-icon>search</md-icon>
-                <label>Пошук працівника</label>
-                <md-input v-model="g_q" autofocus></md-input>
-            </md-input-container>
-        </form>
+    <md-layout class="page">
+        <md-input-container md-clearable>
+            <md-icon>search</md-icon>
+            <label>Пошук працівника</label>
+            <md-input v-model="q" autofocus></md-input>
+        </md-input-container>
 
-        <paginate :data="users" :attr="getCurrentAttribute()"></paginate>
+        <pagination :data="users" :func="getUsers"></pagination>
 
-        <md-table v-once>
+        <md-table>
             <md-table-header>
                 <md-table-row>
                     <md-table-head>Фото</md-table-head>
                     <md-table-head>Користувач</md-table-head>
-                    <md-table-head>Посада</md-table-head>
-                    <md-table-head v-if="me.role.level > 5">Роль</md-table-head>
+                    <md-table-head v-if="me.role.level > 5">Посада</md-table-head>
+                    <md-table-head>Роль</md-table-head>
                     <md-table-head>Контакти</md-table-head>
                     <md-table-head></md-table-head>
                 </md-table-row>
@@ -91,7 +89,7 @@
             </md-table-body>
         </md-table>
 
-        <paginate :data="users" :attr="getCurrentAttribute()"></paginate>
+        <pagination :data="users" :func="getUsers"></pagination>
 
         <md-button href="/u/create" class="md-fab btn_fixed_br">
             <md-icon>add</md-icon>
@@ -101,7 +99,7 @@
             <md-icon>filter_list</md-icon>
         </md-button>
 
-        <md-dialog md-open-from="#fab" md-close-to="#fab" ref="filters">
+        <md-dialog @close="getUsers(1)" md-open-from="#fab" md-close-to="#fab" ref="filters">
             <md-dialog-title>Налаштування фільтрів
 
                 <md-button @click="resetFilters()" class="md-icon-button md-raised md-accent md-dense">
@@ -113,11 +111,11 @@
                 <md-input-container>
                     <label>Кількість працівників</label>
                     <md-input min="1" :value="count > 100 ? 100 : count"
-                              max="100" type="number" v-model="g_count"></md-input>
+                              max="100" type="number" v-model="count"></md-input>
                 </md-input-container>
                 <md-input-container v-if="me.role.level > 5">
                     <label for="role">Роль</label>
-                    <md-select name="role" id="role" v-model="g_role">
+                    <md-select name="role" id="role" v-model="role">
                         <md-option :key="-1" :value="-1">Всі</md-option>
                         <md-option v-for="role in roles"
                                    :key="role.id"
@@ -128,7 +126,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label for="job">Посада</label>
-                    <md-select name="job" id="job" v-model="g_job">
+                    <md-select name="job" id="job" v-model="job">
                         <md-option :key="-1" :value="-1">Всі</md-option>
                         <md-option v-for="job in jobs"
                                    :key="job.id"
@@ -139,21 +137,20 @@
                 </md-input-container>
                 <div>
                     <span>Має доступ:</span>
-                    <md-radio v-model="g_active" name="active" md-value="1">Так</md-radio>
-                    <md-radio v-model="g_active" name="active" md-value="0">-</md-radio>
-                    <md-radio v-model="g_active" name="active" md-value="-1">Ні</md-radio>
+                    <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
+                    <md-radio v-model="active" name="active" md-value="0">-</md-radio>
+                    <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
                 </div>
                 <div>
                     <span>Видалений:</span>
-                    <md-radio v-model="g_delete" name="delete" md-value="1">Так</md-radio>
-                    <md-radio v-model="g_delete" name="delete" md-value="0">-</md-radio>
-                    <md-radio v-model="g_delete" name="delete" md-value="-1">Ні</md-radio>
+                    <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
+                    <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
+                    <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
                 </div>
             </md-dialog-content>
 
             <md-dialog-actions>
-                <md-button class="md-primary" @click="closeDialog('filters')">Вихід</md-button>
-                <md-button class="md-primary md-raised" @click="setFilters()">Застосувати</md-button>
+                <md-button class="md-primary md-raised" @click="closeDialog('filters')">Задіяти фільтри</md-button>
             </md-dialog-actions>
         </md-dialog>
     </md-layout>
@@ -162,8 +159,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'inUsers', 'inRoles', 'inJobs',
-            'count', 'role', 'job', 'active', 'delete', 'q',
+            'iUser', 'inJobs', 'inRoles',
         ],
 
         data () {
@@ -173,27 +169,23 @@
                 roles: [],
                 jobs: [],
 
-                g_q: null,
-                g_count: null,
-                g_role: null,
-                g_active: null,
-                g_delete: null,
+                q: '',
+                count: 25,
+                role: -1,
+                job: -1,
+                active: 0,
+                del: -1,
             }
         },
 
         created () {
             this.me = JSON.parse(this.iUser);
-            this.users = JSON.parse(this.inUsers);
             this.roles = JSON.parse(this.inRoles);
             this.jobs = JSON.parse(this.inJobs);
+        },
 
-            this.g_count = this.count;
-            this.g_active = this.active;
-            this.g_delete = this.delete;
-            this.g_q = this.q;
-
-            this.g_role = this.roles[this.role - 1] != null ? this.roles[this.role - 1].id : -1;
-            this.g_job = this.jobs[this.job - 1] != null ? this.jobs[this.job - 1].id : -1;
+        mounted () {
+            this.getUsers();
         },
 
         methods: {
@@ -202,31 +194,31 @@
             },
             closeDialog(ref) {
                 this.$refs[ref].close();
+                this.getUsers(1);
             },
-            setFilters() {
-                location.href = this.users.path+'?page=1'+this.getNewAttribute();
+            resetFilters () {
+                window.location = "/u";
             },
-            resetFilters() {
-                location.href = this.users.path;
+            getUsers (page) {
+                axios.get('/users/get', {
+                    params: {
+                        count: this.count,
+                        role: this.role,
+                        job: this.job,
+                        del: this.del,
+                        active: this.active,
+                        q: this.q,
+                        page: page,
+                    }
+                })
+                .then(res => this.users = res.data);
             },
-            getNewAttribute() {
-                this.g_count = this.g_count > 100 ? 100 : (this.g_count < 1 ? 10 : this.g_count);
+        },
 
-                let role = this.me.role.level > 5 ? '&role='+this.g_role : '';
-
-                return '&count='+this.g_count+role
-                    +'&active='+this.g_active+'&delete='+this.g_delete
-                    +'&job='+this.g_job+'&q='+this.g_q;
-            },
-            getCurrentAttribute() {
-                this.count = this.count > 100 ? 100 : (this.count < 1 ? 10 : this.count);
-
-                let role = this.me.role.level > 5 ? '&role='+this.role : '';
-
-                return '&count='+this.count+role
-                    +'&active='+this.active+'&delete='+this.delete
-                    +'&job='+this.job+'&q='+this.q;
-            },
+        watch: {
+            q () {
+                this.getUsers();
+            }
         }
     }
 </script>

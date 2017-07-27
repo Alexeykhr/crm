@@ -17,7 +17,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
         $me = Auth::user()->load('role');
 
@@ -25,38 +25,10 @@ class UserController extends Controller
             return abort(404);
         }
 
-        $users = User::with(['role', 'job']);
-
-        if (!empty($request->q)) {
-            $users->where('name', 'LIKE', '%' . $request->q . '%')
-                ->orWhere('nick', 'LIKE', '%' . $request->q . '%');
-        }
-
-        if (!empty($request->role) && $request->role > 0 && $me->role->level > 5) {
-            $users->where('role_id', '=', (int) $request->role);
-        }
-
-        if (!empty($request->job) && $request->job > 0) {
-            $users->where('job_id', '=', (int) $request->job);
-        }
-
-        if (!empty($request->active)) {
-            $users->where('active', '=', $request->active > 0);
-        }
-
-        if (!empty($request->delete)) {
-            $users->where('delete', '=', $request->delete > 0);
-        } elseif (!isset($request->delete)) {
-            $users->where('delete', '=', 0);
-        }
-
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 20;
-
         return view('users.index', [
             'me'    => $me,
-            'users' => $users->paginate($count),
-            'roles' => Role::get(),
             'jobs'  => Job::get(),
+            'roles' => Role::get(),
         ]);
     }
 
@@ -126,5 +98,49 @@ class UserController extends Controller
             'roles' => Role::get(),
             'jobs'  => Job::get(),
         ]);
+    }
+
+    public function getUsers(Request $request)
+    {
+        $me = Auth::user()->load('role');
+
+        if (!$this->access($me->role->acs_user, 'view')) {
+            return abort(404);
+        }
+
+        $users = User::select('id', 'name', 'nick', 'photo', 'job_id', 'active', 'delete',
+            'email', 'work_email', 'phone', 'work_phone')
+            ->with('job');
+
+        if ($me->role->level > 5) {
+            $users->addSelect('role_id')->with('role');
+
+            if (!empty($request->role) && $request->role > 0) {
+                $users->where('role_id', '=', (int) $request->role);
+            }
+        }
+
+        if (!empty($request->q)) {
+            $users->where('name', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('nick', 'LIKE', '%' . $request->q . '%');
+        }
+
+        if (!empty($request->job) && $request->job > 0) {
+            $users->where('job_id', '=', (int) $request->job);
+        }
+
+        if (!empty($request->active)) {
+            $users->where('active', '=', $request->active > 0);
+        }
+
+        if (!empty($request->del)) {
+            $users->where('delete', '=', $request->del > 0);
+        } elseif (!isset($request->del)) {
+            $users->where('delete', '=', 0);
+        }
+
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 25;
+
+        return json_encode($users->paginate($count));
     }
 }
