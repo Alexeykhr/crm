@@ -54,13 +54,12 @@ class UserController extends Controller
         }
 
         $user = User::with(['role', 'job'])
-            ->where('id', '=', $id)
-            ->firstOrFail();
+            ->findOrFail($id);
 
-        return view('users.user', [
-            'me'   => $me,
-            'user' => $user,
-            'edit' => $this->access($me->role->acs_user, 'edit') && $me->role->level > $user->role->level,
+        return view('users.profile', [
+            'me'      => $me,
+            'user'    => $user,
+            'canEdit' => $this->access($me->role->acs_user, 'edit') && $me->role->level > $user->role->level,
         ]);
     }
 
@@ -73,9 +72,9 @@ class UserController extends Controller
     {
         $me = Auth::user()->load('role', 'job');
 
-        return view('users.user', [
-            'me'   => $me,
-            'edit' => $me->role->level > 4
+        return view('users.profile', [
+            'me'      => $me,
+            'canEdit' => (bool)$me->role->acs_profile
         ]);
     }
 
@@ -94,8 +93,8 @@ class UserController extends Controller
 
         return view('users.create', [
             'me'    => $me,
-            'roles' => Role::get(),
             'jobs'  => Job::get(),
+            'roles' => Role::get(),
         ]);
     }
 

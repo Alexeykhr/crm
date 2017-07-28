@@ -1,23 +1,32 @@
 <template>
     <md-layout class="page" md-align="center">
-        {{ u.name }}
+        {{ me.name }}
     </md-layout>
 </template>
 
 <script>
     export default {
         props: [
-            'iUser',
+            'iUser', 'user', 'canEdit',
         ],
 
         data () {
             return {
+                me: null,
                 u: null,
+                isProfile: true,
             }
         },
 
         created () {
-            this.u = JSON.parse(this.iUser);
+            this.me = JSON.parse(this.iUser);
+
+            if (this.user) {
+                this.u = JSON.parse(this.user);
+                this.isProfile = false;
+            }
+
+            console.log(this.canEdit);
         },
     }
 </script>

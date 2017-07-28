@@ -23,7 +23,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Get access.
+     * Get access [0-15].
      *
      * @param int    $acs
      * @param string $action

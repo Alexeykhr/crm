@@ -26136,7 +26136,7 @@ Vue.component('login', __webpack_require__(159));
 Vue.component('navbar', __webpack_require__(160));
 
 Vue.component('users', __webpack_require__(164));
-Vue.component('profile', __webpack_require__(165));
+Vue.component('profile', __webpack_require__(183));
 Vue.component('user-create', __webpack_require__(163));
 
 Vue.component('logs', __webpack_require__(161));
@@ -27573,32 +27573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 153 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser'],
-
-    data: function data() {
-        return {
-            u: null
-        };
-    },
-    created: function created() {
-        this.u = JSON.parse(this.iUser);
-    }
-});
-
-/***/ }),
+/* 153 */,
 /* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55456,7 +55431,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(147),
   /* template */
-  __webpack_require__(170),
+  __webpack_require__(169),
   /* scopeId */
   null,
   /* cssModules */
@@ -55490,7 +55465,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(148),
   /* template */
-  __webpack_require__(167),
+  __webpack_require__(166),
   /* scopeId */
   null,
   /* cssModules */
@@ -55524,7 +55499,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(149),
   /* template */
-  __webpack_require__(172),
+  __webpack_require__(171),
   /* scopeId */
   null,
   /* cssModules */
@@ -55558,7 +55533,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(150),
   /* template */
-  __webpack_require__(169),
+  __webpack_require__(168),
   /* scopeId */
   null,
   /* cssModules */
@@ -55592,7 +55567,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(151),
   /* template */
-  __webpack_require__(168),
+  __webpack_require__(167),
   /* scopeId */
   null,
   /* cssModules */
@@ -55626,7 +55601,7 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(152),
   /* template */
-  __webpack_require__(171),
+  __webpack_require__(170),
   /* scopeId */
   null,
   /* cssModules */
@@ -55653,61 +55628,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(153),
-  /* template */
-  __webpack_require__(166),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\users\\Profile.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Profile.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-20d46eb9", Component.options)
-  } else {
-    hotAPI.reload("data-v-20d46eb9", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 165 */,
 /* 166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-layout', {
-    staticClass: "page",
-    attrs: {
-      "md-align": "center"
-    }
-  }, [_vm._v("\n    " + _vm._s(_vm.u.name) + "\n")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-20d46eb9", module.exports)
-  }
-}
-
-/***/ }),
-/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -55811,7 +55733,7 @@ if (false) {
 }
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -55838,7 +55760,7 @@ if (false) {
 }
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -55885,7 +55807,7 @@ if (false) {
 }
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -55965,7 +55887,7 @@ if (false) {
 }
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -56232,7 +56154,7 @@ if (false) {
 }
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -56315,6 +56237,7 @@ if (false) {
 }
 
 /***/ }),
+/* 172 */,
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56338,6 +56261,102 @@ attrs:{"md-src":t.imageSrc}}):n("i",{staticClass:"md-icon",class:[t.themeClass,t
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
+
+/***/ }),
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['iUser', 'user', 'canEdit'],
+
+    data: function data() {
+        return {
+            me: null,
+            u: null,
+            isProfile: true
+        };
+    },
+    created: function created() {
+        this.me = JSON.parse(this.iUser);
+
+        if (this.user) {
+            this.u = JSON.parse(this.user);
+            this.isProfile = false;
+        }
+
+        console.log(this.canEdit);
+    }
+});
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(182),
+  /* template */
+  __webpack_require__(184),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\users\\Profile.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Profile.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-20d46eb9", Component.options)
+  } else {
+    hotAPI.reload("data-v-20d46eb9", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-layout', {
+    staticClass: "page",
+    attrs: {
+      "md-align": "center"
+    }
+  }, [_vm._v("\n    " + _vm._s(_vm.me.name) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-20d46eb9", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
