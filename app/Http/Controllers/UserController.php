@@ -23,9 +23,22 @@ class UserController extends Controller
             return abort(404);
         }
 
+        $users = User::select('id', 'name', 'nick', 'photo', 'active', 'delete',
+            'email', 'work_email', 'phone', 'work_phone')
+            ->where('delete', '=', 0);
+
+        if ($this->access($me->role->acs_role, 'view')) {
+            $users->addSelect('role_id')->with('role');
+        }
+
+        if ($this->access($me->role->acs_job, 'view')) {
+            $users->addSelect('job_id')->with('job');
+        }
+
         return view('users.index', [
             'me'     => $me,
             'jobs'   => Job::get(),
+            'users'  => $users->paginate(25),
             'roles'  => Role::get(),
             'canCreate' => $this->access($me->role->acs_user, 'create'),
         ]);

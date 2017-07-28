@@ -14,9 +14,9 @@
 
                 <md-menu md-align-trigger>
                     <md-button md-menu-trigger>
-                        <span class="h_name">{{ u.name }}</span>
+                        <span class="h_name">{{ me.name }}</span>
                         <md-avatar>
-                            <img :src="u.photo ? u.photo : '/img/user.png'" :alt="'Користувач: ' + u.name">
+                            <img :src="me.photo ? me.photo : '/img/user.png'" :alt="'Користувач: ' + me.name">
                         </md-avatar>
                     </md-button>
 
@@ -38,15 +38,15 @@
                     <md-icon>account_circle</md-icon> <span>Мій профіль</span>
                 </md-list-item>
 
-                <md-list-item v-if="u.role.acs_user % 2 == 1" href="/u">
+                <md-list-item v-if="me.role.acs_user % 2 == 1" href="/u">
                     <md-icon>people</md-icon> <span>Користувачі</span>
                 </md-list-item>
 
-                <md-list-item v-if="u.role.acs_role % 2 == 1" href="/r">
+                <md-list-item v-if="me.role.acs_role % 2 == 1" href="/r">
                     <md-icon>label</md-icon> <span>Ролі</span>
                 </md-list-item>
 
-                <md-list-item v-if="u.role.acs_job % 2 == 1" href="/j">
+                <md-list-item v-if="me.role.acs_job % 2 == 1" href="/j">
                     <md-icon>star</md-icon> <span>Посади</span>
                 </md-list-item>
 
@@ -58,11 +58,11 @@
 
                 <hr>
 
-                <md-list-item v-if="u.role.level > 6" href="/logs">
+                <md-list-item v-if="me.role.acs_log" href="/logs">
                     <md-icon>event_note</md-icon> <span>Журнал</span>
                 </md-list-item>
 
-                <md-list-item v-if="u.role.level > 2" href="/birthday">
+                <md-list-item v-if="me.role.acs_birthday" href="/birthday">
                     <md-icon>event</md-icon> <span>Дні народження</span>
                 </md-list-item>
             </md-list>
@@ -78,12 +78,12 @@
 
         data () {
             return {
-                u: null,
+                me: null,
             }
         },
 
         created () {
-            this.u = JSON.parse(this.iUser);
+            this.me = JSON.parse(this.iUser);
         },
 
         methods: {

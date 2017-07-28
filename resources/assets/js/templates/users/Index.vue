@@ -150,7 +150,7 @@
             </md-dialog-content>
 
             <md-dialog-actions>
-                <md-button class="md-primary md-raised" @click="closeDialog()">Задіяти фільтри</md-button>
+                <md-button class="md-primary md-raised" @click="closeDialog()">Закрити вікно</md-button>
             </md-dialog-actions>
         </md-dialog>
     </md-layout>
@@ -159,7 +159,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'inJobs', 'inRoles', 'canCreate',
+            'iUser', 'inUsers', 'inJobs', 'inRoles', 'canCreate',
         ],
 
         data () {
@@ -180,12 +180,9 @@
 
         created () {
             this.me = JSON.parse(this.iUser);
-            this.roles = JSON.parse(this.inRoles);
             this.jobs = JSON.parse(this.inJobs);
-        },
-
-        mounted () {
-            this.getUsers();
+            this.roles = JSON.parse(this.inRoles);
+            this.users = JSON.parse(this.inUsers);
         },
 
         methods: {

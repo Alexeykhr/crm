@@ -25,6 +25,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'active' => mt_rand(0, 1),
         'delete' => mt_rand(0, 1),
         'phone' => $faker->phoneNumber,
+        'hire' => $faker->dateTime,
+        'birth' => $faker->dateTime,
         'work_phone' => $faker->phoneNumber,
         'password' => $password ?: $password = bcrypt('secret'),
     ];

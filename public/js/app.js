@@ -27133,11 +27133,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            u: null
+            me: null
         };
     },
     created: function created() {
-        this.u = JSON.parse(this.iUser);
+        this.me = JSON.parse(this.iUser);
     },
 
 
@@ -27500,7 +27500,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inJobs', 'inRoles', 'canCreate'],
+    props: ['iUser', 'inUsers', 'inJobs', 'inRoles', 'canCreate'],
 
     data: function data() {
         return {
@@ -27519,11 +27519,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.me = JSON.parse(this.iUser);
-        this.roles = JSON.parse(this.inRoles);
         this.jobs = JSON.parse(this.inJobs);
-    },
-    mounted: function mounted() {
-        this.getUsers();
+        this.roles = JSON.parse(this.inRoles);
+        this.users = JSON.parse(this.inUsers);
     },
 
 
@@ -55671,10 +55669,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "h_name"
-  }, [_vm._v(_vm._s(_vm.u.name))]), _vm._v(" "), _c('md-avatar', [_c('img', {
+  }, [_vm._v(_vm._s(_vm.me.name))]), _vm._v(" "), _c('md-avatar', [_c('img', {
     attrs: {
-      "src": _vm.u.photo ? _vm.u.photo : '/img/user.png',
-      "alt": 'Користувач: ' + _vm.u.name
+      "src": _vm.me.photo ? _vm.me.photo : '/img/user.png',
+      "alt": 'Користувач: ' + _vm.me.name
     }
   })])], 1), _vm._v(" "), _c('md-menu-content', [_c('md-menu-item', {
     attrs: {
@@ -55698,15 +55696,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/me"
     }
-  }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.u.role.acs_user % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.me.role.acs_user % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/u"
     }
-  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Користувачі")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.acs_role % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Користувачі")])], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/r"
     }
-  }, [_c('md-icon', [_vm._v("label")]), _vm._v(" "), _c('span', [_vm._v("Ролі")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.acs_job % 2 == 1) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("label")]), _vm._v(" "), _c('span', [_vm._v("Ролі")])], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_job % 2 == 1) ? _c('md-list-item', {
     attrs: {
       "href": "/j"
     }
@@ -55714,11 +55712,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "/f"
     }
-  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Папки")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.u.role.level > 6) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("folder")]), _vm._v(" "), _c('span', [_vm._v("Папки")])], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.me.role.acs_log) ? _c('md-list-item', {
     attrs: {
       "href": "/logs"
     }
-  }, [_c('md-icon', [_vm._v("event_note")]), _vm._v(" "), _c('span', [_vm._v("Журнал")])], 1) : _vm._e(), _vm._v(" "), (_vm.u.role.level > 2) ? _c('md-list-item', {
+  }, [_c('md-icon', [_vm._v("event_note")]), _vm._v(" "), _c('span', [_vm._v("Журнал")])], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_birthday) ? _c('md-list-item', {
     attrs: {
       "href": "/birthday"
     }
@@ -56143,7 +56141,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog()
       }
     }
-  }, [_vm._v("Задіяти фільтри")])], 1)], 1)], 1)
+  }, [_vm._v("Закрити вікно")])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
