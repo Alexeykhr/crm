@@ -45,11 +45,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception->getMessage() === 'Unauthenticated.')
-            return redirect('/login');
-
-        return redirect('/');
-//        return parent::render($request, $exception);
+//        if ($exception->getMessage() === 'Unauthenticated.')
+//            return redirect('/login');
+//
+//        return redirect('/');
+        return parent::render($request, $exception);
     }
 
     /**

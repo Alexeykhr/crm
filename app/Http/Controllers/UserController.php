@@ -17,14 +17,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $me = Auth::user()->load('role');
+        $me = Auth::user();
 
-        if (!$this->access($me->role->acs_user, 'view')) {
+        if (! $this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
 
-        $users = User::select('id', 'name', 'nick', 'photo', 'active', 'delete',
-            'email', 'work_email', 'phone', 'work_phone')
+        $users = User::select($this->getPublicColumnByUser())
             ->where('delete', '=', 0);
 
         if ($this->access($me->role->acs_role, 'view')) {
@@ -36,10 +35,10 @@ class UserController extends Controller
         }
 
         return view('users.index', [
-            'me'     => $me,
-            'jobs'   => Job::get(),
-            'users'  => $users->paginate(25),
-            'roles'  => Role::get(),
+            'me'        => $me,
+            'jobs'      => Job::get(),
+            'users'     => $users->paginate(25),
+            'roles'     => Role::get(),
             'canCreate' => $this->access($me->role->acs_user, 'create'),
         ]);
     }
@@ -60,19 +59,27 @@ class UserController extends Controller
             return $this->profile();
         }
 
-        $me->load('role');
-
-        if (!$this->access($me->role->acs_user, 'view')) {
+        if (! $this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
 
-        $user = User::with(['role', 'job'])
-            ->findOrFail($id);
+        $user = User::select($this->getPublicColumnByUser())
+            ->where('id', '=', $id);
+
+        if ($this->access($me->role->acs_role, 'view')) {
+            $user->addSelect('role_id')->with('role');
+        }
+
+        if ($this->access($me->role->acs_job, 'view')) {
+            $user->addSelect('job_id')->with('job');
+        }
+
+        $user = $user->firstOrFail();
 
         return view('users.profile', [
             'me'      => $me,
             'user'    => $user,
-            'canEdit' => $this->access($me->role->acs_user, 'edit') && $me->role->level > $user->role->level,
+            'canEdit' => $this->access($me->role->acs_user, 'edit') && $user->role && $me->role->level >= $user->role->level,
         ]);
     }
 
@@ -83,7 +90,11 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $me = Auth::user()->load('role', 'job');
+        $me = Auth::user();
+
+        if ($this->access($me->role->acs_job, 'view')) {
+            $me->load('job');
+        }
 
         return view('users.profile', [
             'me'      => $me,
@@ -100,7 +111,7 @@ class UserController extends Controller
     {
         $me = Auth::user()->load('role');
 
-        if (!$this->access($me->role->acs_user, 'create')) {
+        if (! $this->access($me->role->acs_user, 'create')) {
             return abort(404);
         }
 
@@ -122,21 +133,20 @@ class UserController extends Controller
     {
         $me = Auth::user()->load('role');
 
-        if (!$this->access($me->role->acs_user, 'view')) {
+        if (! $this->access($me->role->acs_user, 'view')) {
             return abort(404);
         }
 
-        $users = User::select('id', 'name', 'nick', 'photo', 'active', 'delete',
-            'email', 'work_email', 'phone', 'work_phone');
+        $users = User::select($this->getPublicColumnByUser());
 
-        if (!empty($request->q)) {
+        if (! empty($request->q)) {
             $users->where('name', 'LIKE', '%' . $request->q . '%');
         }
 
         if ($this->access($me->role->acs_role, 'view')) {
             $users->addSelect('role_id')->with('role');
 
-            if (!empty($request->role) && $request->role > 0) {
+            if (! empty($request->role) && $request->role > 0) {
                 $users->where('role_id', '=', (int) $request->role);
             }
         }
@@ -144,23 +154,34 @@ class UserController extends Controller
         if ($this->access($me->role->acs_job, 'view')) {
             $users->addSelect('job_id')->with('job');
 
-            if (!empty($request->job) && $request->job > 0) {
+            if (! empty($request->job) && $request->job > 0) {
                 $users->where('job_id', '=', (int) $request->job);
             }
         }
 
-        if (!empty($request->active)) {
+        if (! empty($request->active)) {
             $users->where('active', '=', $request->active > 0);
         }
 
-        if (!empty($request->del)) {
+        if (! empty($request->del)) {
             $users->where('delete', '=', $request->del > 0);
-        } elseif (!isset($request->del)) {
+        } elseif (! isset($request->del)) {
             $users->where('delete', '=', 0);
         }
 
-        $count = (int) $request->count ? ($request->count > 100 ? 100 : (int) $request->count) : 25;
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int)$request->count) : 25;
 
         return json_encode($users->paginate($count));
+    }
+
+    /**
+     * Get data accessible to all users.
+     *
+     * @return array
+     */
+    private function getPublicColumnByUser()
+    {
+        return ['id', 'name', 'nick', 'photo', 'active', 'delete',
+            'email', 'work_email', 'phone', 'work_phone'];
     }
 }
