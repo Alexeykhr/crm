@@ -214,7 +214,13 @@
                         page: page,
                     }
                 })
-                .then(res => this.users = res.data);
+                    .then(res => this.users = res.data);
+
+                let offset = $('.pagination').offset().top;
+
+                if (window.pageYOffset > offset) {
+                    window.scrollTo(0, offset - 10)
+                }
             },
         },
 
@@ -222,6 +228,6 @@
             q () {
                 this.getUsers();
             }
-        }
+        },
     }
 </script>

@@ -7,7 +7,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'user', 'canEdit',
+            'user', 'canEdit',
         ],
 
         data () {

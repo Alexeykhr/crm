@@ -4,8 +4,7 @@
 
 @section('content')
 
-    <profile i-user="{{ json_encode($me) }}"
-             user="{{ isset($user) ? json_encode($user) : null }}"
+    <profile user="{{ isset($user) ? json_encode($user) : json_encode($me) }}"
              can-edit="{{ $canEdit }}"
     ></profile>
 

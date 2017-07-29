@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Get page users with filters.
+     * Get page users.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -109,7 +109,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $me = Auth::user()->load('role');
+        $me = Auth::user();
 
         if (! $this->access($me->role->acs_user, 'create')) {
             return abort(404);
@@ -131,7 +131,7 @@ class UserController extends Controller
      */
     public function getUsers(Request $request)
     {
-        $me = Auth::user()->load('role');
+        $me = Auth::user();
 
         if (! $this->access($me->role->acs_user, 'view')) {
             return abort(404);
@@ -179,7 +179,7 @@ class UserController extends Controller
      *
      * @return array
      */
-    private function getPublicColumnByUser()
+    public static function getPublicColumnByUser()
     {
         return ['id', 'name', 'nick', 'photo', 'active', 'delete',
             'email', 'work_email', 'phone', 'work_phone'];

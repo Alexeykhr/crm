@@ -16,3 +16,4 @@ Route::get('/logs', 'LogController@index');
 
 // ...
 Route::get('/users/get', 'UserController@getUsers');
+Route::get('/logs/get', 'LogController@getLogs');

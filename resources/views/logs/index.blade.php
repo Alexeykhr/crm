@@ -4,6 +4,8 @@
 
 @section('content')
 
-    <logs data="{{ json_encode($logs) }}"></logs>
+    <logs i-user="{{ $me }}"
+          in-logs="{{ json_encode($logs) }}"
+    ></logs>
 
 @endsection

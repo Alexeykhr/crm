@@ -44,5 +44,6 @@ $factory->define(App\Log::class, function (Faker\Generator $faker) {
         'module'  => 'auth',
         'action'  => 'Авторизація',
         'desc'    => 'Користувач увійшов в систему',
+        'date'    => $faker->dateTime,
     ];
 });

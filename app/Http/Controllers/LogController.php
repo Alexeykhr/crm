@@ -9,24 +9,55 @@ use Illuminate\Support\Facades\Auth;
 
 class LogController extends Controller
 {
+    /**
+     * Get page logs.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        $me = Auth::user()->load('role');
+        $me = Auth::user();
 
-        if ($me->role->level < 7) {
+        if (! $me->role->acs_log) {
             return abort(404);
         }
 
-        // TODO: add filters
-        
-        $logs = Log::with('user')
-            ->orderBy('date', 'desc')
-            ->paginate(20);
+        $logs = Log::with(['user' => function ($q) {
+            $q->select('id', 'name');
+        }])->orderBy('date', 'desc');
 
         return view('logs.index', [
             'me'   => $me,
-            'logs' => $logs,
+            'logs' => $logs->paginate(25),
         ]);
+    }
+
+    /**
+     * For getting logs through axios.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getLogs(Request $request)
+    {
+        if (! Auth::user()->role->acs_log) {
+            return abort(404);
+        }
+
+        $logs = Log::with(['user' => function ($q) {
+            $q->select('id', 'name');
+        }])->orderBy('date', 'desc');
+
+        if (! empty($request->q)) {
+            $logs->whereHas('user', function ($query) use ($request) {
+                $query->select('id')->where('name', 'LIKE', '%' . $request->q . '%');
+            });
+        }
+
+        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int)$request->count) : 25;
+
+        return json_encode($logs->paginate($count));
     }
 
     public static function log($module, $action, $desc, $refID = null)
