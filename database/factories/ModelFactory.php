@@ -37,13 +37,3 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
         'title' => $faker->unique()->jobTitle,
     ];
 });
-
-$factory->define(App\Log::class, function (Faker\Generator $faker) {
-    return [
-        'user_id' => mt_rand(1, 200),
-        'module'  => 'auth',
-        'action'  => 'Авторизація',
-        'desc'    => 'Користувач увійшов в систему',
-        'date'    => $faker->dateTime,
-    ];
-});

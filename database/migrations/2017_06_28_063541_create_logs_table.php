@@ -14,12 +14,12 @@ class CreateLogsTable extends Migration
     public function up()
     {
         Schema::create('logs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('module');
-            $table->integer('ref_id')->nullable();
+            $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->string('action');
+            $table->string('module');
+            $table->string('icon');
             $table->string('desc');
+            $table->integer('ref_id')->nullable();
             $table->timestamp('date');
         });
     }

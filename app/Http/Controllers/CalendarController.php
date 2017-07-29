@@ -7,18 +7,24 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BirthdayController extends Controller
+class CalendarController extends Controller
 {
     public function index()
     {
-        $me = Auth::user()->load('role');
+        $me = Auth::user();
 
-        if (!$me->role->acs_birthday) {
+        if (! $this->access($me->role->acs_calendar, 'view')) {
             return abort(404);
         }
 
-        return view('birthday.index', [
-            'me' => $me,
+
+        $users = User::select('name', 'birth')
+            ->whereMonth('birth', '=', Carbon::now()->month)
+            ->get();
+
+        return view('calendar.index', [
+            'me'   => $me,
+            'user' => $users,
         ]);
     }
 

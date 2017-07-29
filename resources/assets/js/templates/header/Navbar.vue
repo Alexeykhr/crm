@@ -58,12 +58,12 @@
 
                 <hr>
 
-                <md-list-item v-if="me.role.acs_log" href="/logs">
+                <md-list-item v-if="me.role.acs_log" href="/j">
                     <md-icon>event_note</md-icon> <span>Журнал</span>
                 </md-list-item>
 
-                <md-list-item v-if="me.role.acs_birthday" href="/birthday">
-                    <md-icon>event</md-icon> <span>Дні народження</span>
+                <md-list-item v-if="me.role.acs_calendar % 2 == 1" href="/c">
+                    <md-icon>event</md-icon> <span>Календар</span>
                 </md-list-item>
             </md-list>
         </md-sidenav>

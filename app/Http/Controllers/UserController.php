@@ -98,7 +98,7 @@ class UserController extends Controller
 
         return view('users.profile', [
             'me'      => $me,
-            'canEdit' => (bool)$me->role->acs_profile
+            'canEdit' => $me->role->acs_profile
         ]);
     }
 

@@ -87,6 +87,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        LogController::logAuth();
+        LogController::logOther('Авторизація', 'Увійшов в систему');
     }
 }

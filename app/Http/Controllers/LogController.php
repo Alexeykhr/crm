@@ -60,19 +60,34 @@ class LogController extends Controller
         return json_encode($logs->paginate($count));
     }
 
-    public static function log($module, $action, $desc, $refID = null)
+    public static function log($module, $icon, $desc, $refID = null)
     {
         Log::insert([
             'user_id' => Auth::user()->id,
             'module'  => $module,
-            'action'  => $action,
             'ref_id'  => $refID,
+            'icon'    => $icon,
             'desc'    => $desc,
         ]);
     }
 
-    public static function logAuth()
+    public static function logAdd($action, $desc, $refID = null)
     {
-        self::log('auth', 'Авторизація', 'Користувач увійшов в систему');
+        self::log($action, 'add', $desc, $refID);
+    }
+
+    public static function logEdit($action, $desc, $refID = null)
+    {
+        self::log($action, 'edit', $desc, $refID);
+    }
+
+    public static function logView($action, $desc, $refID = null)
+    {
+        self::log($action, 'remove_red_eye', $desc, $refID);
+    }
+
+    public static function logOther($action, $desc, $refID = null)
+    {
+        self::log($action, 'input', $desc, $refID);
     }
 }

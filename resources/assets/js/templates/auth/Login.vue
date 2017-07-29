@@ -1,5 +1,5 @@
 <template>
-    <div class="auth">
+    <div class="auth" v-once>
         <h2>Вітаємо</h2>
 
         <form action="login" method="POST">

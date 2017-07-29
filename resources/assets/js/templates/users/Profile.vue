@@ -1,5 +1,5 @@
 <template>
-    <md-layout class="page" md-align="center">
+    <md-layout class="page">
         {{ me.name }}
     </md-layout>
 </template>

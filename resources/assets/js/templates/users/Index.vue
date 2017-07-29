@@ -203,7 +203,7 @@
                 this.closeDialog();
             },
             getUsers (page = 1) {
-                axios.get('/users/get', {
+                axios.get('/axios/u/get', {
                     params: {
                         count: this.count,
                         role: this.role,
