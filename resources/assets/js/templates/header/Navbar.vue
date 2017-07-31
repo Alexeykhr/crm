@@ -38,31 +38,31 @@
                     <md-icon>account_circle</md-icon> <span>Мій профіль</span>
                 </md-list-item>
 
-                <md-list-item v-if="me.role.acs_user % 2 == 1" href="/u">
+                <md-list-item v-if="me.role.acs_user % 2 == 1" href="/users">
                     <md-icon>people</md-icon> <span>Користувачі</span>
                 </md-list-item>
 
-                <md-list-item v-if="me.role.acs_role % 2 == 1" href="/r">
+                <md-list-item v-if="me.role.acs_role % 2 == 1" href="/roles">
                     <md-icon>label</md-icon> <span>Ролі</span>
                 </md-list-item>
 
-                <md-list-item v-if="me.role.acs_job % 2 == 1" href="/j">
+                <md-list-item v-if="me.role.acs_job % 2 == 1" href="/jobs">
                     <md-icon>star</md-icon> <span>Посади</span>
                 </md-list-item>
 
                 <hr>
 
-                <md-list-item href="/f">
+                <md-list-item href="/folders">
                     <md-icon>folder</md-icon> <span>Папки</span>
                 </md-list-item>
 
                 <hr>
 
-                <md-list-item v-if="me.role.acs_log" href="/j">
+                <md-list-item v-if="me.role.acs_log" href="/logs">
                     <md-icon>event_note</md-icon> <span>Журнал</span>
                 </md-list-item>
 
-                <md-list-item v-if="me.role.acs_calendar % 2 == 1" href="/c">
+                <md-list-item v-if="me.role.acs_calendar % 2 == 1" href="/calendar">
                     <md-icon>event</md-icon> <span>Календар</span>
                 </md-list-item>
             </md-list>

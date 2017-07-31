@@ -13,7 +13,6 @@
                 <md-table-row>
                     <md-table-head>Користувач</md-table-head>
                     <md-table-head>Модуль</md-table-head>
-                    <md-table-head>Дія</md-table-head>
                     <md-table-head>Опис</md-table-head>
                     <md-table-head>Дата</md-table-head>
                     <md-table-head>Посилання</md-table-head>
@@ -25,7 +24,6 @@
 
                     <md-table-cell><b>{{ log.user.name }}</b></md-table-cell>
                     <md-table-cell>{{ log.module }}</md-table-cell>
-                    <md-table-cell><md-icon>account_circle</md-icon></md-table-cell>
                     <md-table-cell>{{ log.desc }}</md-table-cell>
                     <md-table-cell>{{ timestamp(log.date) }}</md-table-cell>
                     <!--<md-table-cell v-if="log.ref_id">-->
@@ -114,7 +112,7 @@
                 this.closeDialog();
             },
             getLogs (page = 1) {
-                axios.get('/axios/j/get', {
+                axios.get('/axios/logs.get', {
                     params: {
                         count: this.count,
                         q: this.q,

@@ -1,5 +1,5 @@
 <template>
-    <md-layout class="page" md-align="center" v-once>
+    <md-layout class="page" md-align="center">
         <md-avatar>
             <img src="/img/user.png" alt="Avatar">
         </md-avatar>
