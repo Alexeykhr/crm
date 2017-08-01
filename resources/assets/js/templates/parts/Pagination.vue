@@ -1,18 +1,18 @@
 <template>
     <div class="pagination">
-        <md-button @click="first()" class="md-icon-button md-raised md-dense">
+        <md-button @click="first()" class="md-raised md-dense">
             <md-icon>first_page</md-icon>
         </md-button>
-        <md-button @click="prev()" class="md-icon-button md-raised md-dense">
+        <md-button @click="prev()" class="md-raised md-dense">
             <md-icon>keyboard_arrow_left</md-icon>
         </md-button>
 
-        <md-button class="md-dense">{{ data.current_page + ' / ' + data.last_page }}</md-button>
+        <md-button>{{ data.current_page + ' / ' + data.last_page }}</md-button>
 
-        <md-button @click="next()" class="md-icon-button md-raised md-dense">
+        <md-button @click="next()" class="md-raised md-dense">
             <md-icon>keyboard_arrow_right</md-icon>
         </md-button>
-        <md-button @click="last()" class="md-icon-button md-raised md-dense">
+        <md-button @click="last()" class="md-raised md-dense">
             <md-icon>last_page</md-icon>
         </md-button>
     </div>

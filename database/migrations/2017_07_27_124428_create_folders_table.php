@@ -20,8 +20,6 @@ class CreateFoldersTable extends Migration
             $table->string('title');
             $table->string('desc');
             $table->string('color');
-            $table->tinyInteger('status');
-            $table->tinyInteger('delete');
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
         'work_email' => $faker->email,
         'role_id' => mt_rand(1, 3),
-        'job_id' => mt_rand(1, 20),
+        'job_id' => mt_rand(1, 10),
         'active' => mt_rand(0, 1),
         'delete' => mt_rand(0, 1),
         'phone' => $faker->phoneNumber,

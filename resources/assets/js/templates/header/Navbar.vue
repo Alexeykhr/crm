@@ -1,16 +1,22 @@
 <template>
     <div class="phone-viewport" v-once>
-        <md-whiteframe md-tag="md-toolbar" class="md-dense">
+        <md-toolbar class="md-dense">
             <div class="md-toolbar-container">
                 <md-button class="md-icon-button" @click="$refs.sidenav.toggle()">
                     <md-icon>menu</md-icon>
                 </md-button>
 
-                <md-button href="/">
-                    <span class="h_firm">{{ firm }}</span>
+                <md-button href="/" class="h_firm">
+                    <span>{{ firm }}</span>
                 </md-button>
 
                 <span style="flex: 1"></span>
+
+                <template v-if="btnTitle && btnHref">
+                    <md-button :href="btnHref" :class="btnClass">
+                        <md-icon v-if="btnIcon">{{ btnIcon }}</md-icon> <span class="h_btn">{{ btnTitle }}</span>
+                    </md-button>
+                </template>
 
                 <md-menu md-align-trigger>
                     <md-button md-menu-trigger>
@@ -26,7 +32,7 @@
                     </md-menu-content>
                 </md-menu>
             </div>
-        </md-whiteframe>
+        </md-toolbar>
 
         <md-sidenav class="md-left" ref="sidenav">
             <md-list>
@@ -50,13 +56,13 @@
                     <md-icon>star</md-icon> <span>Посади</span>
                 </md-list-item>
 
-                <hr>
+                <br>
 
                 <md-list-item href="/folders">
                     <md-icon>folder</md-icon> <span>Папки</span>
                 </md-list-item>
 
-                <hr>
+                <br>
 
                 <md-list-item v-if="me.role.acs_log" href="/logs">
                     <md-icon>event_note</md-icon> <span>Журнал</span>
@@ -73,7 +79,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'firm',
+            'iUser', 'firm', 'btnHref', 'btnTitle', 'btnClass', 'btnIcon',
         ],
 
         data () {

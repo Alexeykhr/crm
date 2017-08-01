@@ -1,6 +1,6 @@
 <template>
     <md-layout class="page">
-        {{ me.name }}
+        {{ u.name }}
     </md-layout>
 </template>
 
@@ -12,15 +12,12 @@
 
         data () {
             return {
-                me: null,
                 u: null,
                 isProfile: true,
             }
         },
 
         created () {
-            this.me = JSON.parse(this.iUser);
-
             if (this.user) {
                 this.u = JSON.parse(this.user);
                 this.isProfile = false;
