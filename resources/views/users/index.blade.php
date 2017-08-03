@@ -5,7 +5,7 @@
 @if ($canCreate)
     @section('h-btn-title', 'Додати працівника')
     @section('h-btn-icon', 'add')
-    @section('h-btn-href', '/u/create')
+    @section('h-btn-href', '/users/create')
     @section('h-btn-class', 'md-raised')
 @endif
 

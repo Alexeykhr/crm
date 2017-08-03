@@ -148,7 +148,7 @@
             'iUser', 'inUsers', 'inJobs', 'inRoles',
         ],
 
-        data () {
+        data() {
             return {
                 me: [],
                 users: [],
@@ -164,7 +164,7 @@
             }
         },
 
-        created () {
+        created() {
             this.me = JSON.parse(this.iUser);
             this.jobs = JSON.parse(this.inJobs);
             this.roles = JSON.parse(this.inRoles);
@@ -174,31 +174,15 @@
         },
 
         methods: {
-            openDialog() {
-                this.$refs['filters'].open();
-            },
-            closeDialog() {
-                this.$refs['filters'].close();
-                this.getUsers();
-            },
-            resetFilters () {
-                this.q = '';
-                this.count = 25;
-                this.role = -1;
-                this.job = -1;
-                this.active = 0;
-                this.del = -1;
-                this.closeDialog();
-            },
-            getUsers (page = 1, top = false) {
+            getUsers(page = 1, top = false) {
                 axios.get('/axios/users.get', {
                     params: {
+                        q: this.q,
                         count: this.count,
                         role: this.role,
                         job: this.job,
                         del: this.del,
                         active: this.active,
-                        q: this.q,
                         page: page,
                     }
                 })
@@ -216,23 +200,27 @@
         },
 
         watch: {
-            count () {
+            count() {
                 this.getUsers();
             },
-            role () {
+            role() {
                 this.getUsers();
             },
-            job () {
+            job() {
                 this.getUsers();
             },
-            del () {
+            del() {
                 this.getUsers();
             },
-            active () {
+            active() {
                 this.getUsers();
             },
-            q () {
-                this.getUsers();
+            q() {
+                let len = this.q.length;
+
+                if (len > 2 || len == 0) {
+                    this.getUsers();
+                }
             },
         },
     }

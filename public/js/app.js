@@ -27215,25 +27215,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27262,38 +27243,30 @@ moment.locale('uk');
         timestamp: function timestamp(date) {
             return moment(date).format('llll');
         },
-        openDialog: function openDialog() {
-            this.$refs['filters'].open();
-        },
-        closeDialog: function closeDialog() {
-            this.$refs['filters'].close();
-            this.getLogs();
-        },
-        resetFilters: function resetFilters() {
-            this.q = '';
-            this.count = 25;
-            // TODO: ..
-            this.closeDialog();
-        },
         getLogs: function getLogs() {
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+            var top = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
             axios.get('/axios/logs.get', {
                 params: {
-                    count: this.count,
                     q: this.q,
+                    count: this.count,
                     page: page
                 }
             }).then(function (res) {
                 return _this.logs = res.data;
+            }).catch(function (error) {
+                return console.log('Error: ' + _this.error);
             });
 
-            var offset = $('.pagination').offset().top;
+            if (top) {
+                var offset = $('.left-column').offset().top;
 
-            if (window.pageYOffset > offset) {
-                window.scrollTo(0, offset - 10);
+                if (window.pageYOffset > offset) {
+                    window.scrollTo(0, offset);
+                }
             }
         }
     },
@@ -27552,22 +27525,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-        openDialog: function openDialog() {
-            this.$refs['filters'].open();
-        },
-        closeDialog: function closeDialog() {
-            this.$refs['filters'].close();
-            this.getUsers();
-        },
-        resetFilters: function resetFilters() {
-            this.q = '';
-            this.count = 25;
-            this.role = -1;
-            this.job = -1;
-            this.active = 0;
-            this.del = -1;
-            this.closeDialog();
-        },
         getUsers: function getUsers() {
             var _this = this;
 
@@ -27576,12 +27533,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/axios/users.get', {
                 params: {
+                    q: this.q,
                     count: this.count,
                     role: this.role,
                     job: this.job,
                     del: this.del,
                     active: this.active,
-                    q: this.q,
                     page: page
                 }
             }).then(function (res) {
@@ -27617,7 +27574,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getUsers();
         },
         q: function q() {
-            this.getUsers();
+            var len = this.q.length;
+
+            if (len > 2 || len == 0) {
+                this.getUsers();
+            }
         }
     }
 });
@@ -56288,11 +56249,16 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-layout', {
     staticClass: "page"
+  }, [_c('md-layout', {
+    staticClass: "right-column",
+    attrs: {
+      "md-flex": "25"
+    }
   }, [_c('md-input-container', {
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук працівника")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },
@@ -56303,7 +56269,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "q"
     }
-  })], 1), _vm._v(" "), _c('pagination', {
+  })], 1)], 1), _vm._v(" "), _c('md-layout', {
+    staticClass: "left-column",
+    attrs: {
+      "md-flex": "75"
+    }
+  }, [_c('pagination', {
     attrs: {
       "data": _vm.logs,
       "func": _vm.getLogs
@@ -56314,7 +56285,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
-        "href": '/u/' + log.user.id
+        "href": '/users/' + log.user.id
       }
     }, [_c('md-icon', [_vm._v("account_circle")])], 1), _vm._v(" "), _c('md-button', {
       staticClass: "md-icon-button",
@@ -56327,49 +56298,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.logs,
       "func": _vm.getLogs
     }
-  }), _vm._v(" "), _c('md-button', {
-    staticClass: "md-fab md-primary btn_fixed_bl",
-    attrs: {
-      "id": "fab"
-    },
-    on: {
-      "click": function($event) {
-        _vm.openDialog()
-      }
-    }
-  }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-dialog', {
-    ref: "filters",
-    attrs: {
-      "md-open-from": "#fab",
-      "md-close-to": "#fab"
-    },
-    on: {
-      "close": function($event) {
-        _vm.getLogs()
-      }
-    }
-  }, [_c('md-dialog-title', [_vm._v("Налаштування фільтрів\n\n            "), _c('md-button', {
-    staticClass: "md-icon-button md-raised md-accent md-dense",
-    on: {
-      "click": function($event) {
-        _vm.resetFilters()
-      }
-    }
-  }, [_c('md-icon', [_vm._v("undo")])], 1)], 1), _vm._v(" "), _c('md-dialog-content', [_vm._v("\n            Фільтри\n        ")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
-    staticClass: "md-primary",
-    on: {
-      "click": function($event) {
-        _vm.closeDialog()
-      }
-    }
-  }, [_vm._v("Вихід")]), _vm._v(" "), _c('md-button', {
-    staticClass: "md-primary md-raised",
-    on: {
-      "click": function($event) {
-        _vm.setFilters()
-      }
-    }
-  }, [_vm._v("Застосувати")])], 1)], 1)], 1)
+  })], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
