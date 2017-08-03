@@ -26,16 +26,17 @@ window.Vue.material.registerTheme({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('pagination', require('./templates/parts/Pagination.vue'));
-
 Vue.component('login', require('./templates/auth/Login.vue'));
+
 Vue.component('navbar', require('./templates/header/Navbar.vue'));
+Vue.component('pagination', require('./templates/parts/Pagination.vue'));
 
 Vue.component('users', require('./templates/users/Index.vue'));
 Vue.component('profile', require('./templates/users/Profile.vue'));
 Vue.component('user-create', require('./templates/users/Create.vue'));
 
 Vue.component('logs', require('./templates/logs/Index.vue'));
+Vue.component('calendar', require('./templates/calendar/Index.vue'));
 
 const app = new Vue({
     el: '#app'

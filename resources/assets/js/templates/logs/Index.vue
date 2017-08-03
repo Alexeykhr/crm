@@ -127,7 +127,11 @@
 
         watch: {
             q() {
-                this.getLogs();
+                let len = this.q.length;
+
+                if (len > 2 || len == 0) {
+                    this.getLogs();
+                }
             },
             action() {
                 this.getLogs();

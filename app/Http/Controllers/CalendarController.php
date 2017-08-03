@@ -17,14 +17,13 @@ class CalendarController extends Controller
             return abort(404);
         }
 
-
         $users = User::select('name', 'birth')
             ->whereMonth('birth', '=', Carbon::now()->month)
             ->get();
 
         return view('calendar.index', [
-            'me'   => $me,
-            'user' => $users,
+            'me'    => $me,
+            'users' => $users,
         ]);
     }
 

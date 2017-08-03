@@ -13,10 +13,10 @@ Route::get('profile', 'UserController@profile');
 Route::resource('users', 'UserController');
 
 // Logs
-Route::resource('logs', 'LogController');
+Route::get('logs', 'LogController@index');
 
 // Calendar
-Route::resource('calendar', 'CalendarController');
+Route::get('calendar', 'CalendarController@index');
 
 // Axios
 Route::get('axios/users.get', 'UserController@getUsers');

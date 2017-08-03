@@ -129,7 +129,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-button :href="users.path+'/'+user.id" class="md-icon-button">
+                            <md-button :href="'/users/'+user.id" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
                             </md-button>
                         </md-table-cell>
@@ -198,6 +198,13 @@
         },
 
         watch: {
+            q() {
+                let len = this.q.length;
+
+                if (len > 2 || len == 0) {
+                    this.getUsers();
+                }
+            },
             count() {
                 this.getUsers();
             },
@@ -212,13 +219,6 @@
             },
             active() {
                 this.getUsers();
-            },
-            q() {
-                let len = this.q.length;
-
-                if (len > 2 || len == 0) {
-                    this.getUsers();
-                }
             },
         },
     }

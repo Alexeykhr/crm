@@ -26130,16 +26130,17 @@ window.Vue.material.registerTheme({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('pagination', __webpack_require__(162));
-
 Vue.component('login', __webpack_require__(159));
+
 Vue.component('navbar', __webpack_require__(160));
+Vue.component('pagination', __webpack_require__(162));
 
 Vue.component('users', __webpack_require__(164));
 Vue.component('profile', __webpack_require__(165));
 Vue.component('user-create', __webpack_require__(163));
 
 Vue.component('logs', __webpack_require__(161));
+Vue.component('calendar', __webpack_require__(179));
 
 var app = new Vue({
     el: '#app'
@@ -27298,7 +27299,11 @@ moment.locale('uk');
 
     watch: {
         q: function q() {
-            this.getLogs();
+            var len = this.q.length;
+
+            if (len > 2 || len == 0) {
+                this.getLogs();
+            }
         },
         action: function action() {
             this.getLogs();
@@ -27587,6 +27592,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     watch: {
+        q: function q() {
+            var len = this.q.length;
+
+            if (len > 2 || len == 0) {
+                this.getUsers();
+            }
+        },
         count: function count() {
             this.getUsers();
         },
@@ -27601,13 +27613,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         active: function active() {
             this.getUsers();
-        },
-        q: function q() {
-            var len = this.q.length;
-
-            if (len > 2 || len == 0) {
-                this.getUsers();
-            }
         }
     }
 });
@@ -56253,7 +56258,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_email))])], 1) : _vm._e()], 1)], 1) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
-        "href": _vm.users.path + '/' + user.id
+        "href": '/users/' + user.id
       }
     }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
@@ -56425,6 +56430,93 @@ attrs:{"md-src":t.imageSrc}}):n("i",{staticClass:"md-icon",class:[t.themeClass,t
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
+
+/***/ }),
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+var moment = __webpack_require__(0);
+moment.locale('uk');
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['iUser', 'inUsers'],
+
+    data: function data() {
+        return {
+            me: [],
+            users: []
+        };
+    },
+    created: function created() {
+        this.me = JSON.parse(this.iUser);
+        this.users = JSON.parse(this.inUsers);
+
+        //            console.log(this.me);
+        //            console.log(this.users);
+        console.log(moment().daysInMonth());
+    }
+});
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(178),
+  /* template */
+  __webpack_require__(180),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\calendar\\Index.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Index.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-16ff37fa", Component.options)
+  } else {
+    hotAPI.reload("data-v-16ff37fa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_vm._v("\n    " + _vm._s(_vm.me.name) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-16ff37fa", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
