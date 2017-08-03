@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class LogController extends Controller
 {
     /**
-     * Get page logs.
+     * Get logs page.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -55,39 +55,52 @@ class LogController extends Controller
             });
         }
 
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int)$request->count) : 25;
+        if (! empty($request->module)) {
+            $logs->where('module', '=', $request->module);
+        }
+
+        if (! empty($request->action)) {
+            $logs->where('action', '=', $request->action);
+        }
+
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
 
         return json_encode($logs->paginate($count));
     }
 
-    public static function log($module, $icon, $desc, $refID = null)
+    public static function log($module, $action, $desc, $refID = null)
     {
         Log::insert([
             'user_id' => Auth::user()->id,
             'module'  => $module,
+            'action'  => $action,
             'ref_id'  => $refID,
-            'icon'    => $icon,
             'desc'    => $desc,
         ]);
     }
 
-    public static function logAdd($action, $desc, $refID = null)
+    public static function logAdd($module, $desc, $refID = null)
     {
-        self::log($action, 'add', $desc, $refID);
+        self::log($module, 'Створення', $desc, $refID);
     }
 
-    public static function logEdit($action, $desc, $refID = null)
+    public static function logDelete($module, $desc, $refID = null)
     {
-        self::log($action, 'edit', $desc, $refID);
+        self::log($module, 'Видалення', $desc, $refID);
     }
 
-    public static function logView($action, $desc, $refID = null)
+    public static function logEdit($module, $desc, $refID = null)
     {
-        self::log($action, 'remove_red_eye', $desc, $refID);
+        self::log($module, 'Відредагування', $desc, $refID);
     }
 
-    public static function logOther($action, $desc, $refID = null)
+    public static function logView($module, $desc, $refID = null)
     {
-        self::log($action, 'input', $desc, $refID);
+        self::log($module, 'Перегляд', $desc, $refID);
+    }
+
+    public static function logOther($module, $desc, $refID = null)
+    {
+        self::log($module, 'Інше', $desc, $refID);
     }
 }

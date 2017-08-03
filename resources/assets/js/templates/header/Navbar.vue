@@ -27,7 +27,7 @@
                     </md-button>
 
                     <md-menu-content>
-                        <md-menu-item href="/me">Профіль</md-menu-item>
+                        <md-menu-item href="/profile">Профіль</md-menu-item>
                         <md-menu-item @click.pervent="logout()">Вихід</md-menu-item>
                     </md-menu-content>
                 </md-menu>
@@ -40,7 +40,7 @@
                     <md-icon>home</md-icon> <span>Головна сторінка</span>
                 </md-list-item>
 
-                <md-list-item href="/me">
+                <md-list-item href="/profile">
                     <md-icon>account_circle</md-icon> <span>Мій профіль</span>
                 </md-list-item>
 
@@ -95,8 +95,8 @@
         methods: {
             logout() {
                 axios.post('/logout')
-                    .then(response => location.href = '/login' )
-                    .catch(error => console.log(error) );
+                    .then(response => location.href = '/login')
+                    .catch(error => console.log('Error: ' + error));
             }
         },
     }

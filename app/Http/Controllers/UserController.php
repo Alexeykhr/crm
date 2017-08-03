@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Get page users.
+     * Get users page.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -169,7 +169,7 @@ class UserController extends Controller
             $users->where('delete', '=', 0);
         }
 
-        $count = (int)$request->count ? ($request->count > 100 ? 100 : (int)$request->count) : 25;
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
 
         return json_encode($users->paginate($count));
     }

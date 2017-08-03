@@ -1,6 +1,4 @@
-
-
-.page {
+.list {
   flex-direction: row-reverse;
   @include media-down(sm) {
     flex-direction: column;

@@ -1,10 +1,32 @@
 <template>
-    <md-layout class="page">
+    <md-layout class="list">
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
                 <label>Пошук</label>
                 <md-input v-model="q" autofocus></md-input>
+            </md-input-container>
+
+            <br>
+
+            <md-input-container>
+                <label for="module">Модуль</label>
+                <md-select name="module" id="module" v-model="module">
+                    <md-option value="">Всі</md-option>
+                    <md-option value="Авторизація">Авторизація</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label for="action">Дія</label>
+                <md-select name="action" id="action" v-model="action">
+                    <md-option value="">Всі</md-option>
+                    <md-option value="Створення">Створення</md-option>
+                    <md-option value="Видалення">Видалення</md-option>
+                    <md-option value="Відредагування">Відредагування</md-option>
+                    <md-option value="Перегляд">Перегляд</md-option>
+                    <md-option value="Інше">Інше</md-option>
+                </md-select>
             </md-input-container>
         </md-layout>
 
@@ -16,6 +38,7 @@
                     <md-table-row>
                         <md-table-head>Користувач</md-table-head>
                         <md-table-head>Модуль</md-table-head>
+                        <md-table-head>Дія</md-table-head>
                         <md-table-head>Опис</md-table-head>
                         <md-table-head>Дата</md-table-head>
                         <md-table-head>Посилання</md-table-head>
@@ -23,18 +46,18 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="log in logs.data" :key="logs.id">
+                    <md-table-row v-for="log in logs.data" :key="log.id">
 
                         <md-table-cell><b>{{ log.user.name }}</b></md-table-cell>
                         <md-table-cell>{{ log.module }}</md-table-cell>
+                        <md-table-cell>{{ log.action }}</md-table-cell>
                         <md-table-cell>{{ log.desc }}</md-table-cell>
                         <md-table-cell>{{ timestamp(log.date) }}</md-table-cell>
-                        <!--<md-table-cell v-if="log.ref_id">-->
                         <md-table-cell>
                             <md-button :href="'/users/'+log.user.id" class="md-icon-button">
                                 <md-icon>account_circle</md-icon>
                             </md-button>
-                            <!--TODO: link-->
+                            <!--TODO: link (ref_id)-->
                             <md-button href="/" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
                             </md-button>
@@ -60,19 +83,19 @@
 
         data () {
             return {
-                me: null,
-                logs: null,
+                me: [],
+                logs: [],
 
                 q: '',
+                module: '',
+                action: '',
                 count: 25,
             }
         },
 
         created () {
-            this.me = JSON.parse(this.me);
+            this.me = JSON.parse(this.iUser);
             this.logs = JSON.parse(this.inLogs);
-
-            console.log(this.logs);
         },
 
         methods: {
@@ -83,6 +106,8 @@
                 axios.get('/axios/logs.get', {
                     params: {
                         q: this.q,
+                        module: this.module,
+                        action: this.action,
                         count: this.count,
                         page: page,
                     }
@@ -103,7 +128,13 @@
         watch: {
             q() {
                 this.getLogs();
-            }
+            },
+            action() {
+                this.getLogs();
+            },
+            module() {
+                this.getLogs();
+            },
         },
     }
 </script>

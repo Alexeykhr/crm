@@ -17,7 +17,7 @@ class CreateLogsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('module');
-            $table->string('icon');
+            $table->string('action');
             $table->string('desc');
             $table->integer('ref_id')->nullable();
             $table->timestamp('date');

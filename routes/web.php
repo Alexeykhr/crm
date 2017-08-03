@@ -9,8 +9,8 @@ Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
 // Users
+Route::get('profile', 'UserController@profile');
 Route::resource('users', 'UserController');
-Route::get('me', 'UserController@profile');
 
 // Logs
 Route::resource('logs', 'LogController');

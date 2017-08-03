@@ -1,5 +1,5 @@
 <template>
-    <md-layout class="page">
+    <md-layout class="list">
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
@@ -11,7 +11,7 @@
 
             <md-input-container>
                 <label for="count">Кількість працівників</label>
-                <md-select name="role" id="count" v-model="count">
+                <md-select name="count" id="count" v-model="count">
                     <md-option :value="10">10</md-option>
                     <md-option :value="25">25</md-option>
                     <md-option :value="50">50</md-option>
@@ -169,8 +169,6 @@
             this.jobs = JSON.parse(this.inJobs);
             this.roles = JSON.parse(this.inRoles);
             this.users = JSON.parse(this.inUsers);
-
-            console.log(this.users);
         },
 
         methods: {

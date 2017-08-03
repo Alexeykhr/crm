@@ -27152,7 +27152,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/logout').then(function (response) {
                 return location.href = '/login';
             }).catch(function (error) {
-                return console.log(error);
+                return console.log('Error: ' + error);
             });
         }
     }
@@ -27215,6 +27215,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27224,18 +27247,18 @@ moment.locale('uk');
 
     data: function data() {
         return {
-            me: null,
-            logs: null,
+            me: [],
+            logs: [],
 
             q: '',
+            module: '',
+            action: '',
             count: 25
         };
     },
     created: function created() {
-        this.me = JSON.parse(this.me);
+        this.me = JSON.parse(this.iUser);
         this.logs = JSON.parse(this.inLogs);
-
-        console.log(this.logs);
     },
 
 
@@ -27252,6 +27275,8 @@ moment.locale('uk');
             axios.get('/axios/logs.get', {
                 params: {
                     q: this.q,
+                    module: this.module,
+                    action: this.action,
                     count: this.count,
                     page: page
                 }
@@ -27273,6 +27298,12 @@ moment.locale('uk');
 
     watch: {
         q: function q() {
+            this.getLogs();
+        },
+        action: function action() {
+            this.getLogs();
+        },
+        module: function module() {
             this.getLogs();
         }
     }
@@ -27519,8 +27550,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.jobs = JSON.parse(this.inJobs);
         this.roles = JSON.parse(this.inRoles);
         this.users = JSON.parse(this.inUsers);
-
-        console.log(this.users);
     },
 
 
@@ -55773,7 +55802,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])], 1), _vm._v(" "), _c('md-menu-content', [_c('md-menu-item', {
     attrs: {
-      "href": "/me"
+      "href": "/profile"
     }
   }, [_vm._v("Профіль")]), _vm._v(" "), _c('md-menu-item', {
     on: {
@@ -55791,7 +55820,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-icon', [_vm._v("home")]), _vm._v(" "), _c('span', [_vm._v("Головна сторінка")])], 1), _vm._v(" "), _c('md-list-item', {
     attrs: {
-      "href": "/me"
+      "href": "/profile"
     }
   }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('span', [_vm._v("Мій профіль")])], 1), _vm._v(" "), (_vm.me.role.acs_user % 2 == 1) ? _c('md-list-item', {
     attrs: {
@@ -55985,7 +56014,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-layout', {
-    staticClass: "page"
+    staticClass: "list"
   }, [_c('md-layout', {
     staticClass: "right-column",
     attrs: {
@@ -56012,7 +56041,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-select', {
     attrs: {
-      "name": "role",
+      "name": "count",
       "id": "count"
     },
     model: {
@@ -56248,7 +56277,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-layout', {
-    staticClass: "page"
+    staticClass: "list"
   }, [_c('md-layout', {
     staticClass: "right-column",
     attrs: {
@@ -56269,7 +56298,71 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "q"
     }
-  })], 1)], 1), _vm._v(" "), _c('md-layout', {
+  })], 1), _vm._v(" "), _c('br'), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "module"
+    }
+  }, [_vm._v("Модуль")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "module",
+      "id": "module"
+    },
+    model: {
+      value: (_vm.module),
+      callback: function($$v) {
+        _vm.module = $$v
+      },
+      expression: "module"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Всі")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Авторизація"
+    }
+  }, [_vm._v("Авторизація")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "action"
+    }
+  }, [_vm._v("Дія")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "action",
+      "id": "action"
+    },
+    model: {
+      value: (_vm.action),
+      callback: function($$v) {
+        _vm.action = $$v
+      },
+      expression: "action"
+    }
+  }, [_c('md-option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Всі")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Створення"
+    }
+  }, [_vm._v("Створення")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Видалення"
+    }
+  }, [_vm._v("Видалення")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Відредагування"
+    }
+  }, [_vm._v("Відредагування")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Перегляд"
+    }
+  }, [_vm._v("Перегляд")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Інше"
+    }
+  }, [_vm._v("Інше")])], 1)], 1)], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "left-column",
     attrs: {
       "md-flex": "75"
@@ -56279,10 +56372,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.logs,
       "func": _vm.getLogs
     }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
+  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дія")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
     return _c('md-table-row', {
-      key: _vm.logs.id
-    }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      key: log.id
+    }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.action))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
         "href": '/users/' + log.user.id
