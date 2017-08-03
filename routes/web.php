@@ -1,18 +1,23 @@
 <?php
 
-Auth::routes();
-
+// Main page
 Route::get('/', 'DashboardController@index');
-Route::get('/me', 'UserController@profile');
 
-Route::get('/users', 'UserController@index');
-Route::get('/u/create', 'UserController@create');
-Route::get('/u/{id}', 'UserController@user');
-Route::post('/u/{id}', 'UserController@save');
+// Authentication
+Route::get('login', 'Auth\LoginController@showLoginForm');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
 
-Route::get('/calendar', 'CalendarController@index');
-Route::get('/logs', 'LogController@index');
+// Users
+Route::resource('users', 'UserController');
+Route::get('me', 'UserController@profile');
+
+// Logs
+Route::resource('logs', 'LogController');
+
+// Calendar
+Route::resource('calendar', 'CalendarController');
 
 // Axios
-Route::get('/axios/users.get', 'UserController@getUsers');
-Route::get('/axios/logs.get', 'LogController@getLogs');
+Route::get('axios/users.get', 'UserController@getUsers');
+Route::get('axios/logs.get', 'LogController@getLogs');

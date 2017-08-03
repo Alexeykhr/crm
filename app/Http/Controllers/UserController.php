@@ -44,13 +44,13 @@ class UserController extends Controller
     }
 
     /**
-     * Get an employee profile
+     * Get an employee profile.
      *
      * @param int $id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function user($id)
+    public function show($id)
     {
         $me = Auth::user();
         $id = (int)$id;

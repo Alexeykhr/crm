@@ -1,6 +1,65 @@
 <template>
     <md-layout class="page">
-        <md-layout class="right-column">
+        <md-layout class="right-column" md-flex="25">
+            <md-input-container md-clearable>
+                <md-icon>search</md-icon>
+                <label>Пошук</label>
+                <md-input v-model="q" autofocus></md-input>
+            </md-input-container>
+
+            <br>
+
+            <md-input-container>
+                <label for="count">Кількість працівників</label>
+                <md-select name="role" id="count" v-model="count">
+                    <md-option :value="10">10</md-option>
+                    <md-option :value="25">25</md-option>
+                    <md-option :value="50">50</md-option>
+                    <md-option :value="75">75</md-option>
+                    <md-option :value="100">100</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_role">
+                <label for="role">Роль</label>
+                <md-select name="role" id="role" v-model="role">
+                    <md-option :key="-1" :value="-1">Всі</md-option>
+                    <md-option v-for="role in roles"
+                               :key="role.id"
+                               :value="role.id">
+                        {{ role.title }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_job">
+                <label for="job">Посада</label>
+                <md-select name="job" id="job" v-model="job">
+                    <md-option :key="-1" :value="-1">Всі</md-option>
+                    <md-option v-for="job in jobs"
+                               :key="job.id"
+                               :value="job.id">
+                        {{ job.title }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <div class="choose">
+                <span>Має доступ</span>
+                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
+                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
+                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
+            </div>
+
+            <div class="choose">
+                <span>Видалений</span>
+                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
+                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
+                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
+            </div>
+        </md-layout>
+
+        <md-layout class="left-column" md-flex="75">
             <pagination :data="users" :func="getUsers"></pagination>
 
             <md-table>
@@ -19,13 +78,8 @@
                     <md-table-row v-for="user in users.data" :key="user.id">
                         <md-table-cell>
                             <md-avatar>
-                                <!-- Temporary-->
-                                <img :src="user.photo ? user.photo : 'https://randomuser.me/api/portraits/men/'+Math.floor(Math.random() * 100)+'.jpg'" :title="'Користувач: ' + user.name"
-                                :atl="'Користувач: ' + user.name">
-                                <!--End-->
-
-                                <!--<img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"-->
-                                     <!--:atl="'Користувач: ' + user.name">-->
+                                <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
+                                     :atl="'Користувач: ' + user.name">
                             </md-avatar>
                         </md-table-cell>
 
@@ -75,7 +129,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-button :href="'/u/'+user.id" class="md-icon-button">
+                            <md-button :href="users.path+'/'+user.id" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
                             </md-button>
                         </md-table-cell>
@@ -84,74 +138,6 @@
             </md-table>
 
             <pagination :data="users" :func="getUsers"></pagination>
-        </md-layout>
-
-        <md-layout class="left-column" md-flex="25">
-            <md-input-container md-clearable>
-                <md-icon>search</md-icon>
-                <label>Пошук працівника</label>
-                <md-input v-model="q" autofocus></md-input>
-            </md-input-container>
-
-            <br>
-
-            <md-input-container>
-                <label for="count">Кількість працівників</label>
-                <md-select name="role" id="count" v-model="count">
-                    <md-option :value="10">10</md-option>
-                    <md-option :value="25">25</md-option>
-                    <md-option :value="50">50</md-option>
-                    <md-option :value="75">75</md-option>
-                    <md-option :value="100">100</md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_role">
-                <label for="role">Роль</label>
-                <md-select name="role" id="role" v-model="role">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="role in roles"
-                               :key="role.id"
-                               :value="role.id">
-                        {{ role.title }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_job">
-                <label for="job">Посада</label>
-                <md-select name="job" id="job" v-model="job">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="job in jobs"
-                               :key="job.id"
-                               :value="job.id">
-                        {{ job.title }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
-            <!--<md-input-container v-if="me.role.acs_job">-->
-                <!--<label for="active">Має доступ</label>-->
-                <!--<md-select name="active" id="active" v-model="active">-->
-                    <!--<md-option :value="1">Так</md-option>-->
-                    <!--<md-option :value="0">-</md-option>-->
-                    <!--<md-option :value="-1">Ні</md-option>-->
-                <!--</md-select>-->
-            <!--</md-input-container>-->
-
-            <div class="choose">
-                <span>Має доступ</span>
-                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
-                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
-                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
-            </div>
-
-            <div class="choose">
-                <span>Видалений</span>
-                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
-                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
-                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
-            </div>
         </md-layout>
     </md-layout>
 </template>
@@ -183,6 +169,8 @@
             this.jobs = JSON.parse(this.inJobs);
             this.roles = JSON.parse(this.inRoles);
             this.users = JSON.parse(this.inUsers);
+
+            console.log(this.users);
         },
 
         methods: {
@@ -202,7 +190,7 @@
                 this.del = -1;
                 this.closeDialog();
             },
-            getUsers (page = 1) {
+            getUsers (page = 1, top = false) {
                 axios.get('/axios/users.get', {
                     params: {
                         count: this.count,
@@ -214,7 +202,16 @@
                         page: page,
                     }
                 })
-                    .then(res => this.users = res.data);
+                    .then(res => this.users = res.data)
+                    .catch(error => console.log('Error: ' + this.error));
+
+                if (top) {
+                    let offset = $('.left-column').offset().top;
+
+                    if (window.pageYOffset > offset) {
+                        window.scrollTo(0, offset)
+                    }
+                }
             },
         },
 
