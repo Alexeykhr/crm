@@ -1,7 +1,15 @@
 <template>
     <div class="calendar">
         <div class="header">
+            <md-button @click="prev()" class="md-raised">
+                <md-icon>keyboard_arrow_left</md-icon>
+            </md-button>
 
+            <span>{{ selectedMonth }}</span>
+
+            <md-button @click="next()" class="md-raised">
+                <md-icon>keyboard_arrow_right</md-icon>
+            </md-button>
         </div>
         <div class="body">
             <div class="weeks">
@@ -21,6 +29,9 @@
                     <span>{{ day }}</span>
                 </div>
             </div>
+
+            <!--TODO: Test-->
+            <div class="loading" v-show="loading"><span>Завантажується..</span></div>
         </div>
     </div>
 </template>
@@ -31,33 +42,36 @@
 
     export default {
         props: [
-            'iUser', 'inUsers',
+            'iUser', 'inUsers', 'inMonth', 'inYear',
         ],
 
         data() {
             return {
                 me: [],
                 users: [],
+                month: 0,
+                year: 0,
+
+                daysEmpty: 0,
+                daysInMonth: 0,
+                selectedMonth: '00 / 0000',
+                loading: false,
             }
         },
 
         created() {
             this.me = JSON.parse(this.iUser);
             this.users = JSON.parse(this.inUsers);
+            this.month = this.inMonth;
+            this.year = this.inYear;
 
             this.daysInMonth = moment().daysInMonth();
             this.daysEmpty = moment().day() - moment().date();
-
-//            console.log(this.users);
-            console.log(this.daysEmpty);
-            console.log(moment().date());
-        },
-
-        mounted() {
-
+            this.selectedMonth = this.month + ' / ' + this.year;
         },
 
         methods: {
+            // TODO: very slow
             eventClass(day) {
                 let classes = 'item';
 
@@ -68,12 +82,44 @@
                     }
                 }
 
-                if (moment().date() == day) {
+                if (moment().year() == this.year && moment().format('M') == this.month && moment().date() == day) {
                     classes += ' today';
                 }
 
+                console.log('Event');
+                this.loading = false;
                 return classes;
-            }
+            },
+            prev() {
+                if (--this.month < 1) {
+                    this.year--;
+                    this.month = 12;
+                }
+
+                this.getMonth();
+            },
+            next () {
+                if (++this.month > 12) {
+                    this.year++;
+                    this.month = 1;
+                }
+
+                this.getMonth();
+            },
+            getMonth() {
+                this.loading = true;
+
+                axios.get('/axios/calendar.get', {
+                    params: {
+                        month: this.month,
+                    }
+                })
+                    .then(res => this.users = res.data)
+                    .catch(error => console.log('Error: ' + this.error));
+
+                console.log('--------------');
+                this.selectedMonth = this.month + ' / ' + this.year;
+            },
         },
     }
 </script>

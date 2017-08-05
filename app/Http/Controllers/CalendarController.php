@@ -17,20 +17,28 @@ class CalendarController extends Controller
             return abort(404);
         }
 
+        $month = Carbon::now()->month;
+
         $users = User::select('name', 'birth')
-            ->whereMonth('birth', '=', Carbon::now()->month)
+            ->whereMonth('birth', '=', $month)
             ->get();
 
         return view('calendar.index', [
             'me'    => $me,
+            'year'  => Carbon::now()->year,
             'users' => $users,
+            'month' => $month,
         ]);
     }
 
-    public function getMonth($month)
+    public function getCalendar(Request $request)
     {
+        if (! $this->access(Auth::user()->role->acs_calendar, 'view')) {
+            return abort(404);
+        }
+
         $users = User::select('name', 'birth')
-            ->whereMonth('birth', '=', $month)
+            ->whereMonth('birth', '=', (int)$request->month)
             ->get();
 
         return json_encode($users);

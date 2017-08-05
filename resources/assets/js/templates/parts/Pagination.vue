@@ -9,10 +9,10 @@
 
         <md-button>{{ data.current_page + ' / ' + data.last_page }}</md-button>
 
-        <md-button @click="next()" class="md-raised md-dense hide-xs">
+        <md-button @click="next()" class="md-raised md-dense">
             <md-icon>keyboard_arrow_right</md-icon>
         </md-button>
-        <md-button @click="last()" class="md-raised md-dense">
+        <md-button @click="last()" class="md-raised md-dense hide-xs">
             <md-icon>last_page</md-icon>
         </md-button>
     </div>
