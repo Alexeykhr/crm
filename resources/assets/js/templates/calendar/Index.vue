@@ -22,11 +22,9 @@
                 <span class="item">Нд</span>
             </div>
             <div class="dates">
-                <template v-if="daysEmpty > 0">
-                    <div class="item" v-for="day in daysEmpty"></div>
-                </template>
-                <div :class="eventClass(index)" v-for="(user, index) in sortUsers()">
-                    <span>{{ index }}</span>
+                <div class="item" v-for="day in daysEmpty"></div>
+                <div :class="eventClass(day)" v-for="day in daysInMonth">
+                    <span>{{ day }}</span>
                 </div>
             </div>
         </div>
@@ -49,6 +47,7 @@
                 month: 0,
                 year: 0,
 
+                sortableUsers: [],
                 daysEmpty: 0,
                 daysInMonth: 0,
                 selectedMonth: '00 / 0000',
@@ -58,24 +57,22 @@
 
         created() {
             this.me = JSON.parse(this.iUser);
-            this.users = JSON.parse(this.inUsers);
             this.month = this.inMonth;
             this.year = this.inYear;
 
-            this.sortUsers();
+            this.sortUsers(JSON.parse(this.inUsers));
 
             this.daysInMonth = moment().daysInMonth();
-            this.daysEmpty = moment().day() - 1;
+            this.daysEmpty = moment().date(1).weekday();
 
             this.selectedMonth = this.month + ' / ' + this.year;
         },
 
         methods: {
-            // TODO: very slow
             eventClass(day) {
                 let classes = 'item';
 
-                if (this.users[day] != null) {
+                if (this.sortableUsers[day] != null) {
                     classes += ' event';
                 }
 
@@ -102,33 +99,34 @@
                 this.getMonth();
             },
             getMonth() {
+                this.sortableUsers = [];
+
                 axios.get('/axios/calendar.get', {
                     params: {
                         month: this.month,
                     }
                 })
-                    .then(res => this.users = res.data)
+                    .then(res => this.sortUsers(res.data))
                     .catch(error => console.log('Error: ' + this.error));
 
                 this.selectedMonth = this.month + ' / ' + this.year;
-                this.daysEmpty = moment().year(this.year).month(this.month).day(1);
-//                console.log(moment().date());
+                this.daysEmpty = moment(this.year+'.'+this.month+'.'+1, 'YYYY.MM.DD').weekday();
             },
-            sortUsers() {
-                let count = this.users.length,
+            sortUsers(users) {
+                let count = users.length,
                     arr = [];
 
                 for (let i = 0; i < count; i++) {
-                    let date = moment(this.users[i].birth).date();
+                    let date = moment(users[i].birth).date();
 
                     if (arr[date] == null) {
                         arr[date] = [];
                     }
 
-                    arr[date].push(this.users[i]);
+                    arr[date].push(users[i]);
                 }
 
-                return arr;
+                this.sortableUsers = arr;
             }
         },
     }

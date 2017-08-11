@@ -27089,8 +27089,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27105,6 +27103,7 @@ moment.locale('uk');
             month: 0,
             year: 0,
 
+            sortableUsers: [],
             daysEmpty: 0,
             daysInMonth: 0,
             selectedMonth: '00 / 0000',
@@ -27113,25 +27112,23 @@ moment.locale('uk');
     },
     created: function created() {
         this.me = JSON.parse(this.iUser);
-        this.users = JSON.parse(this.inUsers);
         this.month = this.inMonth;
         this.year = this.inYear;
 
-        this.sortUsers();
+        this.sortUsers(JSON.parse(this.inUsers));
 
         this.daysInMonth = moment().daysInMonth();
-        this.daysEmpty = moment().day() - 1;
+        this.daysEmpty = moment().date(1).weekday();
 
         this.selectedMonth = this.month + ' / ' + this.year;
     },
 
 
     methods: {
-        // TODO: very slow
         eventClass: function eventClass(day) {
             var classes = 'item';
 
-            if (this.users[day] != null) {
+            if (this.sortableUsers[day] != null) {
                 classes += ' event';
             }
 
@@ -27160,35 +27157,36 @@ moment.locale('uk');
         getMonth: function getMonth() {
             var _this = this;
 
+            this.sortableUsers = [];
+
             axios.get('/axios/calendar.get', {
                 params: {
                     month: this.month
                 }
             }).then(function (res) {
-                return _this.users = res.data;
+                return _this.sortUsers(res.data);
             }).catch(function (error) {
                 return console.log('Error: ' + _this.error);
             });
 
             this.selectedMonth = this.month + ' / ' + this.year;
-            this.daysEmpty = moment().year(this.year).month(this.month).day(1);
-            console.log(moment().date());
+            this.daysEmpty = moment(this.year + '.' + this.month + '.' + 1, 'YYYY.MM.DD').weekday();
         },
-        sortUsers: function sortUsers() {
-            var count = this.users.length,
+        sortUsers: function sortUsers(users) {
+            var count = users.length,
                 arr = [];
 
             for (var i = 0; i < count; i++) {
-                var date = moment(this.users[i].birth).date();
+                var date = moment(users[i].birth).date();
 
                 if (arr[date] == null) {
                     arr[date] = [];
                 }
 
-                arr[date].push(this.users[i]);
+                arr[date].push(users[i]);
             }
 
-            return arr;
+            this.sortableUsers = arr;
         }
     }
 });
@@ -55941,14 +55939,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "body"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "dates"
-  }, [(_vm.daysEmpty > 0) ? _vm._l((_vm.daysEmpty), function(day) {
+  }, [_vm._l((_vm.daysEmpty), function(day) {
     return _c('div', {
       staticClass: "item"
     })
-  }) : _vm._e(), _vm._v(" "), _vm._l((_vm.sortUsers()), function(user, index) {
+  }), _vm._v(" "), _vm._l((_vm.daysInMonth), function(day) {
     return _c('div', {
-      class: _vm.eventClass(index)
-    }, [_c('span', [_vm._v(_vm._s(index))])])
+      class: _vm.eventClass(day)
+    }, [_c('span', [_vm._v(_vm._s(day))])])
   })], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
