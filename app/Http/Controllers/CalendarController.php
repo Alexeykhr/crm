@@ -19,7 +19,7 @@ class CalendarController extends Controller
 
         $month = Carbon::now()->month;
 
-        $users = User::select('name', 'birth')
+        $users = User::select('name', 'birth', 'photo')
             ->whereMonth('birth', '=', $month)
             ->get();
 
@@ -37,7 +37,7 @@ class CalendarController extends Controller
             return abort(404);
         }
 
-        $users = User::select('name', 'birth')
+        $users = User::select('name', 'birth', 'photo')
             ->whereMonth('birth', '=', (int)$request->month)
             ->get();
 

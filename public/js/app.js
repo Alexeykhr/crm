@@ -27089,6 +27089,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27106,7 +27134,11 @@ moment.locale('uk');
             sortableUsers: [],
             daysEmpty: 0,
             daysInMonth: 0,
+
             selectedMonth: '00 / 0000',
+            selectedDay: null,
+            selectedUsers: [],
+
             loading: false
         };
     },
@@ -27121,6 +27153,8 @@ moment.locale('uk');
         this.daysEmpty = moment().date(1).weekday();
 
         this.selectedMonth = this.month + ' / ' + this.year;
+
+        this.selectDay(moment().date());
     },
 
 
@@ -27134,6 +27168,10 @@ moment.locale('uk');
 
             if (moment().year() == this.year && moment().format('M') == this.month && moment().date() == day) {
                 classes += ' today';
+            }
+
+            if (this.selectedDay == day) {
+                classes += ' selected';
             }
 
             return classes;
@@ -27158,6 +27196,8 @@ moment.locale('uk');
             var _this = this;
 
             this.sortableUsers = [];
+            this.selectedDay = null;
+            this.selectedUsers = [];
 
             axios.get('/axios/calendar.get', {
                 params: {
@@ -27170,7 +27210,7 @@ moment.locale('uk');
             });
 
             this.selectedMonth = this.month + ' / ' + this.year;
-            this.daysEmpty = moment(this.year + '.' + this.month + '.' + 1, 'YYYY.MM.DD').weekday();
+            this.daysEmpty = moment(this.year + '.' + this.month + '.1', 'YYYY.MM.DD').weekday();
         },
         sortUsers: function sortUsers(users) {
             var count = users.length,
@@ -27187,6 +27227,20 @@ moment.locale('uk');
             }
 
             this.sortableUsers = arr;
+        },
+        selectDay: function selectDay(day) {
+            if (!this.sortableUsers[day]) {
+                return;
+            }
+
+            this.selectedUsers = this.sortableUsers[day];
+            this.selectedDay = day;
+        },
+        formatBirthday: function formatBirthday(birthday) {
+            return moment(birthday).subtract(1, 'years').fromNow(true);
+        },
+        formatSelectedDay: function formatSelectedDay(day) {
+            return moment(this.year + '.' + this.month + '.' + this.selectedDay, 'YYYY.MM.DD').fromNow();
         }
     }
 });
@@ -55920,6 +55974,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "calendar"
   }, [_c('div', {
+    staticClass: "left-column"
+  }, [_c('div', {
     staticClass: "header"
   }, [_c('md-button', {
     staticClass: "md-raised",
@@ -55945,9 +56001,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })
   }), _vm._v(" "), _vm._l((_vm.daysInMonth), function(day) {
     return _c('div', {
-      class: _vm.eventClass(day)
+      class: _vm.eventClass(day),
+      on: {
+        "click": function($event) {
+          _vm.selectDay(day)
+        }
+      }
     }, [_c('span', [_vm._v(_vm._s(day))])])
-  })], 2)])])
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "right-column"
+  }, [_c('div', {
+    staticClass: "header"
+  }, [(_vm.selectedDay) ? _c('span', [_vm._v(_vm._s(_vm.formatSelectedDay()))]) : _c('span', [_vm._v("Виберіть день")])]), _vm._v(" "), _c('div', {
+    staticClass: "body"
+  }, [_c('md-whiteframe', {
+    staticClass: "phone-viewport",
+    attrs: {
+      "md-elevation": "2"
+    }
+  }, [_c('md-list', {
+    staticClass: "md-double-line"
+  }, _vm._l((_vm.selectedUsers), function(user, index) {
+    return _c('md-list-item', {
+      key: index
+    }, [_c('md-avatar', [_c('img', {
+      attrs: {
+        "src": user.photo ? user.photo : 'img/user.png',
+        "alt": user.name
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "md-list-text-container"
+    }, [_c('span', [_vm._v(_vm._s(user.name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.formatBirthday(user.birth)))])]), _vm._v(" "), _c('md-icon', [_vm._v("cake")])], 1)
+  }))], 1)], 1)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "weeks"

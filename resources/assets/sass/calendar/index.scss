@@ -1,98 +1,120 @@
 .calendar {
-  width: 50%;
-  padding: 100px 50px;
-  max-width: 570px;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
 
-  > .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    > .md-button, span {
-      width: 100%;
-    }
-
-    > span {
-      font-size: 16px;
-    }
-  }
-
-  > .body {
-    position: relative;
-  }
-
-  .weeks {
+  > .left-column {
     width: 100%;
-    overflow: hidden;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-  }
+    padding: 100px 50px;
+    max-width: 570px;
 
-  .dates {
-    width: 100%;
-    overflow: hidden;
-    font-size: 16px;
-    text-align: center;
-    .item {
-      position: relative;
-      cursor: default;
+    > .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: center;
+      background: $main-color;
+
+      > .md-button, span {
+        width: 100%;
+      }
+
       > span {
-        position: relative;
+        font-size: 20px;
+        color: #fff;
       }
     }
-  }
 
-  .item {
-    width: 14.285%;
-    float: left;
-    line-height: 50px;
-    border: 2px solid #f8f8f8;
-
-    &.today {
-      border: 2px solid $main-color;
+    > .body {
+      position: relative;
+      background: #fff;
     }
 
-    &.event {
-      color: #fff;
-      cursor: pointer;
-      transition: .3s;
-      &:hover {
-        background: $main-color;
+    .weeks {
+      width: 100%;
+      overflow: hidden;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .dates {
+      width: 100%;
+      overflow: hidden;
+      font-size: 16px;
+      text-align: center;
+      .item {
+        position: relative;
+        cursor: default;
+        > span {
+          position: relative;
+        }
+      }
+    }
+
+    .item {
+      width: 14.285%;
+      float: left;
+      line-height: 50px;
+      border: 2px solid #f8f8f8;
+
+      &.today {
         border: 2px solid $main-color;
+      }
+
+      &.event {
+        color: #fff;
+        cursor: pointer;
+        transition: .3s;
+        &:hover {
+          background: $main-color;
+          border-color: $main-color;
+          color: #333;
+          &:before {
+            background: #fff;
+          }
+        }
+        &:before {
+          content: '';
+          position: absolute;
+          width: 36px;
+          height: 36px;
+          background: $main-color;
+          left: 50%;
+          top: 50%;
+          margin-left: -18px;
+          margin-top: -19px;
+          border-radius: 50%;
+        }
+      }
+
+      &.selected {
         color: #333;
+        background: $main-color;
+        border-color: $main-color;
         &:before {
           background: #fff;
         }
       }
-      &:before {
-        content: '';
-        position: absolute;
-        width: 36px;
-        height: 36px;
-        background: $main-color;
-        left: 50%;
-        top: 50%;
-        margin-left: -18px;
-        margin-top: -19px;
-        border-radius: 50%;
-      }
     }
   }
-}
 
-.loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  background: rgba(183, 183, 183, 0.15);
-
-  > span {
-    text-align: center;
+  > .right-column {
+    padding: 100px 50px;
     width: 100%;
+    > .header {
+      width: 100%;
+      height: 48px;
+      background: $main-color;
+      display: flex;
+      align-items: center;
+      > span {
+        display: block;
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        width: 100%;
+      }
+    }
   }
 }
