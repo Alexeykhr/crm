@@ -27481,13 +27481,7 @@ moment.locale('uk');
                 return console.log('Error: ' + _this.error);
             });
 
-            if (top) {
-                var offset = $('.left-column').offset().top;
-
-                if (window.pageYOffset > offset) {
-                    window.scrollTo(0, offset);
-                }
-            }
+            $('.left-column').scrollTop(0);
         }
     },
 
@@ -27775,13 +27769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log('Error: ' + _this.error);
             });
 
-            if (top) {
-                var offset = $('.left-column').offset().top;
-
-                if (window.pageYOffset > offset) {
-                    window.scrollTo(0, offset);
-                }
-            }
+            $('.left-column').scrollTop(0);
         }
     },
 

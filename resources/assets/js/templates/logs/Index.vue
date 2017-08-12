@@ -115,13 +115,7 @@
                     .then(res => this.logs = res.data)
                     .catch(error => console.log('Error: ' + this.error));
 
-                if (top) {
-                    let offset = $('.left-column').offset().top;
-
-                    if (window.pageYOffset > offset) {
-                        window.scrollTo(0, offset)
-                    }
-                }
+                $('.left-column').scrollTop(0);
             },
         },
 
