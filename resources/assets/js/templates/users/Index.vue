@@ -1,64 +1,5 @@
 <template>
     <md-layout class="list">
-        <md-layout class="right-column" md-flex="25">
-            <md-input-container md-clearable>
-                <md-icon>search</md-icon>
-                <label>Пошук</label>
-                <md-input v-model="q" autofocus></md-input>
-            </md-input-container>
-
-            <br>
-
-            <md-input-container>
-                <label for="count">Кількість працівників</label>
-                <md-select name="count" id="count" v-model="count">
-                    <md-option :value="10">10</md-option>
-                    <md-option :value="25">25</md-option>
-                    <md-option :value="50">50</md-option>
-                    <md-option :value="75">75</md-option>
-                    <md-option :value="100">100</md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_role">
-                <label for="role">Роль</label>
-                <md-select name="role" id="role" v-model="role">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="role in roles"
-                               :key="role.id"
-                               :value="role.id">
-                        {{ role.title }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_job">
-                <label for="job">Посада</label>
-                <md-select name="job" id="job" v-model="job">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="job in jobs"
-                               :key="job.id"
-                               :value="job.id">
-                        {{ job.title }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
-            <div class="choose">
-                <span>Має доступ</span>
-                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
-                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
-                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
-            </div>
-
-            <div class="choose">
-                <span>Видалений</span>
-                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
-                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
-                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
-            </div>
-        </md-layout>
-
         <md-layout class="left-column" md-flex="75">
             <pagination :data="users" :func="getUsers"></pagination>
 
@@ -138,6 +79,65 @@
             </md-table>
 
             <pagination :data="users" :func="getUsers"></pagination>
+        </md-layout>
+
+        <md-layout class="right-column" md-flex="25">
+            <md-input-container md-clearable>
+                <md-icon>search</md-icon>
+                <label>Пошук</label>
+                <md-input v-model="q" autofocus></md-input>
+            </md-input-container>
+
+            <br>
+
+            <md-input-container>
+                <label for="count">Кількість працівників</label>
+                <md-select name="count" id="count" v-model="count">
+                    <md-option :value="10">10</md-option>
+                    <md-option :value="25">25</md-option>
+                    <md-option :value="50">50</md-option>
+                    <md-option :value="75">75</md-option>
+                    <md-option :value="100">100</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_role">
+                <label for="role">Роль</label>
+                <md-select name="role" id="role" v-model="role">
+                    <md-option :key="-1" :value="-1">Всі</md-option>
+                    <md-option v-for="role in roles"
+                               :key="role.id"
+                               :value="role.id">
+                        {{ role.title }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_job">
+                <label for="job">Посада</label>
+                <md-select name="job" id="job" v-model="job">
+                    <md-option :key="-1" :value="-1">Всі</md-option>
+                    <md-option v-for="job in jobs"
+                               :key="job.id"
+                               :value="job.id">
+                        {{ job.title }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <div class="choose">
+                <span>Має доступ</span>
+                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
+                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
+                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
+            </div>
+
+            <div class="choose">
+                <span>Видалений</span>
+                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
+                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
+                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
+            </div>
         </md-layout>
     </md-layout>
 </template>

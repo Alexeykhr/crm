@@ -22,6 +22,7 @@
                     <span class="item">Сб</span>
                     <span class="item">Нд</span>
                 </div>
+
                 <div class="dates">
                     <div class="item" v-for="day in daysEmpty"></div>
                     <div :class="eventClass(day)" v-for="day in daysInMonth" @click="selectDay(day)">
@@ -82,8 +83,6 @@
                 selectedMonth: '00 / 0000',
                 selectedDay: null,
                 selectedUsers: [],
-
-                loading: false,
             }
         },
 

@@ -27117,6 +27117,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27137,9 +27138,7 @@ moment.locale('uk');
 
             selectedMonth: '00 / 0000',
             selectedDay: null,
-            selectedUsers: [],
-
-            loading: false
+            selectedUsers: []
         };
     },
     created: function created() {
@@ -56344,6 +56343,64 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-layout', {
     staticClass: "list"
   }, [_c('md-layout', {
+    staticClass: "left-column",
+    attrs: {
+      "md-flex": "75"
+    }
+  }, [_c('pagination', {
+    attrs: {
+      "data": _vm.users,
+      "func": _vm.getUsers
+    }
+  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
+    return _c('md-table-row', {
+      key: user.id
+    }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
+      attrs: {
+        "src": user.photo ? user.photo : 'img/user.png',
+        "title": 'Користувач: ' + user.name,
+        "atl": 'Користувач: ' + user.name
+      }
+    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
+      style: ('color:' + user.role.color + ';background:' + user.role.background + ';')
+    }, [_vm._v("\n                            " + _vm._s(user.role.title) + "\n                        ")])], 1) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
+      attrs: {
+        "md-align-trigger": "",
+        "md-size": "6"
+      }
+    }, [_c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "md-menu-trigger": ""
+      }
+    }, [_c('md-icon', [_vm._v("contact_mail")])], 1), _vm._v(" "), _c('md-menu-content', [(user.phone) ? _c('md-menu-item', {
+      attrs: {
+        "href": 'tel:+' + user.phone.replace(/\D/g, '')
+      }
+    }, [_c('md-icon', [_vm._v("phone")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.phone))])], 1) : _vm._e(), _vm._v(" "), (user.work_phone) ? _c('md-menu-item', {
+      attrs: {
+        "href": 'tel:+' + user.work_phone.replace(/\D/g, '')
+      }
+    }, [_c('md-icon', [_vm._v("phone")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_phone))])], 1) : _vm._e(), _vm._v(" "), (user.email) ? _c('md-menu-item', {
+      attrs: {
+        "href": 'mailto:' + user.email
+      }
+    }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.email))])], 1) : _vm._e(), _vm._v(" "), (user.work_email) ? _c('md-menu-item', {
+      attrs: {
+        "href": 'mailto:' + user.work_email
+      }
+    }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_email))])], 1) : _vm._e()], 1)], 1) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "href": '/users/' + user.id
+      }
+    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
+  }))], 1), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "data": _vm.users,
+      "func": _vm.getUsers
+    }
+  })], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "right-column",
     attrs: {
       "md-flex": "25"
@@ -56531,65 +56588,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "del"
     }
-  }, [_vm._v("Ні")])], 1)], 1), _vm._v(" "), _c('md-layout', {
-    staticClass: "left-column",
-    attrs: {
-      "md-flex": "75"
-    }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.users,
-      "func": _vm.getUsers
-    }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
-    return _c('md-table-row', {
-      key: user.id
-    }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
-      attrs: {
-        "src": user.photo ? user.photo : 'img/user.png',
-        "title": 'Користувач: ' + user.name,
-        "atl": 'Користувач: ' + user.name
-      }
-    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
-      style: ('color:' + user.role.color + ';background:' + user.role.background + ';')
-    }, [_vm._v("\n                            " + _vm._s(user.role.title) + "\n                        ")])], 1) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
-      attrs: {
-        "md-align-trigger": "",
-        "md-size": "6"
-      }
-    }, [_c('md-button', {
-      staticClass: "md-icon-button",
-      attrs: {
-        "md-menu-trigger": ""
-      }
-    }, [_c('md-icon', [_vm._v("contact_mail")])], 1), _vm._v(" "), _c('md-menu-content', [(user.phone) ? _c('md-menu-item', {
-      attrs: {
-        "href": 'tel:+' + user.phone.replace(/\D/g, '')
-      }
-    }, [_c('md-icon', [_vm._v("phone")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.phone))])], 1) : _vm._e(), _vm._v(" "), (user.work_phone) ? _c('md-menu-item', {
-      attrs: {
-        "href": 'tel:+' + user.work_phone.replace(/\D/g, '')
-      }
-    }, [_c('md-icon', [_vm._v("phone")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_phone))])], 1) : _vm._e(), _vm._v(" "), (user.email) ? _c('md-menu-item', {
-      attrs: {
-        "href": 'mailto:' + user.email
-      }
-    }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.email))])], 1) : _vm._e(), _vm._v(" "), (user.work_email) ? _c('md-menu-item', {
-      attrs: {
-        "href": 'mailto:' + user.work_email
-      }
-    }, [_c('md-icon', [_vm._v("email")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.work_email))])], 1) : _vm._e()], 1)], 1) : _vm._e()], 1), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
-      staticClass: "md-icon-button",
-      attrs: {
-        "href": '/users/' + user.id
-      }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
-  }))], 1), _vm._v(" "), _c('pagination', {
-    attrs: {
-      "data": _vm.users,
-      "func": _vm.getUsers
-    }
-  })], 1)], 1)
+  }, [_vm._v("Ні")])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -56607,6 +56606,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-layout', {
     staticClass: "list"
   }, [_c('md-layout', {
+    staticClass: "left-column",
+    attrs: {
+      "md-flex": "75"
+    }
+  }, [_c('pagination', {
+    attrs: {
+      "data": _vm.logs,
+      "func": _vm.getLogs
+    }
+  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дія")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
+    return _c('md-table-row', {
+      key: log.id
+    }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.action))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "href": '/users/' + log.user.id
+      }
+    }, [_c('md-icon', [_vm._v("account_circle")])], 1), _vm._v(" "), _c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "href": "/"
+      }
+    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
+  }))], 1), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "data": _vm.logs,
+      "func": _vm.getLogs
+    }
+  })], 1), _vm._v(" "), _c('md-layout', {
     staticClass: "right-column",
     attrs: {
       "md-flex": "25"
@@ -56690,36 +56718,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "Інше"
     }
-  }, [_vm._v("Інше")])], 1)], 1)], 1), _vm._v(" "), _c('md-layout', {
-    staticClass: "left-column",
-    attrs: {
-      "md-flex": "75"
-    }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.logs,
-      "func": _vm.getLogs
-    }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дія")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
-    return _c('md-table-row', {
-      key: log.id
-    }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.action))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
-      staticClass: "md-icon-button",
-      attrs: {
-        "href": '/users/' + log.user.id
-      }
-    }, [_c('md-icon', [_vm._v("account_circle")])], 1), _vm._v(" "), _c('md-button', {
-      staticClass: "md-icon-button",
-      attrs: {
-        "href": "/"
-      }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
-  }))], 1), _vm._v(" "), _c('pagination', {
-    attrs: {
-      "data": _vm.logs,
-      "func": _vm.getLogs
-    }
-  })], 1)], 1)
+  }, [_vm._v("Інше")])], 1)], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

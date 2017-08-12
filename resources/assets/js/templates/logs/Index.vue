@@ -1,35 +1,5 @@
 <template>
     <md-layout class="list">
-        <md-layout class="right-column" md-flex="25">
-            <md-input-container md-clearable>
-                <md-icon>search</md-icon>
-                <label>Пошук</label>
-                <md-input v-model="q" autofocus></md-input>
-            </md-input-container>
-
-            <br>
-
-            <md-input-container>
-                <label for="module">Модуль</label>
-                <md-select name="module" id="module" v-model="module">
-                    <md-option value="">Всі</md-option>
-                    <md-option value="Авторизація">Авторизація</md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container>
-                <label for="action">Дія</label>
-                <md-select name="action" id="action" v-model="action">
-                    <md-option value="">Всі</md-option>
-                    <md-option value="Створення">Створення</md-option>
-                    <md-option value="Видалення">Видалення</md-option>
-                    <md-option value="Відредагування">Відредагування</md-option>
-                    <md-option value="Перегляд">Перегляд</md-option>
-                    <md-option value="Інше">Інше</md-option>
-                </md-select>
-            </md-input-container>
-        </md-layout>
-
         <md-layout class="left-column" md-flex="75">
             <pagination :data="logs" :func="getLogs"></pagination>
 
@@ -68,6 +38,36 @@
             </md-table>
 
             <pagination :data="logs" :func="getLogs"></pagination>
+        </md-layout>
+
+        <md-layout class="right-column" md-flex="25">
+            <md-input-container md-clearable>
+                <md-icon>search</md-icon>
+                <label>Пошук</label>
+                <md-input v-model="q" autofocus></md-input>
+            </md-input-container>
+
+            <br>
+
+            <md-input-container>
+                <label for="module">Модуль</label>
+                <md-select name="module" id="module" v-model="module">
+                    <md-option value="">Всі</md-option>
+                    <md-option value="Авторизація">Авторизація</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label for="action">Дія</label>
+                <md-select name="action" id="action" v-model="action">
+                    <md-option value="">Всі</md-option>
+                    <md-option value="Створення">Створення</md-option>
+                    <md-option value="Видалення">Видалення</md-option>
+                    <md-option value="Відредагування">Відредагування</md-option>
+                    <md-option value="Перегляд">Перегляд</md-option>
+                    <md-option value="Інше">Інше</md-option>
+                </md-select>
+            </md-input-container>
         </md-layout>
     </md-layout>
 </template>
