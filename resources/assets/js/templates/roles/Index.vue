@@ -18,7 +18,7 @@
                                   :style="(!role.delete && role.active && role.color ?
                                   'border-left: 10px solid ' + role.color : '') + ';'">
                         <md-table-cell>
-                            <span>{{ role.title }}</span>
+                            <span><b>{{ role.title }}</b></span>
                         </md-table-cell>
 
                         <md-table-cell>

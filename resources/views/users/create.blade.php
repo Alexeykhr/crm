@@ -4,6 +4,6 @@
 
 @section('content')
 
-    <user-create></user-create>
+    <users-create></users-create>
 
 @endsection

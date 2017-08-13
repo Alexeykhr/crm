@@ -41,7 +41,15 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'create')) {
+            return abort(404);
+        }
+
+        return view('roles.create', [
+            'me' => $me,
+        ]);
     }
 
     /**
