@@ -16,7 +16,7 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="user in users.data" :key="user.id"
+                    <md-table-row v-for="(user, index) in users.data" :key="user.id" :class="setClass(index)"
                                   :style="(!user.delete && user.active && user.role.color ?
                                   'border-left: 10px solid ' + user.role.color : '') + ';'">
                         <md-table-cell>
@@ -36,11 +36,7 @@
                         </md-table-cell>
 
                         <md-table-cell v-if="me.role.acs_role">
-                            <span v-if="user.delete">Видалений</span>
-                            <span v-else-if="!user.active">Немає доступ</span>
-                            <span v-else>
-                                {{ user.role.title }}
-                            </span>
+                            <span v-if="!user.delete && user.active">{{ user.role.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -190,6 +186,14 @@
                     .catch(error => console.log('Error: ' + this.error));
 
                 $('.left-column').scrollTop(0);
+            },
+            setClass(id) {
+                let classes = 'list-row';
+
+                classes += this.users.data[id].delete ? ' delete' : ' no-delete';
+                classes += this.users.data[id].active ? ' active' : ' no-active';
+
+                return classes;
             },
         },
 

@@ -14,7 +14,7 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="role in roles.data" :key="role.id"
+                    <md-table-row v-for="(role, index) in roles.data" :key="role.id" :class="setClass(index)"
                                   :style="(!role.delete && role.active && role.color ?
                                   'border-left: 10px solid ' + role.color : '') + ';'">
                         <md-table-cell>
@@ -116,6 +116,14 @@
                     .catch(error => console.log('Error: ' + this.error));
 
                 $('.left-column').scrollTop(0);
+            },
+            setClass(id) {
+                let classes = 'list-row';
+
+                classes += this.roles.data[id].delete ? ' delete' : ' no-delete';
+                classes += this.roles.data[id].active ? ' active' : ' no-active';
+
+                return classes;
             },
         },
 

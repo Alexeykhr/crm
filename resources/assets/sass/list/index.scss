@@ -76,3 +76,12 @@
     }
   }
 }
+
+.list-row {
+  &.delete {
+    text-decoration: line-through;
+  }
+  &.active.no-delete {
+    background: #f7f7f7;
+  }
+}
