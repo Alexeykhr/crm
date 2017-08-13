@@ -27637,6 +27637,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inRoles'],
@@ -27725,6 +27731,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -56396,10 +56404,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.roles,
       "func": _vm.getRoles
     }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Рівень")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role) {
+  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Рівень")]), _vm._v(" "), _c('md-table-head', [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role) {
     return _c('md-table-row', {
-      key: role.id
-    }, [_c('md-table-cell', [_c('span', [_c('b', [_vm._v(_vm._s(role.title))])])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      key: role.id,
+      style: ((!role.delete && role.active && role.color ?
+        'border-left: 10px solid ' + role.color : '') + ';')
+    }, [_c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
         "href": '/roles/' + role.id
@@ -56698,16 +56708,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user) {
     return _c('md-table-row', {
-      key: user.id
+      key: user.id,
+      style: ((!user.delete && user.active && user.role.color ?
+        'border-left: 10px solid ' + user.role.color : '') + ';')
     }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
       attrs: {
         "src": user.photo ? user.photo : 'img/user.png',
         "title": 'Користувач: ' + user.name,
         "atl": 'Користувач: ' + user.name
       }
-    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(user.delete) ? _c('md-chip', [_vm._v("Видалений")]) : (!user.active) ? _c('md-chip', [_vm._v("Немає доступ")]) : _c('md-chip', {
-      style: ('color:' + user.role.color + ';background:' + user.role.background + ';')
-    }, [_vm._v("\n                            " + _vm._s(user.role.title) + "\n                        ")])], 1) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
+    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(user.delete) ? _c('span', [_vm._v("Видалений")]) : (!user.active) ? _c('span', [_vm._v("Немає доступ")]) : _c('span', [_vm._v("\n                            " + _vm._s(user.role.title) + "\n                        ")])]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
         "md-align-trigger": "",
         "md-size": "6"

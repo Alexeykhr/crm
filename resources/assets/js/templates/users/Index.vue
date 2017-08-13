@@ -16,7 +16,9 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="user in users.data" :key="user.id">
+                    <md-table-row v-for="user in users.data" :key="user.id"
+                                  :style="(!user.delete && user.active && user.role.color ?
+                                  'border-left: 10px solid ' + user.role.color : '') + ';'">
                         <md-table-cell>
                             <md-avatar>
                                 <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
@@ -34,11 +36,11 @@
                         </md-table-cell>
 
                         <md-table-cell v-if="me.role.acs_role">
-                            <md-chip v-if="user.delete">Видалений</md-chip>
-                            <md-chip v-else-if="!user.active">Немає доступ</md-chip>
-                            <md-chip v-else :style="'color:' + user.role.color + ';background:' + user.role.background + ';'">
+                            <span v-if="user.delete">Видалений</span>
+                            <span v-else-if="!user.active">Немає доступ</span>
+                            <span v-else>
                                 {{ user.role.title }}
-                            </md-chip>
+                            </span>
                         </md-table-cell>
 
                         <md-table-cell>

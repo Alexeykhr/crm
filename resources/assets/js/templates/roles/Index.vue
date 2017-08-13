@@ -8,19 +8,25 @@
                     <md-table-row>
                         <md-table-head>Назва</md-table-head>
                         <md-table-head>Рівень</md-table-head>
+                        <md-table-head>Працівників</md-table-head>
                         <md-table-head></md-table-head>
                     </md-table-row>
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="role in roles.data" :key="role.id">
-
+                    <md-table-row v-for="role in roles.data" :key="role.id"
+                                  :style="(!role.delete && role.active && role.color ?
+                                  'border-left: 10px solid ' + role.color : '') + ';'">
                         <md-table-cell>
-                            <span><b>{{ role.title }}</b></span>
+                            <span>{{ role.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
                             <span>{{ role.level }}</span>
+                        </md-table-cell>
+
+                        <md-table-cell>
+                            <span>{{ role.users_count }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
