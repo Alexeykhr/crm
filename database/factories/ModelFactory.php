@@ -14,14 +14,16 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    $role = \App\Role::inRandomOrder()->first();
+    $job = \App\Job::inRandomOrder()->first();
 
     return [
         'nick' => $faker->unique()->firstName,
         'name' => $faker->name,
         'email' => $faker->email,
         'work_email' => $faker->email,
-        'role_id' => mt_rand(1, 3),
-        'job_id' => mt_rand(1, 20),
+        'role_id' => $role->id,
+        'job_id' => $job->id,
         'active' => mt_rand(0, 1),
         'delete' => mt_rand(0, 1),
         'phone' => $faker->phoneNumber,
@@ -35,5 +37,16 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
+    ];
+});
+
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->unique()->jobTitle,
+        'level' => mt_rand(0, 9),
+        'background' => $faker->rgbColor,
+        'color' => $faker->colorName,
+        'active' => mt_rand(0, 1),
+        'delete' => mt_rand(0, 1),
     ];
 });

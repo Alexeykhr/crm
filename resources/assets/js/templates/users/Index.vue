@@ -166,13 +166,13 @@
 
         created() {
             this.me = JSON.parse(this.iUser);
+            this.users = JSON.parse(this.inUsers);
             this.jobs = JSON.parse(this.inJobs);
             this.roles = JSON.parse(this.inRoles);
-            this.users = JSON.parse(this.inUsers);
         },
 
         methods: {
-            getUsers(page = 1, top = false) {
+            getUsers(page = 1) {
                 axios.get('/axios/users.get', {
                     params: {
                         q: this.q,

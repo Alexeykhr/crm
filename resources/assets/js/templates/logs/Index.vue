@@ -102,7 +102,7 @@
             timestamp(date) {
                 return moment(date).format('llll');
             },
-            getLogs(page = 1, top = false) {
+            getLogs(page = 1) {
                 axios.get('/axios/logs.get', {
                     params: {
                         q: this.q,

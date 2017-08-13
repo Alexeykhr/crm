@@ -26,20 +26,24 @@
 
         methods: {
             first () {
-                this.func(1, true);
+                if (this.data.current_page > 1) {
+                    this.func(1);
+                }
             },
             prev() {
                 if (this.data.prev_page_url) {
-                    this.func(this.data.current_page - 1, true);
+                    this.func(this.data.current_page - 1);
                 }
             },
             next () {
                 if (this.data.next_page_url) {
-                    this.func(this.data.current_page + 1, true);
+                    this.func(this.data.current_page + 1);
                 }
             },
             last () {
-                this.func(this.data.last_page, true);
+                if (this.data.current_page < this.data.last_page) {
+                    this.func(this.data.last_page);
+                }
             },
         }
     }

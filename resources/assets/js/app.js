@@ -35,6 +35,8 @@ Vue.component('users', require('./templates/users/Index.vue'));
 Vue.component('profile', require('./templates/users/Profile.vue'));
 Vue.component('user-create', require('./templates/users/Create.vue'));
 
+Vue.component('roles', require('./templates/roles/Index.vue'));
+
 Vue.component('logs', require('./templates/logs/Index.vue'));
 Vue.component('calendar', require('./templates/calendar/Index.vue'));
 

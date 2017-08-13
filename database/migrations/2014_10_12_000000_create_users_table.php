@@ -20,15 +20,15 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('photo')->nullable();
             $table->integer('role_id');
-            $table->string('job_id')->nullable();
+            $table->integer('job_id')->nullable();
             $table->string('email')->nullable();
             $table->string('work_email')->nullable();
             $table->string('phone')->nullable();
             $table->string('work_phone')->nullable();
-            $table->tinyInteger('active')->default(1);
-            $table->tinyInteger('delete')->default(0);
             $table->timestamp('hire')->nullable();
             $table->timestamp('birth')->nullable();
+            $table->boolean('active')->default(1);
+            $table->boolean('delete')->default(0);
             $table->timestamps();
         });
 
