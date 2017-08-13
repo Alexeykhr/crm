@@ -27238,7 +27238,7 @@ moment.locale('uk');
             this.selectedDay = day;
         },
         formatBirthday: function formatBirthday(birthday) {
-            return moment(birthday).subtract(1, 'years').fromNow(true);
+            return moment(birthday).fromNow(true);
         },
         formatSelectedDay: function formatSelectedDay(day) {
             return moment(this.year + '.' + this.month + '.' + this.selectedDay, 'YYYY.MM.DD').fromNow();
@@ -27252,6 +27252,7 @@ moment.locale('uk');
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -27655,7 +27656,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             q: '',
             count: 25,
             active: 0,
-            del: -1
+            del: -1,
+
+            sortColumn: '',
+            sortType: ''
         };
     },
     created: function created() {
@@ -27676,7 +27680,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     count: this.count,
                     del: this.del,
                     active: this.active,
-                    page: page
+                    page: page,
+
+                    sortColumn: this.sortColumn,
+                    sortType: this.sortType
                 }
             }).then(function (res) {
                 return _this.roles = res.data;
@@ -27693,6 +27700,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             classes += this.roles.data[id].active ? ' active' : ' no-active';
 
             return classes;
+        },
+        onSort: function onSort(action) {
+            this.sortColumn = action.name;
+            this.sortType = action.type;
+            this.getRoles();
         }
     },
 
@@ -27897,7 +27909,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             role: -1,
             job: -1,
             active: 0,
-            del: -1
+            del: -1,
+
+            sortColumn: '',
+            sortType: ''
         };
     },
     created: function created() {
@@ -27922,7 +27937,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     job: this.job,
                     del: this.del,
                     active: this.active,
-                    page: page
+                    page: page,
+
+                    sortColumn: this.sortColumn,
+                    sortType: this.sortType
                 }
             }).then(function (res) {
                 return _this.users = res.data;
@@ -27939,6 +27957,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             classes += this.users.data[id].active ? ' active' : ' no-active';
 
             return classes;
+        },
+        onSort: function onSort(action) {
+            this.sortColumn = action.name;
+            this.sortType = action.type;
+            this.getUsers();
         }
     },
 
@@ -56323,6 +56346,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/profile"
     }
   }, [_vm._v("Профіль")]), _vm._v(" "), _c('md-menu-item', {
+    attrs: {
+      "href": "/profile/edit"
+    }
+  }, [_vm._v("Налаштування")]), _vm._v(" "), _c('md-menu-item', {
     on: {
       "click": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "pervent")) { return null; }
@@ -56416,7 +56443,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.roles,
       "func": _vm.getRoles
     }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Рівень")]), _vm._v(" "), _c('md-table-head', [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role, index) {
+  }), _vm._v(" "), _c('md-table', {
+    on: {
+      "sort": _vm.onSort
+    }
+  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+    attrs: {
+      "md-sort-by": "title"
+    }
+  }, [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-sort-by": "level"
+    }
+  }, [_vm._v("Рівень")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-sort-by": "users_count"
+    }
+  }, [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role, index) {
     return _c('md-table-row', {
       key: role.id,
       class: _vm.setClass(index),
@@ -56719,7 +56762,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.users,
       "func": _vm.getUsers
     }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user, index) {
+  }), _vm._v(" "), _c('md-table', {
+    on: {
+      "sort": _vm.onSort
+    }
+  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-sort-by": "name"
+    }
+  }, [_vm._v("Користувач")]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-head', [_vm._v("Посада")]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-head', [_vm._v("Роль")]) : _vm._e(), _vm._v(" "), _c('md-table-head', [_vm._v("Контакти")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.users.data), function(user, index) {
     return _c('md-table-row', {
       key: user.id,
       class: _vm.setClass(index),

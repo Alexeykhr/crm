@@ -176,7 +176,7 @@
                 this.selectedDay = day;
             },
             formatBirthday(birthday) {
-                return moment(birthday).subtract(1, 'years').fromNow(true);
+                return moment(birthday).fromNow(true);
             },
             formatSelectedDay(day) {
                 return moment(this.year+'.'+this.month+'.'+this.selectedDay, 'YYYY.MM.DD').fromNow();

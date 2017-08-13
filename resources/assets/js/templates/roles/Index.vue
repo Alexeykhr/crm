@@ -3,12 +3,12 @@
         <md-layout class="left-column" md-flex="75">
             <pagination :data="roles" :func="getRoles"></pagination>
 
-            <md-table>
+            <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head>Назва</md-table-head>
-                        <md-table-head>Рівень</md-table-head>
-                        <md-table-head>Працівників</md-table-head>
+                        <md-table-head md-sort-by="title">Назва</md-table-head>
+                        <md-table-head md-sort-by="level">Рівень</md-table-head>
+                        <md-table-head md-sort-by="users_count">Працівників</md-table-head>
                         <md-table-head></md-table-head>
                     </md-table-row>
                 </md-table-header>
@@ -93,6 +93,9 @@
                 count: 25,
                 active: 0,
                 del: -1,
+
+                sortColumn: '',
+                sortType: '',
             }
         },
 
@@ -110,6 +113,9 @@
                         del: this.del,
                         active: this.active,
                         page: page,
+
+                        sortColumn: this.sortColumn,
+                        sortType: this.sortType,
                     }
                 })
                     .then(res => this.roles = res.data)
@@ -124,6 +130,11 @@
                 classes += this.roles.data[id].active ? ' active' : ' no-active';
 
                 return classes;
+            },
+            onSort(action) {
+                this.sortColumn = action.name;
+                this.sortType = action.type;
+                this.getRoles();
             },
         },
 

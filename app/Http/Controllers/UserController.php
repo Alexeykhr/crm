@@ -24,7 +24,6 @@ class UserController extends Controller
         }
 
         $users = User::select($this->getPublicColumnByUser())
-            ->orderBy('name', 'asc')
             ->where('delete', '=', 0);
 
         if ($this->access($me->role->acs_role, 'view')) {
@@ -37,8 +36,8 @@ class UserController extends Controller
 
         return view('users.index', [
             'me'        => $me,
-            'jobs'      => Job::orderBy('title', 'asc')->get(),
-            'roles'     => Role::orderBy('title', 'asc')->get(),
+            'jobs'      => Job::orderBy('title')->get(),
+            'roles'     => Role::orderBy('title')->get(),
             'users'     => $users->paginate(25),
             'canCreate' => $this->access($me->role->acs_user, 'create'),
         ]);
@@ -172,8 +171,14 @@ class UserController extends Controller
             return abort(404);
         }
 
-        $users = User::select($this->getPublicColumnByUser())
-            ->orderBy('name', 'asc');
+        $users = User::select($this->getPublicColumnByUser());
+
+        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
+            if (in_array($request->sortType, ['asc', 'desc']) &&
+                in_array($request->sortColumn, ['name'])) {
+                $users->orderBy($request->sortColumn, $request->sortType);
+            }
+        }
 
         if (! empty($request->q)) {
             $users->where('name', 'LIKE', '%' . $request->q . '%');

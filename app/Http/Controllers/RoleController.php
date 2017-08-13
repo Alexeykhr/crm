@@ -24,7 +24,6 @@ class RoleController extends Controller
         $roles = Role::withCount(['users' => function($q) {
             $q->where('delete', '=', 0);
         }])
-            ->orderBy('title')
             ->where('delete', '=', 0)
             ->paginate(25);
 
@@ -118,8 +117,14 @@ class RoleController extends Controller
 
         $roles = Role::withCount(['users' => function($q) {
             $q->where('delete', '=', '0');
-        }])
-            ->orderBy('title');
+        }]);
+
+        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
+            if (in_array($request->sortType, ['asc', 'desc']) &&
+                in_array($request->sortColumn, ['title', 'level', 'users_count'])) {
+                $roles->orderBy($request->sortColumn, $request->sortType);
+            }
+        }
 
         if (! empty($request->q)) {
             $roles->where('title', 'LIKE', '%' . $request->q . '%');

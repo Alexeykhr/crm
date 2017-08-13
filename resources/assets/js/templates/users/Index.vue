@@ -3,11 +3,11 @@
         <md-layout class="left-column" md-flex="75">
             <pagination :data="users" :func="getUsers"></pagination>
 
-            <md-table>
+            <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head>Фото</md-table-head>
-                        <md-table-head>Користувач</md-table-head>
+                        <md-table-head md-sort-by="name">Користувач</md-table-head>
                         <md-table-head v-if="me.role.acs_job">Посада</md-table-head>
                         <md-table-head v-if="me.role.acs_role">Роль</md-table-head>
                         <md-table-head>Контакти</md-table-head>
@@ -159,6 +159,9 @@
                 job: -1,
                 active: 0,
                 del: -1,
+
+                sortColumn: '',
+                sortType: '',
             }
         },
 
@@ -180,6 +183,9 @@
                         del: this.del,
                         active: this.active,
                         page: page,
+
+                        sortColumn: this.sortColumn,
+                        sortType: this.sortType,
                     }
                 })
                     .then(res => this.users = res.data)
@@ -194,6 +200,11 @@
                 classes += this.users.data[id].active ? ' active' : ' no-active';
 
                 return classes;
+            },
+            onSort(action) {
+                this.sortColumn = action.name;
+                this.sortType = action.type;
+                this.getUsers();
             },
         },
 

@@ -10,6 +10,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Users
 Route::get('profile', 'UserController@profile');
+Route::get('profile/edit', 'UserController@profileEdit');
 Route::resource('users', 'UserController');
 Route::get('axios/users.get', 'UserController@getUsers');
 

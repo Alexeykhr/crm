@@ -28,6 +28,7 @@
 
                     <md-menu-content>
                         <md-menu-item href="/profile">Профіль</md-menu-item>
+                        <md-menu-item href="/profile/edit">Налаштування</md-menu-item>
                         <md-menu-item @click.pervent="logout()">Вихід</md-menu-item>
                     </md-menu-content>
                 </md-menu>
