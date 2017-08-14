@@ -17,8 +17,8 @@
 
                 <md-table-body>
                     <md-table-row v-for="(user, index) in users.data" :key="user.id" :class="setClass(index)"
-                                  :style="(!user.delete && user.active && user.role.color ?
-                                  'border-left: 10px solid ' + user.role.color : '') + ';'">
+                                  :style="!user.delete && user.active && user.role.color ?
+                                  'border-left: 10px solid ' + user.role.color + ';' : ''">
                         <md-table-cell>
                             <md-avatar>
                                 <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
@@ -204,7 +204,7 @@
             onSort(action) {
                 this.sortColumn = action.name;
                 this.sortType = action.type;
-                this.getUsers();
+                this.getUsers(this.users.current_page);
             },
         },
 

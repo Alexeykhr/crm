@@ -37,6 +37,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
+        'active' => mt_rand(0, 1),
+        'delete' => mt_rand(0, 1),
     ];
 });
 

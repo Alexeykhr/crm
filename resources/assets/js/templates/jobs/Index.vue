@@ -1,36 +1,30 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <pagination :data="roles" :func="getRoles"></pagination>
+            <pagination :data="jobs" :func="getJobs"></pagination>
 
             <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head md-sort-by="title">Назва</md-table-head>
-                        <md-table-head md-sort-by="level">Рівень</md-table-head>
                         <md-table-head md-sort-by="users_count">Працівників</md-table-head>
                         <md-table-head></md-table-head>
                     </md-table-row>
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="(role, index) in roles.data" :key="role.id" :class="setClass(index)"
-                                  :style="!role.delete && role.active && role.color ?
-                                  'border-left: 10px solid ' + role.color + ';' : ''">
+                    <md-table-row v-for="(job, index) in jobs.data" :key="job.id" :class="setClass(index)"
+                                  :style="!job.delete && job.active ? 'border-left: 10px solid #333;' : ''">
                         <md-table-cell>
-                            <span><b>{{ role.title }}</b></span>
+                            <span><b>{{ job.title }}</b></span>
                         </md-table-cell>
 
                         <md-table-cell>
-                            <span>{{ role.level }}</span>
+                            <span>{{ job.users_count }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
-                            <span>{{ role.users_count }}</span>
-                        </md-table-cell>
-
-                        <md-table-cell>
-                            <md-button :href="'/roles/'+role.id" class="md-icon-button">
+                            <md-button :href="'/jobs/'+job.id" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
                             </md-button>
                         </md-table-cell>
@@ -38,7 +32,7 @@
                 </md-table-body>
             </md-table>
 
-            <pagination :data="roles" :func="getRoles"></pagination>
+            <pagination :data="jobs" :func="getJobs"></pagination>
         </md-layout>
 
         <md-layout class="right-column" md-flex="25">
@@ -51,7 +45,7 @@
             <br>
 
             <md-input-container>
-                <label for="count">Кількість ролей</label>
+                <label for="count">Кількість посад</label>
                 <md-select name="count" id="count" v-model="count">
                     <md-option :value="10">10</md-option>
                     <md-option :value="25">25</md-option>
@@ -81,13 +75,13 @@
 <script>
     export default {
         props: [
-            'iUser', 'inRoles',
+            'iUser', 'inJobs',
         ],
 
         data() {
             return {
                 me: [],
-                roles: [],
+                jobs: [],
 
                 q: '',
                 count: 25,
@@ -101,12 +95,12 @@
 
         created() {
             this.me = JSON.parse(this.iUser);
-            this.roles = JSON.parse(this.inRoles);
+            this.jobs = JSON.parse(this.inJobs);
         },
 
         methods: {
-            getRoles(page = 1) {
-                axios.get('/axios/roles.get', {
+            getJobs(page = 1) {
+                axios.get('/axios/jobs.get', {
                     params: {
                         q: this.q,
                         count: this.count,
@@ -118,7 +112,7 @@
                         sortType: this.sortType,
                     }
                 })
-                    .then(res => this.roles = res.data)
+                    .then(res => this.jobs = res.data)
                     .catch(error => console.log('Error: ' + this.error));
 
                 $('.left-column').scrollTop(0);
@@ -126,15 +120,15 @@
             setClass(id) {
                 let classes = 'list-row';
 
-                classes += this.roles.data[id].delete ? ' delete' : ' no-delete';
-                classes += this.roles.data[id].active ? ' active' : ' no-active';
+                classes += this.jobs.data[id].delete ? ' delete' : ' no-delete';
+                classes += this.jobs.data[id].active ? ' active' : ' no-active';
 
                 return classes;
             },
             onSort(action) {
                 this.sortColumn = action.name;
                 this.sortType = action.type;
-                this.getRoles(this.roles.current_page);
+                this.getJobs(this.jobs.current_page);
             },
         },
 
@@ -143,17 +137,17 @@
                 let len = this.q.length;
 
                 if (len > 2 || len == 0) {
-                    this.getRoles();
+                    this.getJobs();
                 }
             },
             count() {
-                this.getRoles();
+                this.getJobs();
             },
             del() {
-                this.getRoles();
+                this.getJobs();
             },
             active() {
-                this.getRoles();
+                this.getJobs();
             },
         },
     }
