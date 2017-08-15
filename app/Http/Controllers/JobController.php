@@ -41,7 +41,15 @@ class JobController extends Controller
      */
     public function create()
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'create')) {
+            return abort(404);
+        }
+
+        return view('jobs.create', [
+            'me' => $me,
+        ]);
     }
 
     /**
