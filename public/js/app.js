@@ -27379,42 +27379,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser'],
 
     data: function data() {
         return {
-            me: [],
-            action: [[], [], [], [], []],
-            name: ['Користувачі', '', '', '']
+            title: ''
         };
     },
     created: function created() {
         this.me = JSON.parse(this.iUser);
-
-        console.log(this.me);
     },
 
 
     methods: {
-        findUser: function findUser() {},
-        test: function test() {
-            console.log(this.action);
+        findJob: function findJob() {
+            console.log('Find Job');
+
+            axios.get('/axios/job.find', {
+                params: {
+                    title: this.title
+                }
+            }).then(function (res) {
+                return console.log(res);
+            }).catch(function (error) {
+                return console.log(error);
+            });
         }
     }
 });
@@ -28234,9 +28225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log('Error: ' + _this.error);
             });
 
-            console.log($('.left-column'));
-
-            $('.left-column').scrollTop(0);
+            $('#app').scrollTop(0);
         },
         setClass: function setClass(id) {
             var classes = 'list-row';
@@ -57648,40 +57637,28 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-whiteframe', {
-    staticClass: "page",
+    staticClass: "page create",
     attrs: {
       "md-elevation": "2"
     }
-  }, [_vm._m(0)], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Перегляд")]), _vm._v(" "), _c('md-table-head', [_vm._v("Редагування")]), _vm._v(" "), _c('md-table-head', [_vm._v("Створення")]), _vm._v(" "), _c('md-table-head', [_vm._v("Видалення")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((5), function(row, i) {
-    return _c('md-table-row', {
-      key: i
-    }, [_c('md-table-cell', [_vm._v("Dessert Name")]), _vm._v(" "), _vm._l((4), function(n, j) {
-      return _c('md-table-cell', {
-        key: j
-      }, [_c('md-checkbox', {
-        model: {
-          value: (_vm.action[i][j]),
-          callback: function($$v) {
-            var $$exp = _vm.action[i],
-              $$idx = j;
-            if (!Array.isArray($$exp)) {
-              _vm.action[i][j] = $$v
-            } else {
-              $$exp.splice($$idx, 1, $$v)
-            }
-          },
-          expression: "action[i][j]"
-        }
-      })], 1)
-    })], 2)
-  })), _vm._v(" "), _c('md-button', {
-    on: {
-      "click": _vm.test
+  }, [_c('h1', [_vm._v("Створення посади")]), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "autofocus": ""
+    },
+    nativeOn: {
+      "change": function($event) {
+        _vm.findJob()
+      }
+    },
+    model: {
+      value: (_vm.title),
+      callback: function($$v) {
+        _vm.title = $$v
+      },
+      expression: "title"
     }
-  }, [_vm._v("Test")])], 1)
-}]}
+  })], 1)], 1)
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

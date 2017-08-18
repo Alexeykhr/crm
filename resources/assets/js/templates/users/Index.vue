@@ -191,7 +191,7 @@
                     .then(res => this.users = res.data)
                     .catch(error => console.log('Error: ' + this.error));
 
-                $('.left-column').scrollTop(0);
+                $('#app').scrollTop(0);
             },
             setClass(id) {
                 let classes = 'list-row';
