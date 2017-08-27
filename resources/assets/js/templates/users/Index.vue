@@ -1,8 +1,6 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <pagination :data="users" :func="getUsers"></pagination>
-
             <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
@@ -189,9 +187,9 @@
                     }
                 })
                     .then(res => this.users = res.data)
-                    .catch(error => console.log('Error: ' + this.error));
+                    .catch(error => console.log(this.error));
 
-                $('#app').scrollTop(0);
+                $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
             },
             setClass(id) {
                 let classes = 'list-row';

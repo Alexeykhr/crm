@@ -56,17 +56,31 @@ class JobController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'create')) {
+            return abort(404);
+        }
+
+        $this->validate($request, [
+            'title' => 'required|unique:jobs|min:3|max:255'
+        ]);
+
+        Job::insert([
+            'title' => $request->title
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,6 +104,7 @@ class JobController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -101,6 +116,7 @@ class JobController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -151,5 +167,23 @@ class JobController extends Controller
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
 
         return json_encode($jobs->paginate($count));
+    }
+
+    /**
+     * Checking user for existence through axios.
+     *
+     * @param Request $request
+     *
+     * @return boolean
+     */
+    public function existJob(Request $request)
+    {
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'view')) {
+            return abort(404);
+        }
+
+        return json_encode(Job::where('title', '=', $request->title)->exists());
     }
 }

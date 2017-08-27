@@ -1,8 +1,6 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <pagination :data="logs" :func="getLogs"></pagination>
-
             <md-table>
                 <md-table-header>
                     <md-table-row>
@@ -113,9 +111,9 @@
                     }
                 })
                     .then(res => this.logs = res.data)
-                    .catch(error => console.log('Error: ' + this.error));
+                    .catch(error => console.log(this.error));
 
-                $('.left-column').scrollTop(0);
+                $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
             },
         },
 

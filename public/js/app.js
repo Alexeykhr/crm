@@ -27379,13 +27379,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser'],
 
     data: function data() {
         return {
-            title: ''
+            title: '',
+            find: true,
+            success: false,
+            error: false
         };
     },
     created: function created() {
@@ -27395,17 +27406,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         findJob: function findJob() {
-            console.log('Find Job');
+            var _this = this;
 
-            axios.get('/axios/job.find', {
+            this.$refs.snackbar.open();
+
+            if (this.title.length < 3) {
+                return;
+            }
+
+            axios.get('/axios/jobs.exist', {
                 params: {
                     title: this.title
                 }
             }).then(function (res) {
-                return console.log(res);
+                return _this.find = res.data;
             }).catch(function (error) {
                 return console.log(error);
             });
+        },
+        createJob: function createJob() {
+            var _this2 = this;
+
+            this.success = false;
+            this.error = false;
+
+            axios.post('/jobs', {
+                title: this.title
+            }).then(function (res) {
+                _this2.$refs.snackbar.open();
+                _this2.title = '';
+            }).catch(function (error) {
+                return _this2.error = true;
+            });
+        }
+    },
+
+    watch: {
+        title: function title() {
+            this.find = this.title.length < 3;
         }
     }
 });
@@ -27416,8 +27454,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -27534,10 +27570,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 return _this.jobs = res.data;
             }).catch(function (error) {
-                return console.log('Error: ' + _this.error);
+                return console.log(_this.error);
             });
 
-            $('.left-column').scrollTop(0);
+            $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         },
         setClass: function setClass(id) {
             var classes = 'list-row';
@@ -27580,8 +27616,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -27698,10 +27732,10 @@ moment.locale('uk');
             }).then(function (res) {
                 return _this.logs = res.data;
             }).catch(function (error) {
-                return console.log('Error: ' + _this.error);
+                return console.log(_this.error);
             });
 
-            $('.left-column').scrollTop(0);
+            $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         }
     },
 
@@ -27919,8 +27953,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inRoles'],
@@ -27965,10 +27997,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 return _this.roles = res.data;
             }).catch(function (error) {
-                return console.log('Error: ' + _this.error);
+                return console.log(_this.error);
             });
 
-            $('.left-column').scrollTop(0);
+            $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         },
         setClass: function setClass(id) {
             var classes = 'list-row';
@@ -28168,8 +28200,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inUsers', 'inJobs', 'inRoles'],
@@ -28222,10 +28252,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 return _this.users = res.data;
             }).catch(function (error) {
-                return console.log('Error: ' + _this.error);
+                return console.log(_this.error);
             });
 
-            $('#app').scrollTop(0);
+            $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         },
         setClass: function setClass(id) {
             var classes = 'list-row';
@@ -56865,12 +56895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "75"
     }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.roles,
-      "func": _vm.getRoles
-    }
-  }), _vm._v(" "), _c('md-table', {
+  }, [_c('md-table', {
     on: {
       "sort": _vm.onSort
     }
@@ -57184,12 +57209,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "75"
     }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.users,
-      "func": _vm.getUsers
-    }
-  }), _vm._v(" "), _c('md-table', {
+  }, [_c('md-table', {
     on: {
       "sort": _vm.onSort
     }
@@ -57456,12 +57476,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "75"
     }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.jobs,
-      "func": _vm.getJobs
-    }
-  }), _vm._v(" "), _c('md-table', {
+  }, [_c('md-table', {
     on: {
       "sort": _vm.onSort
     }
@@ -57641,8 +57656,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-elevation": "2"
     }
-  }, [_c('h1', [_vm._v("Створення посади")]), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
+  }, [_c('form', {
     attrs: {
+      "novalidate": ""
+    },
+    on: {
+      "submit": function($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        _vm.open($event)
+      }
+    }
+  }, [_c('h1', [_vm._v("Посада")]), _vm._v(" "), _c('md-input-container', {
+    class: _vm.error ? 'md-input-invalid' : ''
+  }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "maxlength": 255,
+      "required": "",
       "autofocus": ""
     },
     nativeOn: {
@@ -57657,7 +57687,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "title"
     }
-  })], 1)], 1)
+  }), _vm._v(" "), (_vm.error) ? _c('span', {
+    staticClass: "md-error"
+  }, [_vm._v("Посада вже існує")]) : _vm._e()], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised md-primary btn-create",
+    attrs: {
+      "disabled": _vm.find
+    },
+    on: {
+      "click": function($event) {
+        _vm.createJob()
+      }
+    }
+  }, [_vm._v("Створити")])], 1), _vm._v(" "), _c('md-snackbar', {
+    ref: "snackbar",
+    staticClass: "success",
+    attrs: {
+      "md-position": 'top right',
+      "md-duration": 5000
+    }
+  }, [_c('span', [_vm._v("Посада створена!")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-accent",
+    on: {
+      "click": function($event) {
+        _vm.$refs.snackbar.close()
+      }
+    }
+  }, [_vm._v("Сховати")])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -57679,12 +57735,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-flex": "75"
     }
-  }, [_c('pagination', {
-    attrs: {
-      "data": _vm.logs,
-      "func": _vm.getLogs
-    }
-  }), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дія")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
+  }, [_c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Користувач")]), _vm._v(" "), _c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дія")]), _vm._v(" "), _c('md-table-head', [_vm._v("Опис")]), _vm._v(" "), _c('md-table-head', [_vm._v("Дата")]), _vm._v(" "), _c('md-table-head', [_vm._v("Посилання")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.logs.data), function(log) {
     return _c('md-table-row', {
       key: log.id
     }, [_c('md-table-cell', [_c('b', [_vm._v(_vm._s(log.user.name))])]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.module))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.action))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(log.desc))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(_vm.timestamp(log.date)))]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {

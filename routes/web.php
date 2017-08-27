@@ -4,14 +4,14 @@
 Route::get('/', 'DashboardController@index');
 
 // Authentication
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('login', 'Auth\LoginController@login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 
 // Users
+Route::resource('users', 'UserController');
 Route::get('profile', 'UserController@profile');
 Route::get('profile/edit', 'UserController@profileEdit');
-Route::resource('users', 'UserController');
 Route::get('axios/users.get', 'UserController@getUsers');
 
 // Roles
@@ -21,6 +21,7 @@ Route::get('axios/roles.get', 'RoleController@getRoles');
 // Jobs
 Route::resource('jobs', 'JobController');
 Route::get('axios/jobs.get', 'JobController@getJobs');
+Route::get('axios/jobs.exist', 'JobController@existJob');
 
 // Logs
 Route::get('logs', 'LogController@index');

@@ -2,8 +2,19 @@
   max-width: 1000px;
   margin: 20px auto;
   padding: 20px;
+
+  &.create {
+    max-width: 400px;
+    background: #fff;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    text-align: center;
+  }
 }
 
-.create {
-  max-width: 400px;
+.btn-create {
+  width: 100%;
+  margin: 20px 0 0;
 }

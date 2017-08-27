@@ -1,24 +1,22 @@
 .list {
   flex-direction: row;
   height: calc(100% - 48px);
-  overflow: hidden;
   @include media-down(sm) {
     flex-direction: column-reverse;
     height: auto;
-  }
-
-  > div {
-    padding: 20px;
   }
 
   .right-column {
     background: #f8f8f8;
     overflow: auto;
     display: block;
+    padding: 20px;
+    border-left: 1px solid #e0e0e0;
     @include media-down(sm) {
       max-width: 500px;
       width: 100%;
       margin: 0 auto;
+      border: 0;
     }
     @include media-only(xs) {
       margin-bottom: 10px;
@@ -43,30 +41,29 @@
   .left-column {
     display: block;
     background: #fff;
-    border: 1px solid #e4e4e4;
-    border-top: 0;
-    border-left: 0;
-    padding: 15px 10px;
-    overflow: auto;
     @include media-down(sm) {
       border-top: 1px solid #e4e4e4;
       border-right: 0;
       border-bottom: 0;
       overflow: unset;
-      padding: 15px 0;
     }
 
     > .md-table {
       width: 100%;
-      margin-bottom: 10px;
-      overflow-y: visible;
+      height: calc(100% - 48px);
     }
 
     > .pagination {
       display: block;
       width: 100%;
       text-align: center;
-      background: #fff;
+      background: #0288d1;
+      color: #fff;
+      @include media-down(sm) {
+        border: 0;
+        padding: 11px 0 7px;
+      }
+
       > .md-button {
         @include media-down(xs) {
           margin: 0;
