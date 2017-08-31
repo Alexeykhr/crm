@@ -40,9 +40,6 @@
 
         methods: {
             findJob() {
-
-                this.$refs.snackbar.open();
-
                 if (this.title.length < 3) {
                     return;
                 }

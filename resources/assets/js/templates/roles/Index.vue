@@ -13,10 +13,9 @@
 
                 <md-table-body>
                     <md-table-row v-for="(role, index) in roles.data" :key="role.id" :class="setClass(index)"
-                                  :style="!role.delete && role.active && role.color ?
-                                  'border-left: 10px solid ' + role.color + ';' : ''">
+                                  :style="role.active && role.color ? 'border-left: 10px solid ' + role.color + ';' : ''">
                         <md-table-cell>
-                            <span><b>{{ role.title }}</b></span>
+                            <span class="title">{{ role.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -64,13 +63,6 @@
                 <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
                 <md-radio v-model="active" name="active" md-value="0">-</md-radio>
                 <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
-            </div>
-
-            <div class="choose">
-                <span>Видалений</span>
-                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
-                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
-                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
             </div>
         </md-layout>
     </md-layout>
@@ -122,9 +114,8 @@
                 $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
             },
             setClass(id) {
-                let classes = 'list-row';
+                let classes = 'list-row no-delete';
 
-                classes += this.roles.data[id].delete ? ' delete' : ' no-delete';
                 classes += this.roles.data[id].active ? ' active' : ' no-active';
 
                 return classes;
@@ -145,9 +136,6 @@
                 }
             },
             count() {
-                this.getRoles();
-            },
-            del() {
                 this.getRoles();
             },
             active() {

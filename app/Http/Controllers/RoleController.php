@@ -24,7 +24,6 @@ class RoleController extends Controller
         $roles = Role::withCount(['users' => function($q) {
             $q->where('delete', '=', 0);
         }])
-            ->where('delete', '=', 0)
             ->paginate(25);
 
         return view('roles.index', [
@@ -140,12 +139,6 @@ class RoleController extends Controller
 
         if (! empty($request->active)) {
             $roles->where('active', '=', $request->active > 0);
-        }
-
-        if (! empty($request->del)) {
-            $roles->where('delete', '=', $request->del > 0);
-        } elseif (! isset($request->del)) {
-            $roles->where('delete', '=', 0);
         }
 
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;

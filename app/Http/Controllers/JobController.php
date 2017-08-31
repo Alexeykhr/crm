@@ -24,7 +24,6 @@ class JobController extends Controller
         $jobs = Job::withCount(['users' => function($q) {
             $q->where('delete', '=', 0);
         }])
-            ->where('delete', '=', 0)
             ->paginate(25);
 
         return view('jobs.index', [
@@ -121,7 +120,13 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'delete')) {
+            return abort(404);
+        }
+
+        return Job::destroy($id);
     }
 
     /**
@@ -156,12 +161,6 @@ class JobController extends Controller
 
         if (! empty($request->active)) {
             $jobs->where('active', '=', $request->active > 0);
-        }
-
-        if (! empty($request->del)) {
-            $jobs->where('delete', '=', $request->del > 0);
-        } elseif (! isset($request->del)) {
-            $jobs->where('delete', '=', 0);
         }
 
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;

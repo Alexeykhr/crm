@@ -27,7 +27,6 @@ class CreateRolesTable extends Migration
             $table->tinyInteger('acs_calendar')->default(1); // [0, 1]
             $table->tinyInteger('acs_log')->default(0); // [0, 1]
             $table->boolean('active')->default(1);
-            $table->boolean('delete')->default(0);
             $table->timestamps();
         });
 

@@ -38,7 +38,6 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
         'active' => mt_rand(0, 1),
-        'delete' => mt_rand(0, 1),
     ];
 });
 
@@ -48,6 +47,5 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
         'level' => mt_rand(0, 9),
         'color' => $faker->hexColor,
         'active' => mt_rand(0, 1),
-        'delete' => mt_rand(0, 1),
     ];
 });

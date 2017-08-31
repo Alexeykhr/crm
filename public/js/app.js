@@ -27408,8 +27408,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         findJob: function findJob() {
             var _this = this;
 
-            this.$refs.snackbar.open();
-
             if (this.title.length < 3) {
                 return;
             }
@@ -27526,6 +27524,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inJobs'],
@@ -27538,7 +27543,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             q: '',
             count: 25,
             active: 0,
-            del: -1,
 
             sortColumn: '',
             sortType: ''
@@ -27560,7 +27564,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 params: {
                     q: this.q,
                     count: this.count,
-                    del: this.del,
                     active: this.active,
                     page: page,
 
@@ -27576,9 +27579,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         },
         setClass: function setClass(id) {
-            var classes = 'list-row';
+            var classes = 'list-row no-delete';
 
-            classes += this.jobs.data[id].delete ? ' delete' : ' no-delete';
             classes += this.jobs.data[id].active ? ' active' : ' no-active';
 
             return classes;
@@ -27587,6 +27589,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.sortColumn = action.name;
             this.sortType = action.type;
             this.getJobs(this.jobs.current_page);
+        },
+        deleteJob: function deleteJob(id, index) {
+            var _this2 = this;
+
+            axios.delete('/jobs/' + id).then(function (res) {
+                if (res.data) {
+                    _this2.jobs.data.splice(index, 1);
+                }
+            }).catch(function (error) {
+                return console.log(_this2.error);
+            });
         }
     },
 
@@ -27599,9 +27612,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         count: function count() {
-            this.getJobs();
-        },
-        del: function del() {
             this.getJobs();
         },
         active: function active() {
@@ -27945,14 +27955,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inRoles'],
@@ -28003,9 +28005,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
         },
         setClass: function setClass(id) {
-            var classes = 'list-row';
+            var classes = 'list-row no-delete';
 
-            classes += this.roles.data[id].delete ? ' delete' : ' no-delete';
             classes += this.roles.data[id].active ? ' active' : ' no-active';
 
             return classes;
@@ -28026,9 +28027,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         count: function count() {
-            this.getRoles();
-        },
-        del: function del() {
             this.getRoles();
         },
         active: function active() {
@@ -56915,9 +56913,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('md-table-row', {
       key: role.id,
       class: _vm.setClass(index),
-      style: (!role.delete && role.active && role.color ?
-        'border-left: 10px solid ' + role.color + ';' : '')
-    }, [_c('md-table-cell', [_c('span', [_c('b', [_vm._v(_vm._s(role.title))])])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      style: (role.active && role.color ? 'border-left: 10px solid ' + role.color + ';' : '')
+    }, [_c('md-table-cell', [_c('span', {
+      staticClass: "title"
+    }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
         "href": '/roles/' + role.id
@@ -57021,44 +57020,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.active = $$v
       },
       expression: "active"
-    }
-  }, [_vm._v("Ні")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "choose"
-  }, [_c('span', [_vm._v("Видалений")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "1"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
-    }
-  }, [_vm._v("Так")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "0"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "-1"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
     }
   }, [_vm._v("Ні")])], 1)], 1)], 1)
 },staticRenderFns: []}
@@ -57229,7 +57190,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": 'Користувач: ' + user.name,
         "atl": 'Користувач: ' + user.name
       }
-    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('b', [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(!user.delete && user.active) ? _c('span', [_vm._v(_vm._s(user.role.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
+    })])], 1), _vm._v(" "), _c('md-table-cell', [_c('span', {
+      staticClass: "title"
+    }, [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(!user.delete && user.active) ? _c('span', [_vm._v(_vm._s(user.role.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
         "md-align-trigger": "",
         "md-size": "6"
@@ -57492,13 +57455,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('md-table-row', {
       key: job.id,
       class: _vm.setClass(index),
-      style: (!job.delete && job.active ? 'border-left: 10px solid #333;' : '')
-    }, [_c('md-table-cell', [_c('span', [_c('b', [_vm._v(_vm._s(job.title))])])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+      style: (job.active ? 'border-left: 10px solid #d2d2d2;' : '')
+    }, [_c('md-table-cell', [_c('span', {
+      staticClass: "title"
+    }, [_vm._v(_vm._s(job.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-menu', {
+      attrs: {
+        "md-size": "4"
+      }
+    }, [_c('md-button', {
       staticClass: "md-icon-button",
+      attrs: {
+        "md-menu-trigger": ""
+      }
+    }, [_c('md-icon', [_vm._v("more_vert")])], 1), _vm._v(" "), _c('md-menu-content', [_c('md-menu-item', {
       attrs: {
         "href": '/jobs/' + job.id
       }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
+    }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('span', [_vm._v("Переглянути")])], 1), _vm._v(" "), _c('md-menu-item', {
+      attrs: {
+        "href": '/jobs/' + job.id + '/edit'
+      }
+    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1), _vm._v(" "), _c('md-menu-item', {
+      on: {
+        "click": function($event) {
+          _vm.deleteJob(job.id, index)
+        }
+      }
+    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1)], 1)], 1)], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.jobs,
@@ -57597,44 +57580,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.active = $$v
       },
       expression: "active"
-    }
-  }, [_vm._v("Ні")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "choose"
-  }, [_c('span', [_vm._v("Видалений")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "1"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
-    }
-  }, [_vm._v("Так")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "0"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "delete",
-      "md-value": "-1"
-    },
-    model: {
-      value: (_vm.del),
-      callback: function($$v) {
-        _vm.del = $$v
-      },
-      expression: "del"
     }
   }, [_vm._v("Ні")])], 1)], 1)], 1)
 },staticRenderFns: []}

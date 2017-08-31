@@ -12,9 +12,9 @@
 
                 <md-table-body>
                     <md-table-row v-for="(job, index) in jobs.data" :key="job.id" :class="setClass(index)"
-                                  :style="!job.delete && job.active ? 'border-left: 10px solid #333;' : ''">
+                                  :style="job.active ? 'border-left: 10px solid #d2d2d2;' : ''">
                         <md-table-cell>
-                            <span><b>{{ job.title }}</b></span>
+                            <span class="title">{{ job.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -22,9 +22,23 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-button :href="'/jobs/'+job.id" class="md-icon-button">
-                                <md-icon>remove_red_eye</md-icon>
-                            </md-button>
+                            <md-menu md-size="4">
+                                <md-button class="md-icon-button" md-menu-trigger>
+                                    <md-icon>more_vert</md-icon>
+                                </md-button>
+
+                                <md-menu-content>
+                                    <md-menu-item :href="'/jobs/' + job.id">
+                                        <md-icon>remove_red_eye</md-icon> <span>Переглянути</span>
+                                    </md-menu-item>
+                                    <md-menu-item :href="'/jobs/' + job.id + '/edit'">
+                                        <md-icon>edit</md-icon> <span>Редагувати</span>
+                                    </md-menu-item>
+                                    <md-menu-item @click="deleteJob(job.id, index)">
+                                        <md-icon>delete</md-icon> <span>Видалити</span>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
@@ -59,13 +73,6 @@
                 <md-radio v-model="active" name="active" md-value="0">-</md-radio>
                 <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
             </div>
-
-            <div class="choose">
-                <span>Видалений</span>
-                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
-                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
-                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
-            </div>
         </md-layout>
     </md-layout>
 </template>
@@ -84,7 +91,6 @@
                 q: '',
                 count: 25,
                 active: 0,
-                del: -1,
 
                 sortColumn: '',
                 sortType: '',
@@ -102,7 +108,6 @@
                     params: {
                         q: this.q,
                         count: this.count,
-                        del: this.del,
                         active: this.active,
                         page: page,
 
@@ -116,9 +121,8 @@
                 $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
             },
             setClass(id) {
-                let classes = 'list-row';
+                let classes = 'list-row no-delete';
 
-                classes += this.jobs.data[id].delete ? ' delete' : ' no-delete';
                 classes += this.jobs.data[id].active ? ' active' : ' no-active';
 
                 return classes;
@@ -127,6 +131,15 @@
                 this.sortColumn = action.name;
                 this.sortType = action.type;
                 this.getJobs(this.jobs.current_page);
+            },
+            deleteJob(id, index) {
+                axios.delete('/jobs/' + id)
+                    .then(res => {
+                        if (res.data) {
+                            this.jobs.data.splice(index, 1);
+                        }
+                    })
+                    .catch(error => console.log(this.error));
             },
         },
 
@@ -139,9 +152,6 @@
                 }
             },
             count() {
-                this.getJobs();
-            },
-            del() {
                 this.getJobs();
             },
             active() {

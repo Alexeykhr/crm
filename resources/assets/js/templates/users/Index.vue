@@ -25,7 +25,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <b>{{ user.name }}</b><br>
+                            <span class="title">{{ user.name }}</span><br>
                             <span v-if="user.active">{{ user.nick }}</span>
                         </md-table-cell>
 
