@@ -66,9 +66,23 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-button :href="'/users/'+user.id" class="md-icon-button">
-                                <md-icon>remove_red_eye</md-icon>
-                            </md-button>
+                            <md-menu md-size="4">
+                                <md-button class="md-icon-button" md-menu-trigger>
+                                    <md-icon>more_vert</md-icon>
+                                </md-button>
+
+                                <md-menu-content>
+                                    <md-menu-item :href="'/users/' + user.id">
+                                        <md-icon>remove_red_eye</md-icon> <span>Переглянути</span>
+                                    </md-menu-item>
+                                    <md-menu-item :href="'/users/' + user.id + '/edit'">
+                                        <md-icon>edit</md-icon> <span>Редагувати</span>
+                                    </md-menu-item>
+                                    <md-menu-item>
+                                        <md-icon>delete</md-icon> <span>Видалити</span>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
@@ -189,7 +203,8 @@
                     .then(res => this.users = res.data)
                     .catch(error => console.log(this.error));
 
-                $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
+                $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
+                $('.md-table').animate({ scrollTop: 0 }, 100);
             },
             setClass(id) {
                 let classes = 'list-row';

@@ -111,7 +111,8 @@
                     .then(res => this.roles = res.data)
                     .catch(error => console.log(this.error));
 
-                $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
+                $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
+                $('.md-table').animate({ scrollTop: 0 }, 100);
             },
             setClass(id) {
                 let classes = 'list-row no-delete';

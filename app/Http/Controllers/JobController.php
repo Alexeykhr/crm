@@ -91,6 +91,7 @@ class JobController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -148,7 +149,7 @@ class JobController extends Controller
             $q->where('delete', '=', 0);
         }]);
 
-        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
+        if (! empty($request->sortColumn) && !empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
                 in_array($request->sortColumn, ['title', 'users_count'])) {
                 $jobs->orderBy($request->sortColumn, $request->sortType);

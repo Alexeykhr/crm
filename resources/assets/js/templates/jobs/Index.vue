@@ -34,7 +34,7 @@
                                     <md-menu-item :href="'/jobs/' + job.id + '/edit'">
                                         <md-icon>edit</md-icon> <span>Редагувати</span>
                                     </md-menu-item>
-                                    <md-menu-item @click="deleteJob(job.id, index)">
+                                    <md-menu-item @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
                                     </md-menu-item>
                                 </md-menu-content>
@@ -74,6 +74,21 @@
                 <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
             </div>
         </md-layout>
+
+        <md-dialog ref="delete">
+            <md-dialog-title v-if="delIndex >= 0">{{ jobs.data[delIndex].title }}</md-dialog-title>
+            <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
+
+            <!--TODO: all users in other job-->
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
+                <md-button v-if="delIndex >= 0" class="md-raised md-primary"
+                           @click="deleteJob(jobs.data[delIndex].id, delIndex); closeDialog('delete');">
+                    Так
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog>
     </md-layout>
 </template>
 
@@ -94,12 +109,16 @@
 
                 sortColumn: '',
                 sortType: '',
+
+                delIndex: -1,
             }
         },
 
         created() {
             this.me = JSON.parse(this.iUser);
             this.jobs = JSON.parse(this.inJobs);
+
+            console.log(this.jobs);
         },
 
         methods: {
@@ -118,7 +137,17 @@
                     .then(res => this.jobs = res.data)
                     .catch(error => console.log(this.error));
 
-                $(window).scrollTop($('.right-column')[0].scrollHeight + 48);
+                $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
+                $('.md-table').animate({ scrollTop: 0 }, 100);
+            },
+            deleteJob(id, index) {
+                axios.delete('/jobs/' + id)
+                    .then(res => {
+                        if (res.data) {
+                            this.jobs.data.splice(index, 1);
+                        }
+                    })
+                    .catch(error => console.log(this.error));
             },
             setClass(id) {
                 let classes = 'list-row no-delete';
@@ -132,14 +161,15 @@
                 this.sortType = action.type;
                 this.getJobs(this.jobs.current_page);
             },
-            deleteJob(id, index) {
-                axios.delete('/jobs/' + id)
-                    .then(res => {
-                        if (res.data) {
-                            this.jobs.data.splice(index, 1);
-                        }
-                    })
-                    .catch(error => console.log(this.error));
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            closeDialog(ref) {
+                this.$refs[ref].close();
+            },
+            openDelete(index) {
+                this.delIndex = index;
+                this.openDialog('delete');
             },
         },
 
