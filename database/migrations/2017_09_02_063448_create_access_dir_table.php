@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateAccessDirTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('access_dir', function (Blueprint $table) {
             $table->integer('folder_id');
-            $table->string('title', 60);
-            $table->string('desc', 255)->nullable();
-            $table->string('file', 255);
+            $table->integer('user_id')->nullable();
+            $table->integer('role_id')->nullable();
+            $table->integer('job_id')->nullable();
+            $table->smallInteger('access');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('access_dir');
     }
 }

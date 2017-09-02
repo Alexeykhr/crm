@@ -77,6 +77,7 @@
 
         <md-dialog ref="delete">
             <md-dialog-title v-if="delIndex >= 0">{{ jobs.data[delIndex].title }}</md-dialog-title>
+
             <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
 
             <!--TODO: all users in other job-->
