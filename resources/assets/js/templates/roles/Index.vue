@@ -12,10 +12,10 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="(role, index) in roles.data" :key="role.id" :class="setClass(index)"
-                                  :style="role.active && role.color ? 'border-left: 10px solid ' + role.color + ';' : ''">
+                    <md-table-row v-for="(role, index) in roles.data" :key="role.id" class="list-row"
+                                  :style="'border-left: 10px solid ' + role.color + ';'">
                         <md-table-cell>
-                            <span class="title">{{ role.title }}</span>
+                            <span class="title bold">{{ role.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -27,7 +27,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-button :href="'/roles/'+role.id" class="md-icon-button">
+                            <md-button :href="'/roles/' + role.id" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
                             </md-button>
                         </md-table-cell>
@@ -57,13 +57,6 @@
                     <md-option :value="100">100</md-option>
                 </md-select>
             </md-input-container>
-
-            <div class="choose">
-                <span>Активний</span>
-                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
-                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
-                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
-            </div>
         </md-layout>
     </md-layout>
 </template>
@@ -81,7 +74,6 @@
 
                 q: '',
                 count: 25,
-                active: 0,
                 del: -1,
 
                 sortColumn: '',
@@ -101,25 +93,16 @@
                         q: this.q,
                         count: this.count,
                         del: this.del,
-                        active: this.active,
                         page: page,
 
                         sortColumn: this.sortColumn,
                         sortType: this.sortType,
                     }
                 })
-                    .then(res => this.roles = res.data)
-                    .catch(error => console.log(this.error));
+                    .then(res => this.roles = res.data);
 
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);
-            },
-            setClass(id) {
-                let classes = 'list-row no-delete';
-
-                classes += this.roles.data[id].active ? ' active' : ' no-active';
-
-                return classes;
             },
             onSort(action) {
                 this.sortColumn = action.name;
@@ -137,9 +120,6 @@
                 }
             },
             count() {
-                this.getRoles();
-            },
-            active() {
                 this.getRoles();
             },
         },

@@ -27808,14 +27808,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            axios.get('/axios/jobs.exist', {
+            axios.get('/jobs.exist', {
                 params: {
                     title: this.title
                 }
             }).then(function (res) {
                 return _this.find = res.data;
-            }).catch(function (error) {
-                return console.log(error);
             });
         },
         createJob: function createJob() {
@@ -27941,6 +27939,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer'],
@@ -27957,6 +27971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sortType: '',
 
             delIndex: -1,
+            transferIndex: -1,
             response: ''
         };
     },
@@ -27999,7 +28014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        transferUsers: function transferUsers(fromId, toId) {
+        transferUsers: function transferUsers(fromId, toId, index) {
             axios.post('/jobs.transfer', {
                 from: fromId,
                 to: toId
@@ -28022,7 +28037,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.delIndex = index;
             this.openDialog('delete');
         },
-        openTransfer: function openTransfer() {}
+        openTransfer: function openTransfer(index) {
+            this.transferIndex = index;
+            this.openDialog('transfer');
+        }
     },
 
     watch: {
@@ -28371,13 +28389,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inRoles'],
@@ -28389,7 +28400,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             q: '',
             count: 25,
-            active: 0,
             del: -1,
 
             sortColumn: '',
@@ -28413,7 +28423,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     q: this.q,
                     count: this.count,
                     del: this.del,
-                    active: this.active,
                     page: page,
 
                     sortColumn: this.sortColumn,
@@ -28421,19 +28430,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (res) {
                 return _this.roles = res.data;
-            }).catch(function (error) {
-                return console.log(_this.error);
             });
 
             $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
             $('.md-table').animate({ scrollTop: 0 }, 100);
-        },
-        setClass: function setClass(id) {
-            var classes = 'list-row no-delete';
-
-            classes += this.roles.data[id].active ? ' active' : ' no-active';
-
-            return classes;
         },
         onSort: function onSort(action) {
             this.sortColumn = action.name;
@@ -28451,9 +28451,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         count: function count() {
-            this.getRoles();
-        },
-        active: function active() {
             this.getRoles();
         }
     }
@@ -57345,10 +57342,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role, index) {
     return _c('md-table-row', {
       key: role.id,
-      class: _vm.setClass(index),
-      style: (role.active && role.color ? 'border-left: 10px solid ' + role.color + ';' : '')
+      staticClass: "list-row",
+      style: ('border-left: 10px solid ' + role.color + ';')
     }, [_c('md-table-cell', [_c('span', {
-      staticClass: "title"
+      staticClass: "title bold"
     }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
@@ -57416,45 +57413,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": 100
     }
-  }, [_vm._v("100")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "choose"
-  }, [_c('span', [_vm._v("Активний")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "1"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("Так")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "0"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "-1"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("Ні")])], 1)], 1)], 1)
+  }, [_vm._v("100")])], 1)], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -57928,7 +57887,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-menu-item', {
       on: {
         "click": function($event) {
-          _vm.openTransfer()
+          _vm.openTransfer(index)
         }
       }
     }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Трансфер")])], 1) : _vm._e()], 1)], 1)], 1)], 1)
@@ -58010,12 +57969,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('delete');
       }
     }
+  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-dialog', {
+    ref: "transfer"
+  }, [_c('md-dialog-title', [_vm._v("Перенос працівників на іншу посаду")]), _vm._v(" "), _c('md-dialog-content'), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+    staticClass: "md-primary",
+    on: {
+      "click": function($event) {
+        _vm.closeDialog('transfer')
+      }
+    }
+  }, [_vm._v("Ні")]), _vm._v(" "), (_vm.transferIndex >= 0) ? _c('md-button', {
+    staticClass: "md-raised md-primary",
+    on: {
+      "click": function($event) {
+        _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, 1, _vm.transferIndex);
+        _vm.closeDialog('transfer');
+      }
+    }
   }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
     staticClass: "snackbar-black",
     attrs: {
       "md-position": 'top right',
-      "md-duration": 50000
+      "md-duration": 5000
     }
   }, [_c('span', [_vm._v(_vm._s(_vm.response))]), _vm._v(" "), _c('md-button', {
     on: {

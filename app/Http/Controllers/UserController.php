@@ -23,8 +23,7 @@ class UserController extends Controller
             return abort(404);
         }
 
-        $users = User::select($this->getPublicColumnByUser())
-            ->where('delete', '=', 0);
+        $users = User::select($this->getPublicColumnByUser());
 
         if ($this->access($me->role->acs_role, 'view')) {
             $users->addSelect('role_id')->with('role');
@@ -222,7 +221,7 @@ class UserController extends Controller
      */
     public static function getPublicColumnByUser()
     {
-        return ['id', 'name', 'nick', 'photo', 'active', 'delete',
+        return ['id', 'name', 'nick', 'photo', 'active',
             'email', 'work_email', 'phone', 'work_phone'];
     }
 }

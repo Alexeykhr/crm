@@ -16,7 +16,7 @@ Route::get('axios/users.get', 'UserController@getUsers');
 
 // Roles
 Route::resource('roles', 'RoleController');
-Route::get('axios/roles.get', 'RoleController@getRoles');
+Route::get('roles.get', 'RoleController@get');
 
 // Jobs
 Route::resource('jobs', 'JobController');

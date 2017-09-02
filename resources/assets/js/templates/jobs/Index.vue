@@ -36,7 +36,7 @@
                                     <md-menu-item v-if="canDelete" @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
                                     </md-menu-item>
-                                    <md-menu-item v-if="canTransfer" @click="openTransfer()">
+                                    <md-menu-item v-if="canTransfer" @click="openTransfer(index)">
                                         <md-icon>people</md-icon> <span>Трансфер</span>
                                     </md-menu-item>
                                 </md-menu-content>
@@ -84,7 +84,23 @@
             </md-dialog-actions>
         </md-dialog>
 
-        <md-snackbar class="snackbar-black" :md-position="'top right'" ref="snackbar" :md-duration="50000">
+        <md-dialog ref="transfer">
+            <md-dialog-title>Перенос працівників на іншу посаду</md-dialog-title>
+
+            <md-dialog-content>
+
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
+                <md-button v-if="transferIndex >= 0" class="md-raised md-primary"
+                           @click="transferUsers(jobs.data[transferIndex].id, 1, transferIndex); closeDialog('transfer');">
+                    Так
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog>
+
+        <md-snackbar class="snackbar-black" :md-position="'top right'" ref="snackbar" :md-duration="5000">
             <span>{{ response }}</span>
             <md-button @click="$refs.snackbar.close()">Сховати</md-button>
         </md-snackbar>
@@ -109,6 +125,7 @@
                 sortType: '',
 
                 delIndex: -1,
+                transferIndex: -1,
                 response: '',
             }
         },
@@ -145,7 +162,7 @@
                         }
                     });
             },
-            transferUsers(fromId, toId) {
+            transferUsers(fromId, toId, index) {
                 axios.post('/jobs.transfer', {
                     from: fromId,
                     to: toId,
@@ -167,8 +184,9 @@
                 this.delIndex = index;
                 this.openDialog('delete');
             },
-            openTransfer() {
-
+            openTransfer(index) {
+                this.transferIndex = index;
+                this.openDialog('transfer');
             },
         },
 

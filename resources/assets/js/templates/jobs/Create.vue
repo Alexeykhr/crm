@@ -44,13 +44,12 @@
                     return;
                 }
 
-                axios.get('/axios/jobs.exist', {
+                axios.get('/jobs.exist', {
                     params: {
                         title: this.title,
                     }
                 })
-                    .then(res => this.find = res.data)
-                    .catch(error => console.log(error));
+                    .then(res => this.find = res.data);
             },
             createJob() {
                 this.success = false;

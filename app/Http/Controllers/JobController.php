@@ -130,7 +130,7 @@ class JobController extends Controller
         }
 
         if (Job::where('id', '=', $id)->withCount('users')->first()->users_count > 0) {
-            return 'На посаді є працівники';
+            return 'На цю посаду прікріплені працівники';
         }
 
         return Job::destroy($id);
@@ -153,7 +153,7 @@ class JobController extends Controller
 
         $jobs = Job::withCount('users');
 
-        if (! empty($request->sortColumn) && !empty($request->sortType)) {
+        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
                 in_array($request->sortColumn, ['title', 'users_count'])) {
                 $jobs->orderBy($request->sortColumn, $request->sortType);
@@ -198,8 +198,8 @@ class JobController extends Controller
     {
         $me = Auth::user();
 
-        if (! $this->access($me->role->acs_job, 'edit')
-            && ! $this->access($me->role->acs_user, 'edit')) {
+        if (! $this->access($me->role->acs_job, 'edit') &&
+            ! $this->access($me->role->acs_user, 'edit')) {
             return abort(404);
         }
 

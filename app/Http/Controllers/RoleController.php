@@ -21,9 +21,7 @@ class RoleController extends Controller
             return abort(404);
         }
 
-        $roles = Role::withCount(['users' => function($q) {
-            $q->where('delete', '=', 0);
-        }])
+        $roles = Role::withCount('users')
             ->paginate(25);
 
         return view('roles.index', [
@@ -114,7 +112,7 @@ class RoleController extends Controller
      *
      * @return string json_encode
      */
-    public function getRoles(Request $request)
+    public function get(Request $request)
     {
         $me = Auth::user();
 
@@ -122,9 +120,7 @@ class RoleController extends Controller
             return abort(404);
         }
 
-        $roles = Role::withCount(['users' => function($q) {
-            $q->where('delete', '=', '0');
-        }]);
+        $roles = Role::withCount('users');
 
         if (! empty($request->sortColumn) && ! empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
