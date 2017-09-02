@@ -11,10 +11,9 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="(job, index) in jobs.data" :key="job.id" :class="setClass(index)"
-                                  :style="job.active ? 'border-left: 10px solid #d2d2d2;' : ''">
+                    <md-table-row v-for="(job, index) in jobs.data" :key="job.id" class="list-row">
                         <md-table-cell>
-                            <span class="title">{{ job.title }}</span>
+                            <span class="title bold">{{ job.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -31,11 +30,14 @@
                                     <md-menu-item :href="'/jobs/' + job.id">
                                         <md-icon>remove_red_eye</md-icon> <span>Переглянути</span>
                                     </md-menu-item>
-                                    <md-menu-item :href="'/jobs/' + job.id + '/edit'">
+                                    <md-menu-item v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
                                         <md-icon>edit</md-icon> <span>Редагувати</span>
                                     </md-menu-item>
-                                    <md-menu-item @click="openDelete(index)">
+                                    <md-menu-item v-if="canDelete" @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
+                                    </md-menu-item>
+                                    <md-menu-item v-if="canTransfer" @click="openTransfer()">
+                                        <md-icon>people</md-icon> <span>Трансфер</span>
                                     </md-menu-item>
                                 </md-menu-content>
                             </md-menu>
@@ -66,21 +68,12 @@
                     <md-option :value="100">100</md-option>
                 </md-select>
             </md-input-container>
-
-            <div class="choose">
-                <span>Активний</span>
-                <md-radio v-model="active" name="active" md-value="1">Так</md-radio>
-                <md-radio v-model="active" name="active" md-value="0">-</md-radio>
-                <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
-            </div>
         </md-layout>
 
         <md-dialog ref="delete">
             <md-dialog-title v-if="delIndex >= 0">{{ jobs.data[delIndex].title }}</md-dialog-title>
 
             <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
-
-            <!--TODO: all users in other job-->
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
@@ -90,18 +83,22 @@
                 </md-button>
             </md-dialog-actions>
         </md-dialog>
+
+        <md-snackbar class="snackbar-black" :md-position="'top right'" ref="snackbar" :md-duration="50000">
+            <span>{{ response }}</span>
+            <md-button @click="$refs.snackbar.close()">Сховати</md-button>
+        </md-snackbar>
     </md-layout>
 </template>
 
 <script>
     export default {
         props: [
-            'iUser', 'inJobs',
+            'iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer',
         ],
 
         data() {
             return {
-                me: [],
                 jobs: [],
 
                 q: '',
@@ -112,31 +109,27 @@
                 sortType: '',
 
                 delIndex: -1,
+                response: '',
             }
         },
 
         created() {
-            this.me = JSON.parse(this.iUser);
             this.jobs = JSON.parse(this.inJobs);
-
-            console.log(this.jobs);
         },
 
         methods: {
             getJobs(page = 1) {
-                axios.get('/axios/jobs.get', {
+                axios.get('/jobs.get', {
                     params: {
                         q: this.q,
                         count: this.count,
-                        active: this.active,
                         page: page,
 
                         sortColumn: this.sortColumn,
                         sortType: this.sortType,
                     }
                 })
-                    .then(res => this.jobs = res.data)
-                    .catch(error => console.log(this.error));
+                    .then(res => this.jobs = res.data);
 
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);
@@ -144,18 +137,20 @@
             deleteJob(id, index) {
                 axios.delete('/jobs/' + id)
                     .then(res => {
-                        if (res.data) {
+                        if (res.data == 1) {
                             this.jobs.data.splice(index, 1);
+                        } else {
+                            this.response = res.data;
+                            this.$refs.snackbar.open();
                         }
-                    })
-                    .catch(error => console.log(this.error));
+                    });
             },
-            setClass(id) {
-                let classes = 'list-row no-delete';
-
-                classes += this.jobs.data[id].active ? ' active' : ' no-active';
-
-                return classes;
+            transferUsers(fromId, toId) {
+                axios.post('/jobs.transfer', {
+                    from: fromId,
+                    to: toId,
+                })
+                    .then(res => console.log(res));
             },
             onSort(action) {
                 this.sortColumn = action.name;
@@ -171,6 +166,9 @@
             openDelete(index) {
                 this.delIndex = index;
                 this.openDialog('delete');
+            },
+            openTransfer() {
+
             },
         },
 

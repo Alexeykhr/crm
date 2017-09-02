@@ -11,8 +11,10 @@
 
 @section('content')
 
-    <jobs i-user="{{ json_encode($me) }}"
-          in-jobs="{{ json_encode($jobs) }}"
+    <jobs in-jobs="{{ json_encode($jobs) }}"
+          can-delete="{{ json_encode($canDelete) }}"
+          can-edit="{{ json_encode($canEdit) }}"
+          can-transfer="{{ json_encode($canTransfer) }}"
     ></jobs>
 
 @endsection

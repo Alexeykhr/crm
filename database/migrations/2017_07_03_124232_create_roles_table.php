@@ -15,7 +15,7 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->unique();
+            $table->string('title', 60)->unique();
             $table->tinyInteger('level')->default(1);
             $table->string('color')->default('#e0e0e0');
             $table->tinyInteger('acs_user')->default(1); // [0, ..,  15]
@@ -24,7 +24,6 @@ class CreateRolesTable extends Migration
             $table->tinyInteger('acs_profile')->default(0); // [0, 1]
             $table->tinyInteger('acs_calendar')->default(0); // [0, 1]
             $table->tinyInteger('acs_log')->default(0); // [0, 1]
-            $table->boolean('active')->default(1);
             $table->timestamps();
         });
 

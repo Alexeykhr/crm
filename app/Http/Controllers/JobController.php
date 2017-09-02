@@ -21,15 +21,17 @@ class JobController extends Controller
             return abort(404);
         }
 
-        $jobs = Job::withCount(['users' => function($q) {
-            $q->where('delete', '=', 0);
-        }])
+        $jobs = Job::withCount('users')
             ->paginate(25);
 
         return view('jobs.index', [
             'me'        => $me,
             'jobs'      => $jobs,
             'canCreate' => $this->access($me->role->acs_job, 'create'),
+            'canDelete' => $this->access($me->role->acs_job, 'delete'),
+            'canEdit'   => $this->access($me->role->acs_job, 'edit'),
+            'canTransfer' => $this->access($me->role->acs_job, 'edit')
+                && $this->access($me->role->acs_user, 'edit')
         ]);
     }
 
@@ -67,7 +69,7 @@ class JobController extends Controller
         }
 
         $this->validate($request, [
-            'title' => 'required|unique:jobs|min:3|max:255'
+            'title' => 'required|unique:jobs|min:3|max:60'
         ]);
 
         Job::insert([
@@ -113,7 +115,7 @@ class JobController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage. Only ajax.
      *
      * @param  int  $id
      *
@@ -127,17 +129,21 @@ class JobController extends Controller
             return abort(404);
         }
 
+        if (Job::where('id', '=', $id)->withCount('users')->first()->users_count > 0) {
+            return 'На посаді є працівники';
+        }
+
         return Job::destroy($id);
     }
 
     /**
-     * For getting users through axios.
+     * Getting users. Only ajax.
      *
      * @param Request $request
      *
      * @return string json_encode
      */
-    public function getJobs(Request $request)
+    public function get(Request $request)
     {
         $me = Auth::user();
 
@@ -145,9 +151,7 @@ class JobController extends Controller
             return abort(404);
         }
 
-        $jobs = Job::withCount(['users' => function($q) {
-            $q->where('delete', '=', 0);
-        }]);
+        $jobs = Job::withCount('users');
 
         if (! empty($request->sortColumn) && !empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
@@ -160,23 +164,19 @@ class JobController extends Controller
             $jobs->where('title', 'LIKE', '%' . $request->q . '%');
         }
 
-        if (! empty($request->active)) {
-            $jobs->where('active', '=', $request->active > 0);
-        }
-
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
 
         return json_encode($jobs->paginate($count));
     }
 
     /**
-     * Checking user for existence through axios.
+     * Checking user. Only ajax.
      *
      * @param Request $request
      *
      * @return boolean
      */
-    public function existJob(Request $request)
+    public function exist(Request $request)
     {
         $me = Auth::user();
 
@@ -185,5 +185,24 @@ class JobController extends Controller
         }
 
         return json_encode(Job::where('title', '=', $request->title)->exists());
+    }
+
+    /**
+     * Transfer all users in other job. Only ajax.
+     *
+     * @param Request $request
+     *
+     * @return boolean
+     */
+    public function transfer(Request $request)
+    {
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'edit')
+            && ! $this->access($me->role->acs_user, 'edit')) {
+            return abort(404);
+        }
+
+        dd($request->id);
     }
 }

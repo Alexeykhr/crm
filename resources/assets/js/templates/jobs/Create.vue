@@ -5,7 +5,7 @@
 
             <md-input-container :class="error ? 'md-input-invalid' : ''">
                 <label>Назва</label>
-                <md-input :maxlength="255" v-model="title" @change.native="findJob()" required autofocus></md-input>
+                <md-input :maxlength="60" v-model="title" @change.native="findJob()" required autofocus></md-input>
                 <span v-if="error" class="md-error">Посада вже існує</span>
             </md-input-container>
 

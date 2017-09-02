@@ -20,8 +20,9 @@ Route::get('axios/roles.get', 'RoleController@getRoles');
 
 // Jobs
 Route::resource('jobs', 'JobController');
-Route::get('axios/jobs.get', 'JobController@getJobs');
-Route::get('axios/jobs.exist', 'JobController@existJob');
+Route::get('jobs.get', 'JobController@get');
+Route::get('jobs.exist', 'JobController@exist');
+Route::post('jobs.transfer', 'JobController@transfer');
 
 // Logs
 Route::get('logs', 'LogController@index');

@@ -27941,15 +27941,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inJobs'],
+    props: ['iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer'],
 
     data: function data() {
         return {
-            me: [],
             jobs: [],
 
             q: '',
@@ -27959,14 +27956,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sortColumn: '',
             sortType: '',
 
-            delIndex: -1
+            delIndex: -1,
+            response: ''
         };
     },
     created: function created() {
-        this.me = JSON.parse(this.iUser);
         this.jobs = JSON.parse(this.inJobs);
-
-        console.log(this.jobs);
     },
 
 
@@ -27976,11 +27971,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/axios/jobs.get', {
+            axios.get('/jobs.get', {
                 params: {
                     q: this.q,
                     count: this.count,
-                    active: this.active,
                     page: page,
 
                     sortColumn: this.sortColumn,
@@ -27988,8 +27982,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (res) {
                 return _this.jobs = res.data;
-            }).catch(function (error) {
-                return console.log(_this.error);
             });
 
             $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
@@ -27998,22 +27990,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteJob: function deleteJob(id, index) {
             var _this2 = this;
 
-            axios.delete('/jobs', {
-                id: id
-            }).then(function (res) {
-                if (res.data) {
+            axios.delete('/jobs/' + id).then(function (res) {
+                if (res.data == 1) {
                     _this2.jobs.data.splice(index, 1);
+                } else {
+                    _this2.response = res.data;
+                    _this2.$refs.snackbar.open();
                 }
-            }).catch(function (error) {
-                return console.log(_this2.error);
             });
         },
-        setClass: function setClass(id) {
-            var classes = 'list-row no-delete';
-
-            classes += this.jobs.data[id].active ? ' active' : ' no-active';
-
-            return classes;
+        transferUsers: function transferUsers(fromId, toId) {
+            axios.post('/jobs.transfer', {
+                from: fromId,
+                to: toId
+            }).then(function (res) {
+                return console.log(res);
+            });
         },
         onSort: function onSort(action) {
             this.sortColumn = action.name;
@@ -28029,7 +28021,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         openDelete: function openDelete(index) {
             this.delIndex = index;
             this.openDialog('delete');
-        }
+        },
+        openTransfer: function openTransfer() {}
     },
 
     watch: {
@@ -57906,10 +57899,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.jobs.data), function(job, index) {
     return _c('md-table-row', {
       key: job.id,
-      class: _vm.setClass(index),
-      style: (job.active ? 'border-left: 10px solid #d2d2d2;' : '')
+      staticClass: "list-row"
     }, [_c('md-table-cell', [_c('span', {
-      staticClass: "title"
+      staticClass: "title bold"
     }, [_vm._v(_vm._s(job.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-menu', {
       attrs: {
         "md-size": "4"
@@ -57923,17 +57915,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "href": '/jobs/' + job.id
       }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('span', [_vm._v("Переглянути")])], 1), _vm._v(" "), _c('md-menu-item', {
+    }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('span', [_vm._v("Переглянути")])], 1), _vm._v(" "), (_vm.canEdit) ? _c('md-menu-item', {
       attrs: {
         "href": '/jobs/' + job.id + '/edit'
       }
-    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1), _vm._v(" "), _c('md-menu-item', {
+    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete) ? _c('md-menu-item', {
       on: {
         "click": function($event) {
           _vm.openDelete(index)
         }
       }
-    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1)], 1)], 1)], 1)], 1)
+    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-menu-item', {
+      on: {
+        "click": function($event) {
+          _vm.openTransfer()
+        }
+      }
+    }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('span', [_vm._v("Трансфер")])], 1) : _vm._e()], 1)], 1)], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.jobs,
@@ -57995,45 +57993,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": 100
     }
-  }, [_vm._v("100")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "choose"
-  }, [_c('span', [_vm._v("Активний")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "1"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("Так")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "0"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("-")]), _vm._v(" "), _c('md-radio', {
-    attrs: {
-      "name": "active",
-      "md-value": "-1"
-    },
-    model: {
-      value: (_vm.active),
-      callback: function($$v) {
-        _vm.active = $$v
-      },
-      expression: "active"
-    }
-  }, [_vm._v("Ні")])], 1)], 1), _vm._v(" "), _c('md-dialog', {
+  }, [_vm._v("100")])], 1)], 1)], 1), _vm._v(" "), _c('md-dialog', {
     ref: "delete"
   }, [(_vm.delIndex >= 0) ? _c('md-dialog-title', [_vm._v(_vm._s(_vm.jobs.data[_vm.delIndex].title))]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_vm._v("Ви впевнені, що хочете видалити посаду?")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
@@ -58050,7 +58010,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('delete');
       }
     }
-  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1)], 1)
+  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-snackbar', {
+    ref: "snackbar",
+    staticClass: "snackbar-black",
+    attrs: {
+      "md-position": 'top right',
+      "md-duration": 50000
+    }
+  }, [_c('span', [_vm._v(_vm._s(_vm.response))]), _vm._v(" "), _c('md-button', {
+    on: {
+      "click": function($event) {
+        _vm.$refs.snackbar.close()
+      }
+    }
+  }, [_vm._v("Сховати")])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -58085,7 +58058,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: _vm.error ? 'md-input-invalid' : ''
   }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
     attrs: {
-      "maxlength": 255,
+      "maxlength": 60,
       "required": "",
       "autofocus": ""
     },
