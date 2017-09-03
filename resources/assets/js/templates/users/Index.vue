@@ -6,6 +6,7 @@
                     <md-table-row>
                         <md-table-head>Фото</md-table-head>
                         <md-table-head md-sort-by="name">Користувач</md-table-head>
+                        <!--TODO: props-->
                         <md-table-head v-if="me.role.acs_job">Посада</md-table-head>
                         <md-table-head v-if="me.role.acs_role">Роль</md-table-head>
                         <md-table-head>Контакти</md-table-head>
@@ -19,8 +20,7 @@
                                   'border-left: 10px solid ' + user.role.color + ';' : ''">
                         <md-table-cell>
                             <md-avatar>
-                                <img :src="user.photo ? user.photo : 'img/user.png'" :title="'Користувач: ' + user.name"
-                                     :atl="'Користувач: ' + user.name">
+                                <img :src="user.photo ? user.photo : 'img/user.png'" :atl="'Користувач: ' + user.name">
                             </md-avatar>
                         </md-table-cell>
 
@@ -38,7 +38,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-menu md-align-trigger md-size="6" v-if="user.phone || user.work_phone || user.email || user.work_email">
+                            <md-menu md-align-trigger v-if="user.phone || user.work_phone || user.email || user.work_email">
                                 <md-button class="md-icon-button" md-menu-trigger><md-icon>contact_mail</md-icon></md-button>
 
                                 <md-menu-content>
@@ -141,13 +141,6 @@
                 <md-radio v-model="active" name="active" md-value="0">-</md-radio>
                 <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
             </div>
-
-            <div class="choose">
-                <span>Видалений</span>
-                <md-radio v-model="del" name="delete" md-value="1">Так</md-radio>
-                <md-radio v-model="del" name="delete" md-value="0">-</md-radio>
-                <md-radio v-model="del" name="delete" md-value="-1">Ні</md-radio>
-            </div>
         </md-layout>
     </md-layout>
 </template>
@@ -192,7 +185,6 @@
                         count: this.count,
                         role: this.role,
                         job: this.job,
-                        del: this.del,
                         active: this.active,
                         page: page,
 
@@ -200,8 +192,7 @@
                         sortType: this.sortType,
                     }
                 })
-                    .then(res => this.users = res.data)
-                    .catch(error => console.log(this.error));
+                    .then(res => this.users = res.data);
 
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);
@@ -209,7 +200,6 @@
             setClass(id) {
                 let classes = 'list-row';
 
-                classes += this.users.data[id].delete ? ' delete' : ' no-delete';
                 classes += this.users.data[id].active ? ' active' : ' no-active';
 
                 return classes;
@@ -236,9 +226,6 @@
                 this.getUsers();
             },
             job() {
-                this.getUsers();
-            },
-            del() {
                 this.getUsers();
             },
             active() {

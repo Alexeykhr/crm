@@ -16,7 +16,7 @@ class ValidateUser
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->active || Auth::user()->delete) {
+        if (! Auth::user()->active) {
             Auth::logout();
             return redirect('/login');
         }

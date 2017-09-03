@@ -115,7 +115,7 @@ class JobController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage. Only ajax.
+     * [Ajax] Remove the specified resource from storage.
      *
      * @param  int  $id
      *
@@ -137,7 +137,7 @@ class JobController extends Controller
     }
 
     /**
-     * Getting users. Only ajax.
+     * [Ajax] Getting users.
      *
      * @param Request $request
      *
@@ -170,7 +170,7 @@ class JobController extends Controller
     }
 
     /**
-     * Checking user. Only ajax.
+     * [Ajax] Checking user.
      *
      * @param Request $request
      *
@@ -188,7 +188,7 @@ class JobController extends Controller
     }
 
     /**
-     * Transfer all users in other job. Only ajax.
+     * [Ajax] Transfer all users in other job.
      *
      * @param Request $request
      *

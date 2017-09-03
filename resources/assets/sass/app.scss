@@ -11,11 +11,11 @@ $main-color: #0288d1;
 // Temporary
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");
 
+// Vue-components
+@import "~vue-material/dist/vue-material";
+
 // Media
 @import "media";
-
-// Modules
-@import "~vue-material/dist/vue-material";
 
 // Templates
 @import "main";

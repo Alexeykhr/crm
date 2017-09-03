@@ -74,13 +74,10 @@
 }
 
 .list-row {
-  &.delete {
-    text-decoration: line-through;
-  }
-  &.active.no-delete {
+  &.no-delete {
     background: #fbfbfb;
   }
-  &.no-delete.active .title {
+  &.active .title {
     font-weight: bold;
   }
   .title.bold {

@@ -60,7 +60,6 @@ class LoginController extends Controller
     {
         $credentials = $request->only($this->username(), 'password');
         $credentials['active'] = 1;
-        $credentials['delete'] = 0;
 
         return $credentials;
     }

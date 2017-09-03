@@ -36,7 +36,7 @@
                                     <md-menu-item v-if="canDelete" @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
                                     </md-menu-item>
-                                    <md-menu-item v-if="canTransfer" @click="openTransfer(index)">
+                                    <md-menu-item v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
                                         <md-icon>people</md-icon> <span>Трансфер</span>
                                     </md-menu-item>
                                 </md-menu-content>
@@ -71,13 +71,13 @@
         </md-layout>
 
         <md-dialog ref="delete">
-            <md-dialog-title v-if="delIndex >= 0">{{ jobs.data[delIndex].title }}</md-dialog-title>
+            <md-dialog-title v-if="delIndex > -1">{{ jobs.data[delIndex].title }}</md-dialog-title>
 
             <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
-                <md-button v-if="delIndex >= 0" class="md-raised md-primary"
+                <md-button v-if="delIndex > -1" class="md-raised md-primary"
                            @click="deleteJob(jobs.data[delIndex].id, delIndex); closeDialog('delete');">
                     Так
                 </md-button>
@@ -85,7 +85,7 @@
         </md-dialog>
 
         <md-dialog ref="transfer">
-            <md-dialog-title>Перенос працівників на іншу посаду</md-dialog-title>
+            <md-dialog-title v-if="transferIndex > -1">{{ jobs.data[transferIndex].title }}</md-dialog-title>
 
             <md-dialog-content>
 
@@ -93,7 +93,7 @@
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
-                <md-button v-if="transferIndex >= 0" class="md-raised md-primary"
+                <md-button v-if="transferIndex > -1" class="md-raised md-primary"
                            @click="transferUsers(jobs.data[transferIndex].id, 1, transferIndex); closeDialog('transfer');">
                     Так
                 </md-button>
