@@ -36,6 +36,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
+        'desc' => $faker->text(255),
     ];
 });
 

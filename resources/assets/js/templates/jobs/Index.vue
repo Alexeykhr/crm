@@ -71,7 +71,9 @@
         </md-layout>
 
         <md-dialog ref="delete">
-            <md-dialog-title v-if="delIndex > -1">{{ jobs.data[delIndex].title }}</md-dialog-title>
+            <md-dialog-title v-if="delIndex > -1">
+                Видалення "{{ jobs.data[delIndex].title }}"
+            </md-dialog-title>
 
             <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
 
@@ -84,11 +86,19 @@
             </md-dialog-actions>
         </md-dialog>
 
+        <!--TODO: make the right implementation-->
         <md-dialog ref="transfer">
-            <md-dialog-title v-if="transferIndex > -1">{{ jobs.data[transferIndex].title }}</md-dialog-title>
+            <md-dialog-title v-if="transferIndex > -1">
+                Трансфер "{{ jobs.data[transferIndex].title }}"
+            </md-dialog-title>
 
             <md-dialog-content>
-
+                <md-input-container>
+                    <label>Нова посада</label>
+                    <md-autocomplete v-model="autocomplete" :list="list" :min-chars="61"
+                                     :maxlength="60" print-attribute="title"
+                    ></md-autocomplete>
+                </md-input-container>
             </md-dialog-content>
 
             <md-dialog-actions>
@@ -127,6 +137,9 @@
                 delIndex: -1,
                 transferIndex: -1,
                 response: '',
+
+                autocomplete: '',
+                list: [''],
             }
         },
 
@@ -203,6 +216,22 @@
             },
             active() {
                 this.getJobs();
+            },
+//            TODO: complete fetch and event, var selectedAutocomplete
+            autocomplete() {
+                let len = this.autocomplete.length;
+
+                if (len > 2 || len == 0) {
+                    axios.get('/jobs.get', {
+                        params: {
+                            q: this.autocomplete,
+                            count: 10,
+                        }
+                    })
+                        .then(res => this.list = res.data.data);
+                } else {
+                    this.list = [];
+                }
             },
         },
     }

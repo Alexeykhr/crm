@@ -88,7 +88,7 @@
 
         methods: {
             getRoles(page = 1) {
-                axios.get('/axios/roles.get', {
+                axios.get('/roles.get', {
                     params: {
                         q: this.q,
                         count: this.count,
