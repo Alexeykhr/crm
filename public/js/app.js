@@ -27569,6 +27569,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer'],
@@ -27588,8 +27591,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             transferIndex: -1,
             response: '',
 
-            autocomplete: '',
-            list: ['']
+            toJobId: null
         };
     },
     created: function created() {
@@ -27625,18 +27627,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.delete('/jobs/' + id).then(function (res) {
                 if (res.data == 1) {
                     _this2.jobs.data.splice(index, 1);
+                    _this2.response = 'Посада успішно видалена';
                 } else {
                     _this2.response = res.data;
-                    _this2.$refs.snackbar.open();
                 }
+
+                _this2.$refs.snackbar.open();
             });
         },
-        transferUsers: function transferUsers(fromId, toId, index) {
+        transferUsers: function transferUsers(fromId, index) {
+            var _this3 = this;
+
+            if (!Number.isInteger(this.toJobId)) {
+                return;
+            }
+
             axios.post('/jobs.transfer', {
                 from: fromId,
-                to: toId
+                to: this.toJobId
             }).then(function (res) {
-                return console.log(res);
+                if (res.data > 0) {
+                    _this3.jobs.data[index].users_count = 0;
+
+                    _this3.jobs.data.forEach(function (obj, index) {
+                        if (obj.id == _this3.toJobId) {
+                            _this3.jobs.data[index].users_count += res.data;
+                        }
+                    });
+
+                    _this3.response = 'Користувачі успішно перенесені';
+                } else {
+                    _this3.response = res.data;
+                }
+
+                _this3.$refs.snackbar.open();
             });
         },
         onSort: function onSort(action) {
@@ -27655,6 +27679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.openDialog('delete');
         },
         openTransfer: function openTransfer(index) {
+            this.toJobId = null;
             this.transferIndex = index;
             this.openDialog('transfer');
         }
@@ -27673,26 +27698,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         active: function active() {
             this.getJobs();
-        },
-
-        //            TODO: complete fetch and event, var selectedAutocomplete
-        autocomplete: function autocomplete() {
-            var _this3 = this;
-
-            var len = this.autocomplete.length;
-
-            if (len > 2 || len == 0) {
-                axios.get('/jobs.get', {
-                    params: {
-                        q: this.autocomplete,
-                        count: 10
-                    }
-                }).then(function (res) {
-                    return _this3.list = res.data.data;
-                });
-            } else {
-                this.list = [];
-            }
         }
     }
 });
@@ -28299,7 +28304,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('/axios/users.get', {
+            axios.get('/users.get', {
                 params: {
                     q: this.q,
                     count: this.count,
@@ -57438,6 +57443,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
     attrs: {
+      "md-sort-by": "id"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
       "md-sort-by": "title"
     }
   }, [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', {
@@ -57448,7 +57457,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('md-table-row', {
       key: job.id,
       staticClass: "list-row"
-    }, [_c('md-table-cell', [_c('span', {
+    }, [_c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
     }, [_vm._v(_vm._s(job.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-menu', {
       attrs: {
@@ -57560,19 +57569,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-dialog', {
     ref: "transfer"
-  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Нова посада")]), _vm._v(" "), _c('md-autocomplete', {
+  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер нової посада")]), _vm._v(" "), _c('md-input', {
     attrs: {
-      "list": _vm.list,
-      "min-chars": 61,
-      "maxlength": 60,
-      "print-attribute": "title"
+      "type": "number"
     },
     model: {
-      value: (_vm.autocomplete),
+      value: (_vm.toJobId),
       callback: function($$v) {
-        _vm.autocomplete = $$v
+        _vm.toJobId = $$v
       },
-      expression: "autocomplete"
+      expression: "toJobId"
     }
   })], 1)], 1), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
@@ -57585,7 +57591,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-raised md-primary",
     on: {
       "click": function($event) {
-        _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, 1, _vm.transferIndex);
+        _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, _vm.transferIndex);
         _vm.closeDialog('transfer');
       }
     }

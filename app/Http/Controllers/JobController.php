@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -155,7 +156,7 @@ class JobController extends Controller
 
         if (! empty($request->sortColumn) && ! empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
-                in_array($request->sortColumn, ['title', 'users_count'])) {
+                in_array($request->sortColumn, ['id', 'title', 'users_count'])) {
                 $jobs->orderBy($request->sortColumn, $request->sortType);
             }
         }
@@ -203,6 +204,18 @@ class JobController extends Controller
             return abort(404);
         }
 
-        dd($request->id);
+        $this->validate($request, [
+            'from' => 'required|integer|min:1',
+            'to'   => 'required|integer|min:1'
+        ]);
+
+        if ($request->to == $request->from) {
+            return 'Номер співпадає';
+        }
+
+        return User::where('job_id', '=', $request->from)
+            ->update([
+                'job_id' => $request->to
+            ]);
     }
 }

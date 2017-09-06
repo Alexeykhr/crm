@@ -4,6 +4,7 @@
             <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
+                        <md-table-head md-sort-by="id">#</md-table-head>
                         <md-table-head md-sort-by="title">Назва</md-table-head>
                         <md-table-head md-sort-by="users_count">Працівників</md-table-head>
                         <md-table-head></md-table-head>
@@ -12,6 +13,10 @@
 
                 <md-table-body>
                     <md-table-row v-for="(job, index) in jobs.data" :key="job.id" class="list-row">
+                        <md-table-cell>
+                            <span>{{ job.id }}</span>
+                        </md-table-cell>
+
                         <md-table-cell>
                             <span class="title bold">{{ job.title }}</span>
                         </md-table-cell>
@@ -94,17 +99,15 @@
 
             <md-dialog-content>
                 <md-input-container>
-                    <label>Нова посада</label>
-                    <md-autocomplete v-model="autocomplete" :list="list" :min-chars="61"
-                                     :maxlength="60" print-attribute="title"
-                    ></md-autocomplete>
+                    <label>Номер нової посада</label>
+                    <md-input v-model="toJobId" type="number"></md-input>
                 </md-input-container>
             </md-dialog-content>
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
                 <md-button v-if="transferIndex > -1" class="md-raised md-primary"
-                           @click="transferUsers(jobs.data[transferIndex].id, 1, transferIndex); closeDialog('transfer');">
+                           @click="transferUsers(jobs.data[transferIndex].id, transferIndex); closeDialog('transfer');">
                     Так
                 </md-button>
             </md-dialog-actions>
@@ -138,8 +141,7 @@
                 transferIndex: -1,
                 response: '',
 
-                autocomplete: '',
-                list: [''],
+                toJobId: null,
             }
         },
 
@@ -169,18 +171,40 @@
                     .then(res => {
                         if (res.data == 1) {
                             this.jobs.data.splice(index, 1);
+                            this.response = 'Посада успішно видалена';
                         } else {
                             this.response = res.data;
-                            this.$refs.snackbar.open();
                         }
+
+                        this.$refs.snackbar.open();
                     });
             },
-            transferUsers(fromId, toId, index) {
+            transferUsers(fromId, index) {
+                if (! Number.isInteger(this.toJobId)) {
+                    return;
+                }
+
                 axios.post('/jobs.transfer', {
                     from: fromId,
-                    to: toId,
+                    to: this.toJobId,
                 })
-                    .then(res => console.log(res));
+                    .then(res => {
+                        if (res.data > 0) {
+                            this.jobs.data[index].users_count = 0;
+
+                            this.jobs.data.forEach((obj, index) => {
+                                if (obj.id == this.toJobId) {
+                                    this.jobs.data[index].users_count += res.data;
+                                }
+                            });
+
+                            this.response = 'Користувачі успішно перенесені';
+                        } else {
+                            this.response = res.data;
+                        }
+
+                        this.$refs.snackbar.open();
+                    });
             },
             onSort(action) {
                 this.sortColumn = action.name;
@@ -198,6 +222,7 @@
                 this.openDialog('delete');
             },
             openTransfer(index) {
+                this.toJobId = null;
                 this.transferIndex = index;
                 this.openDialog('transfer');
             },
@@ -216,22 +241,6 @@
             },
             active() {
                 this.getJobs();
-            },
-//            TODO: complete fetch and event, var selectedAutocomplete
-            autocomplete() {
-                let len = this.autocomplete.length;
-
-                if (len > 2 || len == 0) {
-                    axios.get('/jobs.get', {
-                        params: {
-                            q: this.autocomplete,
-                            count: 10,
-                        }
-                    })
-                        .then(res => this.list = res.data.data);
-                } else {
-                    this.list = [];
-                }
             },
         },
     }

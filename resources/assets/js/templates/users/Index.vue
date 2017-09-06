@@ -179,7 +179,7 @@
 
         methods: {
             getUsers(page = 1) {
-                axios.get('/axios/users.get', {
+                axios.get('/users.get', {
                     params: {
                         q: this.q,
                         count: this.count,
