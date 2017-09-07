@@ -27628,8 +27628,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (res.data == 1) {
                     _this2.jobs.data.splice(index, 1);
                     _this2.response = 'Посада успішно видалена';
-                } else {
-                    _this2.response = res.data;
+
+                    _this2.$refs.snackbar.open();
+                }
+            }).catch(function (error) {
+                if (!error.response.data.error) {
+                    return;
+                }
+
+                switch (error.response.data.error[0]) {
+                    case 'validation.empty':
+                        _this2.response = 'Посади не існує';
+                        break;
+
+                    case 'validation.exists_users':
+                        _this2.response = 'На цю посаду прікріплені працівники';
+                        break;
+
+                    default:
+                        _this2.response = 'Виникла помилка';
                 }
 
                 _this2.$refs.snackbar.open();
@@ -27657,7 +27674,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this3.$refs.snackbar.open();
                 }
             }).catch(function (error) {
-                if (!error.response.data && !error.response.data.to) {
+                if (!error.response.data.to) {
                     return;
                 }
 
@@ -57495,7 +57512,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "href": '/jobs/' + job.id + '/edit'
       }
-    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete) ? _c('md-menu-item', {
+    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && job.users_count < 1) ? _c('md-menu-item', {
       on: {
         "click": function($event) {
           _vm.openDelete(index)

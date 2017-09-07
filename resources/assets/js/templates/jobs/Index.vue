@@ -38,7 +38,7 @@
                                     <md-menu-item v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
                                         <md-icon>edit</md-icon> <span>Редагувати</span>
                                     </md-menu-item>
-                                    <md-menu-item v-if="canDelete" @click="openDelete(index)">
+                                    <md-menu-item v-if="canDelete && job.users_count < 1" @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
                                     </md-menu-item>
                                     <md-menu-item v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
@@ -172,8 +172,26 @@
                         if (res.data == 1) {
                             this.jobs.data.splice(index, 1);
                             this.response = 'Посада успішно видалена';
-                        } else {
-                            this.response = res.data;
+
+                            this.$refs.snackbar.open();
+                        }
+                    })
+                    .catch(error => {
+                        if (! error.response.data.error) {
+                            return;
+                        }
+
+                        switch (error.response.data.error[0]) {
+                            case 'validation.empty':
+                                this.response = 'Посади не існує';
+                                break;
+
+                            case 'validation.exists_users':
+                                this.response = 'На цю посаду прікріплені працівники';
+                                break;
+
+                            default:
+                                this.response = 'Виникла помилка';
                         }
 
                         this.$refs.snackbar.open();
@@ -201,7 +219,7 @@
                         }
                     })
                     .catch(error => {
-                        if (!error.response.data && !error.response.data.to) {
+                        if (! error.response.data.to) {
                             return;
                         }
 

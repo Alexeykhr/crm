@@ -130,8 +130,14 @@ class JobController extends Controller
             return abort(404);
         }
 
-        if (Job::where('id', '=', $id)->withCount('users')->first()->users_count > 0) {
-            return 'На цю посаду прікріплені працівники';
+        $job = Job::withCount('users')->where('id', '=', $id)->first();
+
+        if (empty($job)) {
+            return response()->json(['error' => ['validation.empty']], 422);
+        }
+
+        if ($job->users_count > 0) {
+            return response()->json(['error' => ['validation.exists_users']], 422);
         }
 
         return Job::destroy($id);
@@ -154,7 +160,7 @@ class JobController extends Controller
 
         $jobs = Job::withCount('users');
 
-        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
+        if (!empty($request->sortColumn) && !empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
                 in_array($request->sortColumn, ['id', 'title', 'users_count'])) {
                 $jobs->orderBy($request->sortColumn, $request->sortType);
