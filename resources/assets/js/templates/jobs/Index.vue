@@ -1,7 +1,7 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <md-table @sort="onSort">
+            <md-table @sort="onSort" md-sort="id" md-sort-type="asc">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head md-sort-by="id">#</md-table-head>
@@ -91,7 +91,6 @@
             </md-dialog-actions>
         </md-dialog>
 
-        <!--TODO: make the right implementation-->
         <md-dialog ref="transfer">
             <md-dialog-title v-if="transferIndex > -1">
                 Трансфер "{{ jobs.data[transferIndex].title }}"
@@ -99,15 +98,16 @@
 
             <md-dialog-content>
                 <md-input-container>
-                    <label>Номер нової посада</label>
-                    <md-input v-model="toJobId" type="number"></md-input>
+                    <label>Номер/назва нової посада</label>
+                    <md-input v-model="transferJob"></md-input>
                 </md-input-container>
             </md-dialog-content>
 
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
-                <md-button v-if="transferIndex > -1" class="md-raised md-primary"
-                           @click="transferUsers(jobs.data[transferIndex].id, transferIndex); closeDialog('transfer');">
+                <md-button v-if="transferIndex > -1 && transferJob" class="md-raised md-primary"
+                           @click="transferUsers(jobs.data[transferIndex].id, transferJob, transferIndex);
+                           closeDialog('transfer');">
                     Так
                 </md-button>
             </md-dialog-actions>
@@ -141,7 +141,7 @@
                 transferIndex: -1,
                 response: '',
 
-                toJobId: null,
+                transferJob: null,
             }
         },
 
@@ -179,28 +179,48 @@
                         this.$refs.snackbar.open();
                     });
             },
-            transferUsers(fromId, index) {
-                if (! Number.isInteger(this.toJobId)) {
-                    return;
-                }
+            transferUsers(fromId, transferJob, index) {
+                transferJob = transferJob.toString().toLowerCase();
 
                 axios.post('/jobs.transfer', {
-                    from: fromId,
-                    to: this.toJobId,
+                    from: fromId.toString(),
+                    to: transferJob,
                 })
                     .then(res => {
                         if (res.data > 0) {
                             this.jobs.data[index].users_count = 0;
 
                             this.jobs.data.forEach((obj, index) => {
-                                if (obj.id == this.toJobId) {
+                                if (obj.id == transferJob || obj.title.toLowerCase() == transferJob) {
                                     this.jobs.data[index].users_count += res.data;
                                 }
                             });
 
                             this.response = 'Користувачі успішно перенесені';
-                        } else {
-                            this.response = res.data;
+                            this.$refs.snackbar.open();
+                        }
+                    })
+                    .catch(error => {
+                        if (!error.response.data && !error.response.data.to) {
+                            return;
+                        }
+
+                        switch (error.response.data.to[0]) {
+                            case 'validation.min.numeric':
+                            case 'validation.exists':
+                                this.response = parseInt(transferJob) == transferJob
+                                    ? 'Посада з таким номером не існує'
+                                    : 'Посада з такою назвою не існує';
+                                break;
+
+                            case 'validation.different':
+                                this.response = parseInt(transferJob) == transferJob
+                                    ? 'Номера співпадають'
+                                    : 'Назви співпадають';
+                                break;
+
+                            default:
+                                this.response = 'Виникла помилка';
                         }
 
                         this.$refs.snackbar.open();
@@ -222,7 +242,7 @@
                 this.openDialog('delete');
             },
             openTransfer(index) {
-                this.toJobId = null;
+                this.transferJob = null;
                 this.transferIndex = index;
                 this.openDialog('transfer');
             },

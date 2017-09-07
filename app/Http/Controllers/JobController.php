@@ -206,16 +206,61 @@ class JobController extends Controller
 
         $this->validate($request, [
             'from' => 'required|integer|min:1',
-            'to'   => 'required|integer|min:1'
+            'to'   => 'required'
         ]);
 
-        if ($request->to == $request->from) {
-            return 'Номер співпадає';
+        if (is_numeric($request->to)) {
+            return $this->transferById($request);
         }
+
+        return $this->transferByTitle($request);
+    }
+
+    /**
+     * [Ajax] Transfer all users in other job [ID].
+     *
+     * @param Request $request
+     *
+     * @see JobController::transfer()
+     *
+     * @return bool
+     */
+    public function transferById($request)
+    {
+        $this->validate($request, [
+            'to' => 'integer|different:from|min:1|exists:jobs,id'
+        ]);
 
         return User::where('job_id', '=', $request->from)
             ->update([
                 'job_id' => $request->to
+            ]);
+    }
+
+    /**
+     * [Ajax] Transfer all users in other job [Title].
+     *
+     * @param Request $request
+     *
+     * @see JobController::transfer()
+     *
+     * @return boolean
+     */
+    public function transferByTitle($request)
+    {
+        $job = Job::where('title', '=', $request->to)->first();
+
+        if (empty($job)) {
+            return response()->json(['to' => ['validation.exists']], 422);
+        }
+
+        if ($job->id == $request->from) {
+            return response()->json(['to' => ['validation.different']], 422);
+        }
+
+        return User::where('job_id', '=', $request->from)
+            ->update([
+                'job_id' => $job->id,
             ]);
     }
 }

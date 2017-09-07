@@ -27591,7 +27591,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             transferIndex: -1,
             response: '',
 
-            toJobId: null
+            transferJob: null
         };
     },
     created: function created() {
@@ -27635,29 +27635,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.$refs.snackbar.open();
             });
         },
-        transferUsers: function transferUsers(fromId, index) {
+        transferUsers: function transferUsers(fromId, transferJob, index) {
             var _this3 = this;
 
-            if (!Number.isInteger(this.toJobId)) {
-                return;
-            }
+            transferJob = transferJob.toString().toLowerCase();
 
             axios.post('/jobs.transfer', {
-                from: fromId,
-                to: this.toJobId
+                from: fromId.toString(),
+                to: transferJob
             }).then(function (res) {
                 if (res.data > 0) {
                     _this3.jobs.data[index].users_count = 0;
 
                     _this3.jobs.data.forEach(function (obj, index) {
-                        if (obj.id == _this3.toJobId) {
+                        if (obj.id == transferJob || obj.title.toLowerCase() == transferJob) {
                             _this3.jobs.data[index].users_count += res.data;
                         }
                     });
 
                     _this3.response = 'Користувачі успішно перенесені';
-                } else {
-                    _this3.response = res.data;
+                    _this3.$refs.snackbar.open();
+                }
+            }).catch(function (error) {
+                if (!error.response.data && !error.response.data.to) {
+                    return;
+                }
+
+                switch (error.response.data.to[0]) {
+                    case 'validation.min.numeric':
+                    case 'validation.exists':
+                        _this3.response = parseInt(transferJob) == transferJob ? 'Посада з таким номером не існує' : 'Посада з такою назвою не існує';
+                        break;
+
+                    case 'validation.different':
+                        _this3.response = parseInt(transferJob) == transferJob ? 'Номера співпадають' : 'Назви співпадають';
+                        break;
+
+                    default:
+                        _this3.response = 'Виникла помилка';
                 }
 
                 _this3.$refs.snackbar.open();
@@ -27679,7 +27694,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.openDialog('delete');
         },
         openTransfer: function openTransfer(index) {
-            this.toJobId = null;
+            this.transferJob = null;
             this.transferIndex = index;
             this.openDialog('transfer');
         }
@@ -57438,6 +57453,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-flex": "75"
     }
   }, [_c('md-table', {
+    attrs: {
+      "md-sort": "id",
+      "md-sort-type": "asc"
+    },
     on: {
       "sort": _vm.onSort
     }
@@ -57569,16 +57588,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-dialog', {
     ref: "transfer"
-  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер нової посада")]), _vm._v(" "), _c('md-input', {
-    attrs: {
-      "type": "number"
-    },
+  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
     model: {
-      value: (_vm.toJobId),
+      value: (_vm.transferJob),
       callback: function($$v) {
-        _vm.toJobId = $$v
+        _vm.transferJob = $$v
       },
-      expression: "toJobId"
+      expression: "transferJob"
     }
   })], 1)], 1), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
@@ -57587,11 +57603,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('transfer')
       }
     }
-  }, [_vm._v("Ні")]), _vm._v(" "), (_vm.transferIndex > -1) ? _c('md-button', {
+  }, [_vm._v("Ні")]), _vm._v(" "), (_vm.transferIndex > -1 && _vm.transferJob) ? _c('md-button', {
     staticClass: "md-raised md-primary",
     on: {
       "click": function($event) {
-        _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, _vm.transferIndex);
+        _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, _vm.transferJob, _vm.transferIndex);
         _vm.closeDialog('transfer');
       }
     }
