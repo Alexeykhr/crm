@@ -27670,7 +27670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         }
                     });
 
-                    _this3.response = 'Користувачі успішно перенесені';
+                    _this3.response = 'Працівники успішно перенесені';
                     _this3.$refs.snackbar.open();
                 }
             }).catch(function (error) {
@@ -57512,13 +57512,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "href": '/jobs/' + job.id + '/edit'
       }
-    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && job.users_count < 1) ? _c('md-menu-item', {
+    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('span', [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete) ? _c('md-menu-item', {
+      attrs: {
+        "disabled": job.users_count > 0
+      },
       on: {
         "click": function($event) {
           _vm.openDelete(index)
         }
       }
-    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer && job.users_count > 0) ? _c('md-menu-item', {
+    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('span', [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-menu-item', {
+      attrs: {
+        "disabled": job.users_count < 1
+      },
       on: {
         "click": function($event) {
           _vm.openTransfer(index)
@@ -57586,7 +57592,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": 100
     }
-  }, [_vm._v("100")])], 1)], 1)], 1), _vm._v(" "), _c('md-dialog', {
+  }, [_vm._v("100")])], 1)], 1)], 1), _vm._v(" "), (_vm.canDelete) ? _c('md-dialog', {
     ref: "delete"
   }, [(_vm.delIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Видалення \"" + _vm._s(_vm.jobs.data[_vm.delIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_vm._v("Ви впевнені, що хочете видалити посаду?")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
@@ -57603,7 +57609,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('delete');
       }
     }
-  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-dialog', {
+  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
     ref: "transfer"
   }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
     model: {
@@ -57628,7 +57634,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('transfer');
       }
     }
-  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1), _vm._v(" "), _c('md-snackbar', {
+  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
     staticClass: "snackbar-black",
     attrs: {

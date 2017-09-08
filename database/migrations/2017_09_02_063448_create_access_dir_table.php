@@ -14,10 +14,11 @@ class CreateAccessDirTable extends Migration
     public function up()
     {
         Schema::create('access_dir', function (Blueprint $table) {
-            $table->integer('folder_id');
+            $table->bigInteger('folder_id');
             $table->integer('user_id')->nullable();
             $table->integer('role_id')->nullable();
             $table->integer('job_id')->nullable();
+            $table->boolean('for_all')->default(0);
             $table->smallInteger('access');
             $table->timestamps();
         });

@@ -38,10 +38,10 @@
                                     <md-menu-item v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
                                         <md-icon>edit</md-icon> <span>Редагувати</span>
                                     </md-menu-item>
-                                    <md-menu-item v-if="canDelete && job.users_count < 1" @click="openDelete(index)">
+                                    <md-menu-item v-if="canDelete" :disabled="job.users_count > 0" @click="openDelete(index)">
                                         <md-icon>delete</md-icon> <span>Видалити</span>
                                     </md-menu-item>
-                                    <md-menu-item v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
+                                    <md-menu-item v-if="canTransfer" :disabled="job.users_count < 1" @click="openTransfer(index)">
                                         <md-icon>people</md-icon> <span>Трансфер</span>
                                     </md-menu-item>
                                 </md-menu-content>
@@ -75,7 +75,7 @@
             </md-input-container>
         </md-layout>
 
-        <md-dialog ref="delete">
+        <md-dialog v-if="canDelete" ref="delete">
             <md-dialog-title v-if="delIndex > -1">
                 Видалення "{{ jobs.data[delIndex].title }}"
             </md-dialog-title>
@@ -91,7 +91,7 @@
             </md-dialog-actions>
         </md-dialog>
 
-        <md-dialog ref="transfer">
+        <md-dialog v-if="canTransfer" ref="transfer">
             <md-dialog-title v-if="transferIndex > -1">
                 Трансфер "{{ jobs.data[transferIndex].title }}"
             </md-dialog-title>
@@ -214,7 +214,7 @@
                                 }
                             });
 
-                            this.response = 'Користувачі успішно перенесені';
+                            this.response = 'Працівники успішно перенесені';
                             this.$refs.snackbar.open();
                         }
                     })

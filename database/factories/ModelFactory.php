@@ -47,3 +47,41 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
         'color' => $faker->hexColor,
     ];
 });
+
+$factory->define(\App\Folder::class, function (Faker\Generator $faker) {
+    $job = mt_rand(1, 5) == 4 ? \App\Folder::inRandomOrder()->first()->id : null;
+
+    return [
+        'parent_id' => $job,
+        'title' => $faker->title,
+        'desc' => $faker->text(255),
+    ];
+});
+
+$factory->define(\App\AccessDir::class, function (Faker\Generator $faker) {
+    $folder = \App\Folder::inRandomOrder()->first();
+    $rnd = mt_rand(0, 2);
+    $id = null;
+
+    switch ($rnd) {
+        case 0:
+            $id = \App\User::inRandomOrder()->first()->id;
+            break;
+
+        case 1:
+            $id = \App\Role::inRandomOrder()->first()->id;
+            break;
+
+        case 2:
+            $id = \App\Job::inRandomOrder()->first()->id;
+            break;
+    }
+
+    return [
+        'folder_id' => $folder->id,
+        'user_id' => $rnd == 0 ? $id : null,
+        'role_id' => $rnd == 1 ? $id : null,
+        'job_id' => $rnd == 2 ? $id : null,
+        'access' => mt_rand(1, 15),
+    ];
+});

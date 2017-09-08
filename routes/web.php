@@ -24,6 +24,9 @@ Route::get('jobs.get', 'JobController@get');
 Route::get('jobs.exist', 'JobController@exist');
 Route::post('jobs.transfer', 'JobController@transfer');
 
+// Folders
+Route::resource('folders', 'FolderController');
+
 // Logs
 Route::get('logs', 'LogController@index');
 Route::get('axios/logs.get', 'LogController@getLogs');
