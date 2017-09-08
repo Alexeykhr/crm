@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccessDirTable extends Migration
+class CreateAccessDirsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class CreateAccessDirTable extends Migration
      */
     public function up()
     {
-        Schema::create('access_dir', function (Blueprint $table) {
+        Schema::create('access_dirs', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('folder_id');
             $table->integer('user_id')->nullable();
             $table->integer('role_id')->nullable();
@@ -31,6 +32,6 @@ class CreateAccessDirTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('access_dir');
+        Schema::dropIfExists('access_dirs');
     }
 }

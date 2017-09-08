@@ -17,7 +17,8 @@ class FolderController extends Controller
     {
         $me = Auth::user();
 
-        $folders = Folder::with(['access_dir' => function($q) use ($me) {
+//        TODO: got errors
+        $folders = Folder::whereHas('accessDir', function($q) use ($me) {
             $q->where('user_id', '=', $me->id);
 
             if (! empty($me->job_id)) {
@@ -27,8 +28,8 @@ class FolderController extends Controller
             if (! empty($me->role_id)) {
                 $q->orWhere('role_id', '=', $me->role_id);
             }
-        }])
-            ->where('is_main', '=', 1)
+        })
+//            ->where('is_main', '=', 1)
             ->get();
 
         dd($folders);

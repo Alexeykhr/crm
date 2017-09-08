@@ -49,7 +49,7 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(\App\Folder::class, function (Faker\Generator $faker) {
-    $job = mt_rand(1, 5) == 4 ? \App\Folder::inRandomOrder()->first()->id : null;
+    $job = mt_rand(1, 10) == 4 ? \App\Folder::inRandomOrder()->first()->id : null;
 
     return [
         'parent_id' => $job,
