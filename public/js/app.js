@@ -27800,6 +27800,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser'],
@@ -27807,6 +27812,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             title: '',
+            desc: '',
+
             find: false,
             success: false,
             error: false
@@ -27846,10 +27853,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.error = false;
 
             axios.post('/jobs', {
-                title: this.title
+                title: this.title,
+                desc: this.desc
             }).then(function (res) {
                 _this2.$refs.snackbar.open();
                 _this2.title = '';
+                _this2.desc = '';
             }).catch(function (error) {
                 return _this2.error = true;
             });
@@ -58141,7 +58150,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), (_vm.error) ? _c('span', {
     staticClass: "md-error"
-  }, [_vm._v("Посада вже існує")]) : _vm._e()], 1), _vm._v(" "), _c('md-button', {
+  }, [_vm._v("Посада вже існує")]) : _vm._e()], 1), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Опис")]), _vm._v(" "), _c('md-textarea', {
+    attrs: {
+      "maxlength": "255"
+    },
+    model: {
+      value: (_vm.desc),
+      callback: function($$v) {
+        _vm.desc = $$v
+      },
+      expression: "desc"
+    }
+  })], 1), _vm._v(" "), _c('md-button', {
     staticClass: "md-raised md-primary btn-create",
     attrs: {
       "disabled": _vm.find || this.title.length < 3

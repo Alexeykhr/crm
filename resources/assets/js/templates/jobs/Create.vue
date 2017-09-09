@@ -9,6 +9,11 @@
                 <span v-if="error" class="md-error">Посада вже існує</span>
             </md-input-container>
 
+            <md-input-container>
+                <label>Опис</label>
+                <md-textarea v-model="desc" maxlength="255"></md-textarea>
+            </md-input-container>
+
             <md-button :disabled="find || this.title.length < 3" class="md-raised md-primary btn-create" @click="createJob()">
                 Створити
             </md-button>
@@ -30,6 +35,8 @@
         data() {
             return {
                 title: '',
+                desc: '',
+
                 find: false,
                 success: false,
                 error: false,
@@ -67,10 +74,12 @@
 
                 axios.post('/jobs', {
                     title: this.title,
+                    desc: this.desc,
                 })
                     .then(res => {
                         this.$refs.snackbar.open();
                         this.title = '';
+                        this.desc = '';
                     })
                     .catch(error => this.error = true);
             },

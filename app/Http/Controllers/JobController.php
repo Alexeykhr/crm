@@ -55,7 +55,7 @@ class JobController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Ajax] Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      *
@@ -70,11 +70,13 @@ class JobController extends Controller
         }
 
         $this->validate($request, [
-            'title' => 'required|unique:jobs|min:3|max:60'
+            'title' => 'required|unique:jobs|min:3|max:60',
+            'desc'  => 'max:255',
         ]);
 
         Job::insert([
-            'title' => $request->title
+            'title' => $request->title,
+            'desc' => $request->desc,
         ]);
     }
 
