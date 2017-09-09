@@ -84,3 +84,11 @@
     font-weight: bold;
   }
 }
+
+.md-table-cell {
+  &.flex-end {
+    > .md-table-cell-container {
+      justify-content: flex-end !important;
+    }
+  }
+}

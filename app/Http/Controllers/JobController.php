@@ -51,6 +51,7 @@ class JobController extends Controller
 
         return view('jobs.create', [
             'me' => $me,
+            'action' => 'create',
         ]);
     }
 
@@ -89,7 +90,20 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'view')) {
+            return abort(404);
+        }
+
+        $job = Job::where('id', '=', $id)->firstOrFail();
+
+        return view('jobs.view', [
+            'me' => $me,
+            'job' => $job,
+            'action' => 'view',
+            'canEdit' => $this->access($me->role->acs_job, 'edit'),
+        ]);
     }
 
     /**
@@ -101,7 +115,20 @@ class JobController extends Controller
      */
     public function edit($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'edit')) {
+            return abort(404);
+        }
+
+        $job = Job::where('id', '=', $id)->firstOrFail();
+
+        return view('jobs.edit', [
+            'me' => $me,
+            'job' => $job,
+            'action' => 'edit',
+            'canView' => $this->access($me->role->acs_job, 'view'),
+        ]);
     }
 
     /**
@@ -114,7 +141,21 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_job, 'edit')) {
+            return abort(404);
+        }
+
+        $this->validate($request, [
+            'title' => 'required|min:3|max:60',
+            'desc'  => 'max:255',
+        ]);
+
+        Job::where('id', '=', $id)->update([
+            'title' => $request->title,
+            'desc' => $request->desc,
+        ]);
     }
 
     /**
@@ -170,7 +211,11 @@ class JobController extends Controller
         }
 
         if (! empty($request->q)) {
-            $jobs->where('title', 'LIKE', '%' . $request->q . '%');
+            if (is_numeric($request->q)) {
+                $jobs->where('id', 'LIKE', '%' . $request->q . '%');
+            } else {
+                $jobs->where('title', 'LIKE', '%' . $request->q . '%');
+            }
         }
 
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;

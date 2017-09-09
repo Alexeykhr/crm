@@ -39,7 +39,7 @@ Vue.component('roles', require('./templates/roles/Index.vue'));
 Vue.component('roles-create', require('./templates/roles/Create.vue'));
 
 Vue.component('jobs', require('./templates/jobs/Index.vue'));
-Vue.component('jobs-create', require('./templates/jobs/Create.vue'));
+Vue.component('jobs-page', require('./templates/jobs/Page.vue'));
 
 Vue.component('folders', require('./templates/folders/Index.vue'));
 

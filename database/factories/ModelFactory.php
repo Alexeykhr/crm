@@ -44,7 +44,7 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
         'level' => mt_rand(0, 9),
-        'color' => $faker->hexColor,
+        'color' => $faker->rgbColor,
     ];
 });
 

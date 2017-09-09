@@ -25,27 +25,26 @@
                             <span>{{ job.users_count }}</span>
                         </md-table-cell>
 
-                        <md-table-cell>
-                            <md-menu md-size="4">
-                                <md-button class="md-icon-button" md-menu-trigger>
-                                    <md-icon>more_vert</md-icon>
-                                </md-button>
+                        <md-table-cell class="flex-end">
+                            <md-button class="md-icon-button" :href="'/jobs/' + job.id">
+                                <md-icon>remove_red_eye</md-icon>
+                                <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
+                            </md-button>
 
-                                <md-menu-content>
-                                    <md-menu-item :href="'/jobs/' + job.id">
-                                        <md-icon>remove_red_eye</md-icon> <span>Переглянути</span>
-                                    </md-menu-item>
-                                    <md-menu-item v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
-                                        <md-icon>edit</md-icon> <span>Редагувати</span>
-                                    </md-menu-item>
-                                    <md-menu-item v-if="canDelete" :disabled="job.users_count > 0" @click="openDelete(index)">
-                                        <md-icon>delete</md-icon> <span>Видалити</span>
-                                    </md-menu-item>
-                                    <md-menu-item v-if="canTransfer" :disabled="job.users_count < 1" @click="openTransfer(index)">
-                                        <md-icon>people</md-icon> <span>Трансфер</span>
-                                    </md-menu-item>
-                                </md-menu-content>
-                            </md-menu>
+                            <md-button class="md-icon-button" v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
+                                <md-icon>edit</md-icon>
+                                <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canDelete && job.users_count < 1" @click="openDelete(index)">
+                                <md-icon>delete</md-icon>
+                                <md-tooltip md-direction="bottom">Видалити</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
+                                <md-icon>people</md-icon>
+                                <md-tooltip md-direction="bottom">Перенести працівників</md-tooltip>
+                            </md-button>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
@@ -178,6 +177,8 @@
                     })
                     .catch(error => {
                         if (! error.response.data.error) {
+                            this.response = 'Виникла помилка';
+                            this.$refs.snackbar.open();
                             return;
                         }
 
@@ -268,11 +269,7 @@
 
         watch: {
             q() {
-                let len = this.q.length;
-
-                if (len > 2 || len == 0) {
-                    this.getJobs();
-                }
+                this.getJobs();
             },
             count() {
                 this.getJobs();

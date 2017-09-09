@@ -2,10 +2,30 @@
   max-width: 1000px;
   margin: 20px auto;
   padding: 20px;
+  @include media-down(xs) {
+    padding: 10px;
+    margin: 0 auto;
+  }
 
-  &.create {
+  &.action {
     max-width: 400px;
     background: #fff;
+    .header {
+      display: flex;
+      border-bottom: 2px solid #af2323;
+      align-items: center;
+      margin-bottom: 20px;
+      height: 42px;
+      h1 {
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0;
+        font-size: 1.6em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
   }
 
   h1 {
@@ -14,7 +34,7 @@
   }
 }
 
-.btn-create {
+.btn-action {
   width: 100%;
   margin: 20px 0 0;
 }
