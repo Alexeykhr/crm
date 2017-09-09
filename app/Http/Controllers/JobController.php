@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    const LOG_MODULE = 'Посада';
+
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +27,8 @@ class JobController extends Controller
 
         $jobs = Job::withCount('users')
             ->paginate(25);
+
+        LogController::logView(self::LOG_MODULE, 'Перегляд головної сторінки');
 
         return view('jobs.index', [
             'me'        => $me,
@@ -77,8 +82,10 @@ class JobController extends Controller
 
         Job::insert([
             'title' => $request->title,
-            'desc' => $request->desc,
+            'desc'  => $request->desc,
         ]);
+
+        LogController::logAdd(self::LOG_MODULE, 'Створення посади', DB::getPdo()->lastInsertId());
     }
 
     /**
@@ -96,12 +103,14 @@ class JobController extends Controller
             return abort(404);
         }
 
-        $job = Job::where('id', '=', $id)->firstOrFail();
+        $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
+
+        LogController::logView(self::LOG_MODULE, 'Перегляд посади', $id);
 
         return view('jobs.view', [
-            'me' => $me,
-            'job' => $job,
-            'action' => 'view',
+            'me'      => $me,
+            'job'     => $job,
+            'action'  => 'view',
             'canEdit' => $this->access($me->role->acs_job, 'edit'),
         ]);
     }
@@ -121,12 +130,14 @@ class JobController extends Controller
             return abort(404);
         }
 
-        $job = Job::where('id', '=', $id)->firstOrFail();
+        $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
+
+        LogController::logView(self::LOG_MODULE, 'Відредагування посади', $id);
 
         return view('jobs.edit', [
-            'me' => $me,
-            'job' => $job,
-            'action' => 'edit',
+            'me'      => $me,
+            'job'     => $job,
+            'action'  => 'edit',
             'canView' => $this->access($me->role->acs_job, 'view'),
         ]);
     }
@@ -152,9 +163,11 @@ class JobController extends Controller
             'desc'  => 'max:255',
         ]);
 
+        LogController::logView(self::LOG_MODULE, 'Оновлення інформації про посаду', $id);
+
         Job::where('id', '=', $id)->update([
             'title' => $request->title,
-            'desc' => $request->desc,
+            'desc'  => $request->desc,
         ]);
     }
 
@@ -182,6 +195,8 @@ class JobController extends Controller
         if ($job->users_count > 0) {
             return response()->json(['error' => ['validation.exists_users']], 422);
         }
+
+        LogController::logDelete(self::LOG_MODULE, 'Видалення посади', $id);
 
         return Job::destroy($id);
     }
@@ -283,6 +298,8 @@ class JobController extends Controller
         $this->validate($request, [
             'to' => 'integer|different:from|min:1|exists:jobs,id'
         ]);
+
+        LogController::logTransfer(self::LOG_MODULE, 'Трансфер всіх працівників', $request->to);
 
         return User::where('job_id', '=', $request->from)
             ->update([

@@ -17,7 +17,8 @@
                 <md-table-body>
                     <md-table-row v-for="(user, index) in users.data" :key="user.id" :class="setClass(index)"
                                   :style="!user.delete && user.active && user.role.color ?
-                                  'border-left: 10px solid ' + user.role.color + ';' : ''">
+                                  'border-left: 5px solid rgb(' + user.role.color + ');' +
+                                  'background: rgba(' + user.role.color + ',.05);' : ''">
                         <md-table-cell>
                             <md-avatar>
                                 <img :src="user.photo ? user.photo : 'img/user.png'" :atl="'Користувач: ' + user.name">
@@ -38,7 +39,7 @@
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-menu md-align-trigger v-if="user.phone || user.work_phone || user.email || user.work_email">
+                            <md-menu md-size="6" md-align-trigger v-if="user.phone || user.work_phone || user.email || user.work_email">
                                 <md-button class="md-icon-button" md-menu-trigger><md-icon>contact_mail</md-icon></md-button>
 
                                 <md-menu-content>

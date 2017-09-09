@@ -91,12 +91,17 @@ class LogController extends Controller
 
     public static function logEdit($module, $desc, $refID = null)
     {
-        self::log($module, 'Відредагування', $desc, $refID);
+        self::log($module, 'Редагування', $desc, $refID);
     }
 
     public static function logView($module, $desc, $refID = null)
     {
         self::log($module, 'Перегляд', $desc, $refID);
+    }
+
+    public static function logTransfer($module, $desc, $refId = null)
+    {
+        self::log($module, 'Трансфер', $desc, $refId);
     }
 
     public static function logOther($module, $desc, $refID = null)

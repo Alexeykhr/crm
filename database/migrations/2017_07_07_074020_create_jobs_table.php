@@ -17,7 +17,6 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->string('title', 60)->unique();
             $table->string('desc', 255)->nullable();
-            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

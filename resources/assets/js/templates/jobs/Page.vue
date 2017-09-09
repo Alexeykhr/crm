@@ -3,7 +3,7 @@
         <form novalidate @submit.stop.prevent="submit">
             <div class="header">
                 <template v-if="inJob">
-                    <h1 :title="'Посада #' + job.id">Посада #{{ job.id }}</h1>
+                    <h1 :title="'Посада #' + job.id">Посада: #{{ job.id }}</h1>
                 </template>
                 <template v-else>
                     <h1 title="Створення посади">Створення посади</h1>
@@ -17,6 +17,8 @@
                         <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
                     </md-button>
                 </template>
+
+                <!--TODO: canDelete, canTransfer with errors-->
 
                 <template v-if="canView">
                     <md-button class="md-icon-button" :href="'/jobs/' + job.id">
@@ -38,21 +40,22 @@
                 <md-textarea :readonly="action == 'view'" v-model="desc" maxlength="255"></md-textarea>
             </md-input-container>
 
-            <template v-if="action == 'create'">
-                <md-button :disabled="find || this.title.length < 3" class="md-raised md-primary btn-action"
-                           @click="createJob()">
-                    Створити
-                </md-button>
-            </template>
-            <template v-if="action == 'edit'">
-                <md-button :disabled="find || this.title.length < 3" class="md-raised md-primary btn-action"
-                           @click="updateJob()">
-                    Оновити
-                </md-button>
-            </template>
+            <md-input-container v-if="inJob">
+                <label>Кількість працівників</label>
+                <md-input v-model="job.users_count" readonly></md-input>
+            </md-input-container>
+
+            <md-button v-if="action == 'create'" :disabled="search || this.title.length < 3"
+                       class="md-raised md-primary btn-action" @click="createJob()">
+                Створити
+            </md-button>
+            <md-button v-if="action == 'edit'" :disabled="search || this.title.length < 3"
+                       class="md-raised md-primary btn-action" @click="updateJob()">
+                Оновити
+            </md-button>
         </form>
 
-        <md-snackbar class="snackbar-black" ref="snackbar" :md-duration="3000">
+        <md-snackbar class="snackbar-black" ref="snackbar" :md-duration="2000">
             <span>{{ response }}</span>
             <md-button @click="$refs.snackbar.close()">Сховати</md-button>
         </md-snackbar>
@@ -71,7 +74,7 @@
                 title: '',
                 desc: '',
 
-                find: false,
+                search: false,
                 duplicateTitle: false,
                 response: '',
             }
@@ -84,6 +87,8 @@
                 this.job = JSON.parse(this.inJob);
                 this.title = this.job.title;
                 this.desc = this.job.desc;
+
+                console.log(this.job);
             }
         },
 
@@ -107,7 +112,7 @@
                     }
                 })
                     .then(res => {
-                        this.find = res.data;
+                        this.search = res.data;
 
                         if (res.data) {
                             this.duplicateTitle = true;

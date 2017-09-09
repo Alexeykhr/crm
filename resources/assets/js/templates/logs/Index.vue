@@ -52,6 +52,13 @@
                 <md-select name="module" id="module" v-model="module">
                     <md-option value="">Всі</md-option>
                     <md-option value="Авторизація">Авторизація</md-option>
+                    <md-option value="Профіль">Журнал</md-option>
+                    <md-option value="Користувачі">Користувачі</md-option>
+                    <md-option value="Роль">Роль</md-option>
+                    <md-option value="Посада">Посада</md-option>
+                    <md-option value="Каталог">Каталог</md-option>
+                    <md-option value="Журнал">Журнал</md-option>
+                    <md-option value="Календар">Календар</md-option>
                 </md-select>
             </md-input-container>
 
@@ -61,7 +68,7 @@
                     <md-option value="">Всі</md-option>
                     <md-option value="Створення">Створення</md-option>
                     <md-option value="Видалення">Видалення</md-option>
-                    <md-option value="Відредагування">Відредагування</md-option>
+                    <md-option value="Редагування">Редагування</md-option>
                     <md-option value="Перегляд">Перегляд</md-option>
                     <md-option value="Інше">Інше</md-option>
                 </md-select>

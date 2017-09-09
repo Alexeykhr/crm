@@ -52,9 +52,8 @@ class UserController extends Controller
     public function show($id)
     {
         $me = Auth::user();
-        $id = (int)$id;
 
-        if ($me->id === $id) {
+        if ($me->id == $id) {
             return $this->profile();
         }
 

@@ -26142,8 +26142,8 @@ Vue.component('users-create', __webpack_require__(175));
 Vue.component('roles', __webpack_require__(174));
 Vue.component('roles-create', __webpack_require__(173));
 
-Vue.component('jobs', __webpack_require__(170));
-Vue.component('jobs-page', __webpack_require__(197));
+Vue.component('jobs', __webpack_require__(169));
+Vue.component('jobs-page', __webpack_require__(170));
 
 Vue.component('folders', __webpack_require__(167));
 
@@ -27376,8 +27376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 151 */,
-/* 152 */
+/* 151 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27664,11 +27663,221 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
+/* 152 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['iUser', 'inJob', 'action', 'canEdit', 'canView'],
+
+    data: function data() {
+        return {
+            job: [],
+            title: '',
+            desc: '',
+
+            search: false,
+            duplicateTitle: false,
+            response: ''
+        };
+    },
+    created: function created() {
+        this.me = JSON.parse(this.iUser);
+
+        if (this.inJob) {
+            this.job = JSON.parse(this.inJob);
+            this.title = this.job.title;
+            this.desc = this.job.desc;
+
+            console.log(this.job);
+        }
+    },
+
+
+    methods: {
+        findJob: function findJob() {
+            var _this = this;
+
+            this.duplicateTitle = false;
+
+            if (this.title.length < 3) {
+                return;
+            }
+
+            if (this.inJob) {
+                if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
+                    return;
+                }
+            }
+
+            axios.get('/jobs.exist', {
+                params: {
+                    title: this.title
+                }
+            }).then(function (res) {
+                _this.search = res.data;
+
+                if (res.data) {
+                    _this.duplicateTitle = true;
+                }
+            });
+        },
+        createJob: function createJob() {
+            var _this2 = this;
+
+            axios.post('/jobs', {
+                title: this.title,
+                desc: this.desc
+            }).then(function (res) {
+                _this2.title = '';
+                _this2.desc = '';
+                _this2.response = 'Посада створена';
+                _this2.$refs.snackbar.open();
+            }).catch(function (error) {
+                return _this2.parseError(error);
+            });
+        },
+        updateJob: function updateJob() {
+            var _this3 = this;
+
+            axios.put('/jobs/' + this.job.id, {
+                title: this.title,
+                desc: this.desc
+            }).then(function (res) {
+                _this3.response = 'Посада оновлена';
+                _this3.$refs.snackbar.open();
+            }).catch(function (error) {
+                return _this3.parseError(error);
+            });
+        },
+        parseError: function parseError(error) {
+            if (!error.response.data.title && !error.response.data.desc) {
+                this.response = 'Виникла помилка';
+                this.$refs.snackbar.open();
+                return false;
+            }
+
+            if (error.response.data.title) {
+                switch (error.response.data.title[0]) {
+                    case 'validation.unique':
+                        this.duplicateTitle = true;
+                        return;
+
+                    case 'validation.required':
+                        this.response = 'Назва обов\'язкова';
+                        break;
+
+                    case 'validation.min.string':
+                        this.response = 'Назва має бути більше 2 символів';
+                        break;
+
+                    case 'validation.max.string':
+                        this.response = 'Назва має бути менше 61 символа';
+                        break;
+
+                    default:
+                        this.response = 'Виникла помилка в назві';
+                }
+
+                this.$refs.snackbar.open();
+                return;
+            }
+
+            if (error.response.data.desc) {
+                switch (error.response.data.desc[0]) {
+                    case 'validation.max.string':
+                        this.response = 'Опис має бути менше 256 символів';
+                        break;
+
+                    default:
+                        this.response = 'Виникла помилка в описі';
+                }
+
+                this.$refs.snackbar.open();
+            }
+        }
+    }
+});
+
+/***/ }),
 /* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -28082,6 +28291,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -56340,13 +56550,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 169 */,
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(152),
+  __webpack_require__(151),
   /* template */
   __webpack_require__(187),
   /* scopeId */
@@ -56368,6 +56577,40 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-69a138dc", Component.options)
   } else {
     hotAPI.reload("data-v-69a138dc", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(152),
+  /* template */
+  __webpack_require__(188),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\jobs\\Page.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Page.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8133a102", Component.options)
+  } else {
+    hotAPI.reload("data-v-8133a102", Component.options)
   }
 })()}
 
@@ -57171,7 +57414,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: user.id,
       class: _vm.setClass(index),
       style: (!user.delete && user.active && user.role.color ?
-        'border-left: 10px solid ' + user.role.color + ';' : '')
+        'border-left: 5px solid rgb(' + user.role.color + ');' +
+        'background: rgba(' + user.role.color + ',.05);' : '')
     }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
       attrs: {
         "src": user.photo ? user.photo : 'img/user.png',
@@ -57181,6 +57425,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "title"
     }, [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(!user.delete && user.active) ? _c('span', [_vm._v(_vm._s(user.role.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
+        "md-size": "6",
         "md-align-trigger": ""
       }
     }, [_c('md-button', {
@@ -57548,7 +57793,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
     ref: "transfer"
-  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
+  }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер: \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
     model: {
       value: (_vm.transferJob),
       callback: function($$v) {
@@ -57595,7 +57840,147 @@ if (false) {
 }
 
 /***/ }),
-/* 188 */,
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    staticClass: "page action",
+    attrs: {
+      "md-elevation": "2"
+    }
+  }, [_c('form', {
+    attrs: {
+      "novalidate": ""
+    },
+    on: {
+      "submit": function($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        _vm.submit($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "header"
+  }, [(_vm.inJob) ? [_c('h1', {
+    attrs: {
+      "title": 'Посада #' + _vm.job.id
+    }
+  }, [_vm._v("Посада: #" + _vm._s(_vm.job.id))])] : [_c('h1', {
+    attrs: {
+      "title": "Створення посади"
+    }
+  }, [_vm._v("Створення посади")])], _vm._v(" "), _c('span', {
+    staticStyle: {
+      "flex": "1"
+    }
+  }), _vm._v(" "), (_vm.canEdit) ? [_c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": '/jobs/' + _vm.job.id + '/edit'
+    }
+  }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Відредагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": '/jobs/' + _vm.job.id
+    }
+  }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Переглянути")])], 1)] : _vm._e()], 2), _vm._v(" "), _c('md-input-container', {
+    class: _vm.duplicateTitle ? 'md-input-invalid' : ''
+  }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": _vm.action == 'view',
+      "maxlength": 60,
+      "required": "",
+      "autofocus": ""
+    },
+    nativeOn: {
+      "change": function($event) {
+        _vm.findJob()
+      }
+    },
+    model: {
+      value: (_vm.title),
+      callback: function($$v) {
+        _vm.title = $$v
+      },
+      expression: "title"
+    }
+  }), _vm._v(" "), (_vm.duplicateTitle) ? _c('span', {
+    staticClass: "md-error"
+  }, [_vm._v("Посада вже існує")]) : _vm._e()], 1), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Опис")]), _vm._v(" "), _c('md-textarea', {
+    attrs: {
+      "readonly": _vm.action == 'view',
+      "maxlength": "255"
+    },
+    model: {
+      value: (_vm.desc),
+      callback: function($$v) {
+        _vm.desc = $$v
+      },
+      expression: "desc"
+    }
+  })], 1), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": ""
+    },
+    model: {
+      value: (_vm.job.users_count),
+      callback: function($$v) {
+        _vm.job.users_count = $$v
+      },
+      expression: "job.users_count"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.action == 'create') ? _c('md-button', {
+    staticClass: "md-raised md-primary btn-action",
+    attrs: {
+      "disabled": _vm.search || this.title.length < 3
+    },
+    on: {
+      "click": function($event) {
+        _vm.createJob()
+      }
+    }
+  }, [_vm._v("\n            Створити\n        ")]) : _vm._e(), _vm._v(" "), (_vm.action == 'edit') ? _c('md-button', {
+    staticClass: "md-raised md-primary btn-action",
+    attrs: {
+      "disabled": _vm.search || this.title.length < 3
+    },
+    on: {
+      "click": function($event) {
+        _vm.updateJob()
+      }
+    }
+  }, [_vm._v("\n            Оновити\n        ")]) : _vm._e()], 1), _vm._v(" "), _c('md-snackbar', {
+    ref: "snackbar",
+    staticClass: "snackbar-black",
+    attrs: {
+      "md-duration": 2000
+    }
+  }, [_c('span', [_vm._v(_vm._s(_vm.response))]), _vm._v(" "), _c('md-button', {
+    on: {
+      "click": function($event) {
+        _vm.$refs.snackbar.close()
+      }
+    }
+  }, [_vm._v("Сховати")])], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-8133a102", module.exports)
+  }
+}
+
+/***/ }),
 /* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -57670,7 +58055,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "Авторизація"
     }
-  }, [_vm._v("Авторизація")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
+  }, [_vm._v("Авторизація")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Профіль"
+    }
+  }, [_vm._v("Журнал")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Користувачі"
+    }
+  }, [_vm._v("Користувачі")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Роль"
+    }
+  }, [_vm._v("Роль")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Посада"
+    }
+  }, [_vm._v("Посада")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Каталог"
+    }
+  }, [_vm._v("Каталог")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Журнал"
+    }
+  }, [_vm._v("Журнал")]), _vm._v(" "), _c('md-option', {
+    attrs: {
+      "value": "Календар"
+    }
+  }, [_vm._v("Календар")])], 1)], 1), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
       "for": "action"
     }
@@ -57700,9 +58113,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Видалення")]), _vm._v(" "), _c('md-option', {
     attrs: {
-      "value": "Відредагування"
+      "value": "Редагування"
     }
-  }, [_vm._v("Відредагування")]), _vm._v(" "), _c('md-option', {
+  }, [_vm._v("Редагування")]), _vm._v(" "), _c('md-option', {
     attrs: {
       "value": "Перегляд"
     }
@@ -57759,371 +58172,6 @@ attrs:{"md-src":t.imageSrc}}):n("i",{staticClass:"md-icon",class:[t.themeClass,t
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
-
-/***/ }),
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inJob', 'action', 'canEdit', 'canView'],
-
-    data: function data() {
-        return {
-            job: [],
-            title: '',
-            desc: '',
-
-            find: false,
-            duplicateTitle: false,
-            response: ''
-        };
-    },
-    created: function created() {
-        this.me = JSON.parse(this.iUser);
-
-        if (this.inJob) {
-            this.job = JSON.parse(this.inJob);
-            this.title = this.job.title;
-            this.desc = this.job.desc;
-        }
-    },
-
-
-    methods: {
-        findJob: function findJob() {
-            var _this = this;
-
-            this.duplicateTitle = false;
-
-            if (this.title.length < 3) {
-                return;
-            }
-
-            if (this.inJob) {
-                if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
-                    return;
-                }
-            }
-
-            axios.get('/jobs.exist', {
-                params: {
-                    title: this.title
-                }
-            }).then(function (res) {
-                _this.find = res.data;
-
-                if (res.data) {
-                    _this.duplicateTitle = true;
-                }
-            });
-        },
-        createJob: function createJob() {
-            var _this2 = this;
-
-            axios.post('/jobs', {
-                title: this.title,
-                desc: this.desc
-            }).then(function (res) {
-                _this2.title = '';
-                _this2.desc = '';
-                _this2.response = 'Посада створена';
-                _this2.$refs.snackbar.open();
-            }).catch(function (error) {
-                return _this2.parseError(error);
-            });
-        },
-        updateJob: function updateJob() {
-            var _this3 = this;
-
-            axios.put('/jobs/' + this.job.id, {
-                title: this.title,
-                desc: this.desc
-            }).then(function (res) {
-                _this3.response = 'Посада оновлена';
-                _this3.$refs.snackbar.open();
-            }).catch(function (error) {
-                return _this3.parseError(error);
-            });
-        },
-        parseError: function parseError(error) {
-            if (!error.response.data.title && !error.response.data.desc) {
-                this.response = 'Виникла помилка';
-                this.$refs.snackbar.open();
-                return false;
-            }
-
-            if (error.response.data.title) {
-                switch (error.response.data.title[0]) {
-                    case 'validation.unique':
-                        this.duplicateTitle = true;
-                        return;
-
-                    case 'validation.required':
-                        this.response = 'Назва обов\'язкова';
-                        break;
-
-                    case 'validation.min.string':
-                        this.response = 'Назва має бути більше 2 символів';
-                        break;
-
-                    case 'validation.max.string':
-                        this.response = 'Назва має бути менше 61 символа';
-                        break;
-
-                    default:
-                        this.response = 'Виникла помилка в назві';
-                }
-
-                this.$refs.snackbar.open();
-                return;
-            }
-
-            if (error.response.data.desc) {
-                switch (error.response.data.desc[0]) {
-                    case 'validation.max.string':
-                        this.response = 'Опис має бути менше 256 символів';
-                        break;
-
-                    default:
-                        this.response = 'Виникла помилка в описі';
-                }
-
-                this.$refs.snackbar.open();
-            }
-        }
-    }
-});
-
-/***/ }),
-/* 197 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(196),
-  /* template */
-  __webpack_require__(198),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\jobs\\Page.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Page.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8133a102", Component.options)
-  } else {
-    hotAPI.reload("data-v-8133a102", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 198 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-whiteframe', {
-    staticClass: "page action",
-    attrs: {
-      "md-elevation": "2"
-    }
-  }, [_c('form', {
-    attrs: {
-      "novalidate": ""
-    },
-    on: {
-      "submit": function($event) {
-        $event.stopPropagation();
-        $event.preventDefault();
-        _vm.submit($event)
-      }
-    }
-  }, [_c('div', {
-    staticClass: "header"
-  }, [(_vm.inJob) ? [_c('h1', {
-    attrs: {
-      "title": 'Посада #' + _vm.job.id
-    }
-  }, [_vm._v("Посада #" + _vm._s(_vm.job.id))])] : [_c('h1', {
-    attrs: {
-      "title": "Створення посади"
-    }
-  }, [_vm._v("Створення посади")])], _vm._v(" "), _c('span', {
-    staticStyle: {
-      "flex": "1"
-    }
-  }), _vm._v(" "), (_vm.canEdit) ? [_c('md-button', {
-    staticClass: "md-icon-button",
-    attrs: {
-      "href": '/jobs/' + _vm.job.id + '/edit'
-    }
-  }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
-    attrs: {
-      "md-direction": "bottom"
-    }
-  }, [_vm._v("Відредагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
-    staticClass: "md-icon-button",
-    attrs: {
-      "href": '/jobs/' + _vm.job.id
-    }
-  }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('md-tooltip', {
-    attrs: {
-      "md-direction": "bottom"
-    }
-  }, [_vm._v("Переглянути")])], 1)] : _vm._e()], 2), _vm._v(" "), _c('md-input-container', {
-    class: _vm.duplicateTitle ? 'md-input-invalid' : ''
-  }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
-    attrs: {
-      "readonly": _vm.action == 'view',
-      "maxlength": 60,
-      "required": "",
-      "autofocus": ""
-    },
-    nativeOn: {
-      "change": function($event) {
-        _vm.findJob()
-      }
-    },
-    model: {
-      value: (_vm.title),
-      callback: function($$v) {
-        _vm.title = $$v
-      },
-      expression: "title"
-    }
-  }), _vm._v(" "), (_vm.duplicateTitle) ? _c('span', {
-    staticClass: "md-error"
-  }, [_vm._v("Посада вже існує")]) : _vm._e()], 1), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Опис")]), _vm._v(" "), _c('md-textarea', {
-    attrs: {
-      "readonly": _vm.action == 'view',
-      "maxlength": "255"
-    },
-    model: {
-      value: (_vm.desc),
-      callback: function($$v) {
-        _vm.desc = $$v
-      },
-      expression: "desc"
-    }
-  })], 1), _vm._v(" "), (_vm.action == 'create') ? [_c('md-button', {
-    staticClass: "md-raised md-primary btn-action",
-    attrs: {
-      "disabled": _vm.find || this.title.length < 3
-    },
-    on: {
-      "click": function($event) {
-        _vm.createJob()
-      }
-    }
-  }, [_vm._v("\n                Створити\n            ")])] : _vm._e(), _vm._v(" "), (_vm.action == 'edit') ? [_c('md-button', {
-    staticClass: "md-raised md-primary btn-action",
-    attrs: {
-      "disabled": _vm.find || this.title.length < 3
-    },
-    on: {
-      "click": function($event) {
-        _vm.updateJob()
-      }
-    }
-  }, [_vm._v("\n                Оновити\n            ")])] : _vm._e()], 2), _vm._v(" "), _c('md-snackbar', {
-    ref: "snackbar",
-    staticClass: "snackbar-black",
-    attrs: {
-      "md-duration": 3000
-    }
-  }, [_c('span', [_vm._v(_vm._s(_vm.response))]), _vm._v(" "), _c('md-button', {
-    on: {
-      "click": function($event) {
-        _vm.$refs.snackbar.close()
-      }
-    }
-  }, [_vm._v("Сховати")])], 1)], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8133a102", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

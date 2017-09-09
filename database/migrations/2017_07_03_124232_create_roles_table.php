@@ -30,7 +30,7 @@ class CreateRolesTable extends Migration
         DB::table('roles')->insert([
             'title' => 'Адміністратор',
             'level' => 10,
-            'color' => '#ff0500',
+            'color' => '255,5,0',
             'acs_user' => 15,
             'acs_role' => 15,
             'acs_job' => 15,

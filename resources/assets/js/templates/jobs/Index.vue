@@ -92,7 +92,7 @@
 
         <md-dialog v-if="canTransfer" ref="transfer">
             <md-dialog-title v-if="transferIndex > -1">
-                Трансфер "{{ jobs.data[transferIndex].title }}"
+                Трансфер: "{{ jobs.data[transferIndex].title }}"
             </md-dialog-title>
 
             <md-dialog-content>
