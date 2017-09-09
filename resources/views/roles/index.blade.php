@@ -13,6 +13,10 @@
 
     <roles i-user="{{ json_encode($me) }}"
            in-roles="{{ json_encode($roles) }}"
+           can-create="{{ $canCreate }}"
+           can-delete="{{ $canDelete }}"
+           can-edit="{{ $canEdit }}"
+           can-transfer="{{ $canTransfer }}"
     ></roles>
 
 @endsection

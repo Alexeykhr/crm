@@ -132,7 +132,7 @@ class JobController extends Controller
 
         $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
 
-        LogController::logView(self::LOG_MODULE, 'Відредагування посади', $id);
+        LogController::logView(self::LOG_MODULE, 'Редагування посади', $id);
 
         return view('jobs.edit', [
             'me'      => $me,

@@ -25,9 +25,13 @@ class RoleController extends Controller
             ->paginate(25);
 
         return view('roles.index', [
-            'me'        => $me,
-            'roles'     => $roles,
-            'canCreate' => $this->access($me->role->acs_role, 'create'),
+            'me'         => $me,
+            'roles'      => $roles,
+            'canCreate'  => $this->access($me->role->acs_role, 'create'),
+            'canDelete'  => $this->access($me->role->acs_role, 'delete'),
+            'canEdit'    => $this->access($me->role->acs_role, 'edit'),
+            'canTransfer' => $this->access($me->role->acs_role, 'edit')
+                && $this->access($me->role->acs_user, 'edit'),
         ]);
     }
 
@@ -91,7 +95,23 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'edit')) {
+            return abort(404);
+        }
+
+        $role = Role::where('id', '=', $id)->firstOrFail();
+
+        if ($me->role->level < $role->level) {
+            return response()->json(['error' => ['validation.level']], 422);
+        }
+
+//        TODO: create validation
+
+        Role::where('id', '=', $id)->update([
+
+        ]);
     }
 
     /**
@@ -102,7 +122,19 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'delete')) {
+            return abort(404);
+        }
+
+        $role = Role::where($id, '=', $id)->firstOrFail();
+
+        if ($me->role->level < $role->level) {
+            return response()->json(['error' => ['validation.level']], 422);
+        }
+
+        return Role::destroy($id);
     }
 
     /**
@@ -122,19 +154,19 @@ class RoleController extends Controller
 
         $roles = Role::withCount('users');
 
-        if (! empty($request->sortColumn) && ! empty($request->sortType)) {
+        if (!empty($request->sortColumn) && !empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
-                in_array($request->sortColumn, ['title', 'level', 'users_count'])) {
+                in_array($request->sortColumn, ['id', 'title', 'level', 'users_count'])) {
                 $roles->orderBy($request->sortColumn, $request->sortType);
             }
         }
 
         if (! empty($request->q)) {
-            $roles->where('title', 'LIKE', '%' . $request->q . '%');
-        }
-
-        if (! empty($request->active)) {
-            $roles->where('active', '=', $request->active > 0);
+            if (is_numeric($request->q)) {
+                $roles->where('id', 'LIKE', '%'. $request->q . '%');
+            } else {
+                $roles->where('title', 'LIKE', '%' . $request->q . '%');
+            }
         }
 
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;

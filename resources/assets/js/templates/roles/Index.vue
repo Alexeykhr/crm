@@ -4,6 +4,7 @@
             <md-table @sort="onSort">
                 <md-table-header>
                     <md-table-row>
+                        <md-table-head md-sort-by="id">#</md-table-head>
                         <md-table-head md-sort-by="title">Назва</md-table-head>
                         <md-table-head md-sort-by="level">Рівень</md-table-head>
                         <md-table-head md-sort-by="users_count">Працівників</md-table-head>
@@ -13,7 +14,12 @@
 
                 <md-table-body>
                     <md-table-row v-for="(role, index) in roles.data" :key="role.id" class="list-row"
-                                  :style="'border-left: 10px solid ' + role.color + ';'">
+                                  :style="'border-left: 5px solid rgb(' + role.color + ');' +
+                                  'background: rgba(' + role.color + ',.05)'">
+                        <md-table-cell>
+                            <span>{{ role.id }}</span>
+                        </md-table-cell>
+
                         <md-table-cell>
                             <span class="title bold">{{ role.title }}</span>
                         </md-table-cell>
@@ -26,9 +32,25 @@
                             <span>{{ role.users_count }}</span>
                         </md-table-cell>
 
-                        <md-table-cell>
-                            <md-button :href="'/roles/' + role.id" class="md-icon-button">
+                        <md-table-cell class="flex-end">
+                            <md-button class="md-icon-button" :href="'/roles/' + role.id">
                                 <md-icon>remove_red_eye</md-icon>
+                                <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canEdit" :href="'/roles/' + role.id + '/edit'">
+                                <md-icon>edit</md-icon>
+                                <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canDelete && role.users_count < 1" @click="openDelete(index)">
+                                <md-icon>delete</md-icon>
+                                <md-tooltip md-direction="bottom">Видалити</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canTransfer && role.users_count > 0" @click="openTransfer(index)">
+                                <md-icon>people</md-icon>
+                                <md-tooltip md-direction="bottom">Перенести працівників</md-tooltip>
                             </md-button>
                         </md-table-cell>
                     </md-table-row>
@@ -64,7 +86,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'inRoles',
+            'iUser', 'inRoles', 'canCreate', 'canEdit', 'canDelete', 'canTransfer',
         ],
 
         data() {
@@ -109,15 +131,17 @@
                 this.sortType = action.type;
                 this.getRoles(this.roles.current_page);
             },
+            openDelete() {
+
+            },
+            openTransfer() {
+
+            },
         },
 
         watch: {
             q() {
-                let len = this.q.length;
-
-                if (len > 2 || len == 0) {
-                    this.getRoles();
-                }
+                this.getRoles();
             },
             count() {
                 this.getRoles();

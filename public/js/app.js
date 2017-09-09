@@ -28201,9 +28201,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inRoles'],
+    props: ['iUser', 'inRoles', 'canCreate', 'canEdit', 'canDelete', 'canTransfer'],
 
     data: function data() {
         return {
@@ -28251,16 +28273,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.sortColumn = action.name;
             this.sortType = action.type;
             this.getRoles(this.roles.current_page);
-        }
+        },
+        openDelete: function openDelete() {},
+        openTransfer: function openTransfer() {}
     },
 
     watch: {
         q: function q() {
-            var len = this.q.length;
-
-            if (len > 2 || len == 0) {
-                this.getRoles();
-            }
+            this.getRoles();
         },
         count: function count() {
             this.getRoles();
@@ -57168,6 +57188,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
     attrs: {
+      "md-sort-by": "id"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
       "md-sort-by": "title"
     }
   }, [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', {
@@ -57182,15 +57206,53 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('md-table-row', {
       key: role.id,
       staticClass: "list-row",
-      style: ('border-left: 10px solid ' + role.color + ';')
-    }, [_c('md-table-cell', [_c('span', {
+      style: ('border-left: 5px solid rgb(' + role.color + ');' +
+        'background: rgba(' + role.color + ',.05)')
+    }, [_c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
-    }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', [_c('md-button', {
+    }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', {
+      staticClass: "flex-end"
+    }, [_c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
         "href": '/roles/' + role.id
       }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
+    }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Переглянути")])], 1), _vm._v(" "), (_vm.canEdit) ? _c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "href": '/roles/' + role.id + '/edit'
+      }
+    }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Відредагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && role.users_count < 1) ? _c('md-button', {
+      staticClass: "md-icon-button",
+      on: {
+        "click": function($event) {
+          _vm.openDelete(index)
+        }
+      }
+    }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer && role.users_count > 0) ? _c('md-button', {
+      staticClass: "md-icon-button",
+      on: {
+        "click": function($event) {
+          _vm.openTransfer(index)
+        }
+      }
+    }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Перенести працівників")])], 1) : _vm._e()], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.roles,

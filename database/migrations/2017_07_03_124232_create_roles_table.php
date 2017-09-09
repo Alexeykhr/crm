@@ -17,7 +17,7 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->string('title', 60)->unique();
             $table->tinyInteger('level')->default(1);
-            $table->string('color')->default('#e0e0e0');
+            $table->string('color', 11)->default('218,218,218');
             $table->tinyInteger('acs_user')->default(1); // [0, ..,  15]
             $table->tinyInteger('acs_role')->default(1); // [0, ..,  15]
             $table->tinyInteger('acs_job')->default(1); // [0, ..,  15]
@@ -41,7 +41,6 @@ class CreateRolesTable extends Migration
 
         DB::table('roles')->insert([
             'title' => 'Користувач',
-            'color' => '#dadada',
         ]);
     }
 
