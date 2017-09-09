@@ -60,7 +60,7 @@
                 <br>
 
                 <md-list-item href="/folders">
-                    <md-icon>folder</md-icon> <span>Папки</span>
+                    <md-icon>folder</md-icon> <span>Каталог</span>
                 </md-list-item>
 
                 <br>

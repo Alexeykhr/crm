@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccessDir extends Model
 {
-    public function folders()
+    public function folder()
     {
-        return $this->hasMany(Folder::class);
+        return $this->belongsTo(Folder::class);
     }
 }

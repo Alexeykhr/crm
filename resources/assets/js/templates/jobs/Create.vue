@@ -9,7 +9,9 @@
                 <span v-if="error" class="md-error">Посада вже існує</span>
             </md-input-container>
 
-            <md-button :disabled="find" class="md-raised md-primary btn-create" @click="createJob()">Створити</md-button>
+            <md-button :disabled="find || this.title.length < 3" class="md-raised md-primary btn-create" @click="createJob()">
+                Створити
+            </md-button>
         </form>
 
         <md-snackbar :md-position="'top right'" class="success" ref="snackbar" :md-duration="5000">
@@ -28,7 +30,7 @@
         data() {
             return {
                 title: '',
-                find: true,
+                find: false,
                 success: false,
                 error: false,
             }
@@ -40,6 +42,8 @@
 
         methods: {
             findJob() {
+                this.error = false;
+
                 if (this.title.length < 3) {
                     return;
                 }
@@ -49,7 +53,13 @@
                         title: this.title,
                     }
                 })
-                    .then(res => this.find = res.data);
+                    .then(res => {
+                        this.find = res.data;
+
+                        if (res.data) {
+                            this.error = true;
+                        }
+                    });
             },
             createJob() {
                 this.success = false;
@@ -63,12 +73,6 @@
                         this.title = '';
                     })
                     .catch(error => this.error = true);
-            },
-        },
-
-        watch: {
-            title() {
-                this.find = this.title.length < 3;
             },
         },
     }

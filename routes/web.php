@@ -26,6 +26,7 @@ Route::post('jobs.transfer', 'JobController@transfer');
 
 // Folders
 Route::resource('folders', 'FolderController');
+Route::get('folders.get', 'FolderController@get');
 
 // Logs
 Route::get('logs', 'LogController@index');

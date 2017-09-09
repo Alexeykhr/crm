@@ -19,7 +19,7 @@ class CreateAccessDirsTable extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('role_id')->nullable();
             $table->integer('job_id')->nullable();
-            $table->boolean('for_all')->default(0);
+            $table->boolean('is_public')->default(0);
             $table->smallInteger('access');
             $table->timestamps();
         });

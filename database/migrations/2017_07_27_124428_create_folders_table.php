@@ -16,15 +16,15 @@ class CreateFoldersTable extends Migration
         Schema::create('folders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('parent_id')->nullable();
-            $table->boolean('is_main')->default(0);
             $table->string('title', 60);
             $table->string('desc', 255)->nullable();
+            $table->boolean('is_main')->default(0);
             $table->timestamps();
         });
 
         DB::table('folders')->insert([
-            'is_main' => 1,
             'title'   => 'Головна папка',
+            'is_main' => 1,
         ]);
     }
 

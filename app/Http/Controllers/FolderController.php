@@ -15,9 +15,8 @@ class FolderController extends Controller
      */
     public function index()
     {
-        $me = Auth::user();
+        $me = Auth::user()->load('role');
 
-//        TODO: got errors
         $folders = Folder::whereHas('accessDir', function($q) use ($me) {
             $q->where('user_id', '=', $me->id);
 
@@ -29,10 +28,13 @@ class FolderController extends Controller
                 $q->orWhere('role_id', '=', $me->role_id);
             }
         })
-//            ->where('is_main', '=', 1)
+            ->where('is_main', '=', 1)
             ->get();
 
-        dd($folders);
+        return view('folders.index', [
+            'me'      => $me,
+            'folders' => $folders,
+        ]);
     }
 
     /**
@@ -49,6 +51,7 @@ class FolderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,6 +63,7 @@ class FolderController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,6 +75,7 @@ class FolderController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -83,6 +88,7 @@ class FolderController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -94,10 +100,23 @@ class FolderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get(Request $request)
+    {
+        dd($request);
     }
 }

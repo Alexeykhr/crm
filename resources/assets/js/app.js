@@ -41,6 +41,8 @@ Vue.component('roles-create', require('./templates/roles/Create.vue'));
 Vue.component('jobs', require('./templates/jobs/Index.vue'));
 Vue.component('jobs-create', require('./templates/jobs/Create.vue'));
 
+Vue.component('folders', require('./templates/folders/Index.vue'));
+
 Vue.component('logs', require('./templates/logs/Index.vue'));
 Vue.component('calendar', require('./templates/calendar/Index.vue'));
 

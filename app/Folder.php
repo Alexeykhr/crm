@@ -13,6 +13,6 @@ class Folder extends Model
 
     public function accessDir()
     {
-        return $this->belongsTo(AccessDir::class);
+        return $this->hasMany(AccessDir::class);
     }
 }
