@@ -6,7 +6,7 @@
                     <md-table-row>
                         <md-table-head md-sort-by="id">#</md-table-head>
                         <md-table-head md-sort-by="title">Назва</md-table-head>
-                        <md-table-head md-sort-by="users_count">Працівників</md-table-head>
+                        <md-table-head md-sort-by="users_count">Користувачів</md-table-head>
                         <md-table-head></md-table-head>
                     </md-table-row>
                 </md-table-header>
@@ -43,7 +43,7 @@
 
                             <md-button class="md-icon-button" v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
                                 <md-icon>people</md-icon>
-                                <md-tooltip md-direction="bottom">Перенести працівників</md-tooltip>
+                                <md-tooltip md-direction="bottom">Перенести користувачів</md-tooltip>
                             </md-button>
                         </md-table-cell>
                     </md-table-row>
@@ -56,7 +56,7 @@
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
-                <label>Пошук</label>
+                <label>[#] / Посада</label>
                 <md-input v-model="q" autofocus></md-input>
             </md-input-container>
 
@@ -130,7 +130,7 @@
                 jobs: [],
 
                 q: '',
-                count: 25,
+                count: 10,
 
                 sortColumn: '',
                 sortType: '',
@@ -187,7 +187,7 @@
                                 break;
 
                             case 'validation.exists_users':
-                                this.response = 'На цю посаду прікріплені працівники';
+                                this.response = 'Користувачі прікріплені на цю посаду';
                                 break;
 
                             default:
@@ -215,7 +215,7 @@
                                 }
                             });
 
-                            this.response = 'Працівники успішно перенесені';
+                            this.response = 'Користувачі успішно перенесені';
                             this.$refs.snackbar.open();
                         }
                     })

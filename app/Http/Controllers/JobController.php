@@ -27,7 +27,7 @@ class JobController extends Controller
         }
 
         $jobs = Job::withCount('users')
-            ->paginate(25);
+            ->paginate(10);
 
         LogController::logView(self::LOG_MODULE, 'Всі посади');
 
@@ -214,6 +214,8 @@ class JobController extends Controller
         if ($isDeleted) {
             LogController::logDelete(self::LOG_MODULE, '[' . $job->id . '] ' . $job->title);
         }
+
+        return $isDeleted;
     }
 
     /**
@@ -242,13 +244,13 @@ class JobController extends Controller
 
         if (! empty($request->q)) {
             if (is_numeric($request->q)) {
-                $jobs->where('id', 'LIKE', '%' . $request->q . '%');
+                $jobs->where('id', '=', $request->q);
             } else {
                 $jobs->where('title', 'LIKE', '%' . $request->q . '%');
             }
         }
 
-        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 10;
 
         return json_encode($jobs->paginate($count));
     }

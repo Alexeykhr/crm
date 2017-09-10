@@ -37,7 +37,7 @@ class UserController extends Controller
             'me'        => $me,
             'jobs'      => Job::orderBy('title')->get(),
             'roles'     => Role::orderBy('title')->get(),
-            'users'     => $users->paginate(25),
+            'users'     => $users->paginate(10),
             'canCreate' => $this->access($me->role->acs_user, 'create'),
         ]);
     }
@@ -173,28 +173,44 @@ class UserController extends Controller
 
         if (! empty($request->sortColumn) && ! empty($request->sortType)) {
             if (in_array($request->sortType, ['asc', 'desc']) &&
-                in_array($request->sortColumn, ['name'])) {
+                in_array($request->sortColumn, ['id', 'name'])) {
                 $users->orderBy($request->sortColumn, $request->sortType);
             }
         }
 
-        if (! empty($request->q)) {
-            $users->where('name', 'LIKE', '%' . $request->q . '%');
+        if (! empty($request->qUser)) {
+            if (is_numeric($request->qUser)) {
+                $users->where('id', '=', $request->qUser);
+            } else {
+                $users->where('name', 'LIKE', '%' . $request->qUser . '%');
+            }
         }
 
         if ($this->access($me->role->acs_role, 'view')) {
             $users->addSelect('role_id')->with('role');
 
-            if (! empty($request->role) && $request->role > 0) {
-                $users->where('role_id', '=', (int) $request->role);
+            if (! empty($request->qRole)) {
+                $users->whereHas('role', function ($q) use ($request) {
+                    if (is_numeric($request->qRole)) {
+                        $q->where('id', '=', $request->qRole);
+                    } else {
+                        $q->where('title', 'LIKE', '%' . $request->qRole . '%');
+                    }
+                });
             }
         }
 
         if ($this->access($me->role->acs_job, 'view')) {
             $users->addSelect('job_id')->with('job');
 
-            if (! empty($request->job) && $request->job > 0) {
-                $users->where('job_id', '=', (int) $request->job);
+            if (! empty($request->qJob)) {
+                $users->whereHas('job', function ($q) use ($request) {
+                    if (is_numeric($request->qJob)) {
+                        $q->where('id', '=', $request->qJob);
+                    } else {
+                        $q->where('title', 'LIKE', '%' . $request->qJob . '%');
+                    }
+                });
             }
         }
 
@@ -202,7 +218,7 @@ class UserController extends Controller
             $users->where('active', '=', $request->active > 0);
         }
 
-        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 10;
 
         return json_encode($users->paginate($count));
     }

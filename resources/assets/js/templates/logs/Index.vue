@@ -43,7 +43,7 @@
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
-                <label>Працівник</label>
+                <label>Користувач</label>
                 <md-input v-model="qUser" autofocus></md-input>
             </md-input-container>
 
@@ -105,7 +105,7 @@
                 qDesc: '',
                 module: '',
                 action: '',
-                count: 25,
+                count: 10,
             }
         },
 

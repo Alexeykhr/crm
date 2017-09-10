@@ -27,7 +27,7 @@ class LogController extends Controller
 
         return view('logs.index', [
             'me'   => $me,
-            'logs' => $logs->paginate(25),
+            'logs' => $logs->paginate(10),
         ]);
     }
 
@@ -49,8 +49,8 @@ class LogController extends Controller
         }])->orderBy('date', 'desc');
 
         if (! empty($request->qUser)) {
-            $logs->whereHas('user', function ($query) use ($request) {
-                $query->select('id')->where('name', 'LIKE', '%' . $request->qUser . '%');
+            $logs->whereHas('user', function ($q) use ($request) {
+                $q->select('id')->where('name', 'LIKE', '%' . $request->qUser . '%');
             });
         }
 
@@ -66,7 +66,7 @@ class LogController extends Controller
             $logs->where('action', '=', $request->action);
         }
 
-        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 10;
 
         return json_encode($logs->paginate($count));
     }

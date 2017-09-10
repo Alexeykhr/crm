@@ -41,7 +41,7 @@
             </md-input-container>
 
             <md-input-container v-if="inJob">
-                <label>Кількість працівників</label>
+                <label>Кількість користувачів</label>
                 <md-input v-model="job.users_count" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 

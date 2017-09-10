@@ -22,7 +22,7 @@ class RoleController extends Controller
         }
 
         $roles = Role::withCount('users')
-            ->paginate(25);
+            ->paginate(10);
 
         return view('roles.index', [
             'me'         => $me,
@@ -172,13 +172,13 @@ class RoleController extends Controller
 
         if (! empty($request->q)) {
             if (is_numeric($request->q)) {
-                $roles->where('id', 'LIKE', '%'. $request->q . '%');
+                $roles->where('id', '=', $request->q);
             } else {
                 $roles->where('title', 'LIKE', '%' . $request->q . '%');
             }
         }
 
-        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
+        $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 10;
 
         return json_encode($roles->paginate($count));
     }

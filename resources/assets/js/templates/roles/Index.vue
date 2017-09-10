@@ -1,13 +1,13 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <md-table @sort="onSort">
+            <md-table @sort="onSort" md-sort="id" md-sort-type="asc">
                 <md-table-header>
                     <md-table-row>
                         <md-table-head md-sort-by="id">#</md-table-head>
                         <md-table-head md-sort-by="title">Назва</md-table-head>
                         <md-table-head md-sort-by="level">Рівень</md-table-head>
-                        <md-table-head md-sort-by="users_count">Працівників</md-table-head>
+                        <md-table-head md-sort-by="users_count">Користувачів</md-table-head>
                         <md-table-head></md-table-head>
                     </md-table-row>
                 </md-table-header>
@@ -17,7 +17,7 @@
                                   :style="'border-left: 5px solid rgb(' + role.color + ');' +
                                   'background: rgba(' + role.color + ',.05)'">
                         <md-table-cell>
-                            <span class="id transperent">{{ role.id }}</span>
+                            <span class="id">{{ role.id }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -50,7 +50,7 @@
 
                             <md-button class="md-icon-button" v-if="canTransfer && role.users_count > 0" @click="openTransfer(index)">
                                 <md-icon>people</md-icon>
-                                <md-tooltip md-direction="bottom">Перенести працівників</md-tooltip>
+                                <md-tooltip md-direction="bottom">Перенести користувачів</md-tooltip>
                             </md-button>
                         </md-table-cell>
                     </md-table-row>
@@ -63,7 +63,7 @@
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
-                <label>Пошук</label>
+                <label>[#] / Роль</label>
                 <md-input v-model="q" autofocus></md-input>
             </md-input-container>
 
@@ -95,7 +95,7 @@
                 roles: [],
 
                 q: '',
-                count: 25,
+                count: 10,
                 del: -1,
 
                 sortColumn: '',

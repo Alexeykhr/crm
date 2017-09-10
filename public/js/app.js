@@ -27511,7 +27511,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             jobs: [],
 
             q: '',
-            count: 25,
+            count: 10,
 
             sortColumn: '',
             sortType: '',
@@ -27573,7 +27573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         break;
 
                     case 'validation.exists_users':
-                        _this2.response = 'На цю посаду прікріплені працівники';
+                        _this2.response = 'Користувачі прікріплені на цю посаду';
                         break;
 
                     default:
@@ -27603,7 +27603,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         }
                     });
 
-                    _this3.response = 'Працівники успішно перенесені';
+                    _this3.response = 'Користувачі успішно перенесені';
                     _this3.$refs.snackbar.open();
                 }
             }).catch(function (error) {
@@ -27982,7 +27982,7 @@ moment.locale('uk');
             qDesc: '',
             module: '',
             action: '',
-            count: 25
+            count: 10
         };
     },
     created: function created() {
@@ -28250,7 +28250,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             roles: [],
 
             q: '',
-            count: 25,
+            count: 10,
             del: -1,
 
             sortColumn: '',
@@ -28468,29 +28468,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inUsers', 'inJobs', 'inRoles'],
+    props: ['iUser', 'inUsers'],
 
     data: function data() {
         return {
             me: [],
             users: [],
-            roles: [],
-            jobs: [],
 
-            q: '',
-            count: 25,
-            role: -1,
-            job: -1,
+            qUser: '',
+            qRole: '',
+            qJob: '',
+            count: 10,
             active: 0,
             del: -1,
 
@@ -28501,8 +28491,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.me = JSON.parse(this.iUser);
         this.users = JSON.parse(this.inUsers);
-        this.jobs = JSON.parse(this.inJobs);
-        this.roles = JSON.parse(this.inRoles);
     },
 
 
@@ -28514,10 +28502,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/users.get', {
                 params: {
-                    q: this.q,
+                    qUser: this.qUser,
+                    qRole: this.qRole,
+                    qJob: this.qJob,
                     count: this.count,
-                    role: this.role,
-                    job: this.job,
                     active: this.active,
                     page: page,
 
@@ -28546,20 +28534,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     watch: {
-        q: function q() {
-            var len = this.q.length;
-
-            if (len > 2 || len == 0) {
-                this.getUsers();
-            }
+        qUser: function qUser() {
+            this.getUsers();
+        },
+        qRole: function qRole() {
+            this.getUsers();
+        },
+        qJob: function qJob() {
+            this.getUsers();
         },
         count: function count() {
-            this.getUsers();
-        },
-        role: function role() {
-            this.getUsers();
-        },
-        job: function job() {
             this.getUsers();
         },
         active: function active() {
@@ -57200,6 +57184,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-flex": "75"
     }
   }, [_c('md-table', {
+    attrs: {
+      "md-sort": "id",
+      "md-sort-type": "asc"
+    },
     on: {
       "sort": _vm.onSort
     }
@@ -57219,14 +57207,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-sort-by": "users_count"
     }
-  }, [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role, index) {
+  }, [_vm._v("Користувачів")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.roles.data), function(role, index) {
     return _c('md-table-row', {
       key: role.id,
       staticClass: "list-row",
       style: ('border-left: 5px solid rgb(' + role.color + ');' +
         'background: rgba(' + role.color + ',.05)')
     }, [_c('md-table-cell', [_c('span', {
-      staticClass: "id transperent"
+      staticClass: "id"
     }, [_vm._v(_vm._s(role.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
     }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', {
@@ -57271,7 +57259,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Перенести працівників")])], 1) : _vm._e()], 1)], 1)
+    }, [_vm._v("Перенести користувачів")])], 1) : _vm._e()], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.roles,
@@ -57286,7 +57274,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("[#] / Роль")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },
@@ -57480,10 +57468,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "md-flex": "75"
     }
   }, [_c('md-table', {
+    attrs: {
+      "md-sort": "id",
+      "md-sort-type": "asc"
+    },
     on: {
       "sort": _vm.onSort
     }
-  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', {
+  }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+    attrs: {
+      "md-sort-by": "id"
+    }
+  }, [_vm._v("#")]), _vm._v(" "), _c('md-table-head', [_vm._v("Фото")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-sort-by": "name"
     }
@@ -57493,8 +57489,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: _vm.setClass(index),
       style: (!user.delete && user.active && user.role.color ?
         'border-left: 5px solid rgb(' + user.role.color + ');' +
-        'background: rgba(' + user.role.color + ',.05);' : '')
-    }, [_c('md-table-cell', [_c('md-avatar', [_c('img', {
+        'background: rgba(' + user.role.color + ',.05);' : 'border-left: 5px solid #fff;')
+    }, [_c('md-table-cell', [_c('span', {
+      staticClass: "id"
+    }, [_vm._v(_vm._s(user.id))])]), _vm._v(" "), _c('md-table-cell', [_c('md-avatar', [_c('img', {
       attrs: {
         "src": user.photo ? user.photo : 'img/user.png',
         "atl": 'Користувач: ' + user.name
@@ -57559,22 +57557,52 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("[#] / Користувач")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },
     model: {
-      value: (_vm.q),
+      value: (_vm.qUser),
       callback: function($$v) {
-        _vm.q = $$v
+        _vm.qUser = $$v
       },
-      expression: "q"
+      expression: "qUser"
     }
-  })], 1), _vm._v(" "), _c('br'), _vm._v(" "), _c('md-input-container', [_c('label', {
+  })], 1), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-input-container', {
+    attrs: {
+      "md-clearable": ""
+    }
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("[#] / Роль")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "autofocus": ""
+    },
+    model: {
+      value: (_vm.qRole),
+      callback: function($$v) {
+        _vm.qRole = $$v
+      },
+      expression: "qRole"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-input-container', {
+    attrs: {
+      "md-clearable": ""
+    }
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("[#] / Посада")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "autofocus": ""
+    },
+    model: {
+      value: (_vm.qJob),
+      callback: function($$v) {
+        _vm.qJob = $$v
+      },
+      expression: "qJob"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), _c('br'), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
       "for": "count"
     }
-  }, [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-select', {
+  }, [_vm._v("Кількість користувачів")]), _vm._v(" "), _c('md-select', {
     attrs: {
       "name": "count",
       "id": "count"
@@ -57606,63 +57634,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": 100
     }
-  }, [_vm._v("100")])], 1)], 1), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-input-container', [_c('label', {
-    attrs: {
-      "for": "role"
-    }
-  }, [_vm._v("Роль")]), _vm._v(" "), _c('md-select', {
-    attrs: {
-      "name": "role",
-      "id": "role"
-    },
-    model: {
-      value: (_vm.role),
-      callback: function($$v) {
-        _vm.role = $$v
-      },
-      expression: "role"
-    }
-  }, [_c('md-option', {
-    key: -1,
-    attrs: {
-      "value": -1
-    }
-  }, [_vm._v("Всі")]), _vm._v(" "), _vm._l((_vm.roles), function(role) {
-    return _c('md-option', {
-      key: role.id,
-      attrs: {
-        "value": role.id
-      }
-    }, [_vm._v("\n                    " + _vm._s(role.title) + "\n                ")])
-  })], 2)], 1) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-input-container', [_c('label', {
-    attrs: {
-      "for": "job"
-    }
-  }, [_vm._v("Посада")]), _vm._v(" "), _c('md-select', {
-    attrs: {
-      "name": "job",
-      "id": "job"
-    },
-    model: {
-      value: (_vm.job),
-      callback: function($$v) {
-        _vm.job = $$v
-      },
-      expression: "job"
-    }
-  }, [_c('md-option', {
-    key: -1,
-    attrs: {
-      "value": -1
-    }
-  }, [_vm._v("Всі")]), _vm._v(" "), _vm._l((_vm.jobs), function(job) {
-    return _c('md-option', {
-      key: job.id,
-      attrs: {
-        "value": job.id
-      }
-    }, [_vm._v("\n                    " + _vm._s(job.title) + "\n                ")])
-  })], 2)], 1) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._v("100")])], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "choose"
   }, [_c('span', [_vm._v("Має доступ")]), _vm._v(" "), _c('md-radio', {
     attrs: {
@@ -57742,7 +57714,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-sort-by": "users_count"
     }
-  }, [_vm._v("Працівників")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.jobs.data), function(job, index) {
+  }, [_vm._v("Користувачів")]), _vm._v(" "), _c('md-table-head')], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.jobs.data), function(job, index) {
     return _c('md-table-row', {
       key: job.id,
       staticClass: "list-row"
@@ -57792,7 +57764,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Перенести працівників")])], 1) : _vm._e()], 1)], 1)
+    }, [_vm._v("Перенести користувачів")])], 1) : _vm._e()], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.jobs,
@@ -57807,7 +57779,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("[#] / Посада")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },
@@ -58006,7 +57978,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "desc"
     }
-  })], 1), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
+  })], 1), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Кількість користувачів")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "readonly": "",
       "disabled": _vm.action == 'edit'
@@ -58133,7 +58105,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Працівник")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Користувач")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },

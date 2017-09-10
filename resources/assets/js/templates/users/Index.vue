@@ -1,12 +1,12 @@
 <template>
     <md-layout class="list">
         <md-layout class="left-column" md-flex="75">
-            <md-table @sort="onSort">
+            <md-table @sort="onSort" md-sort="id" md-sort-type="asc">
                 <md-table-header>
                     <md-table-row>
+                        <md-table-head md-sort-by="id">#</md-table-head>
                         <md-table-head>Фото</md-table-head>
                         <md-table-head md-sort-by="name">Користувач</md-table-head>
-                        <!--TODO: props-->
                         <md-table-head v-if="me.role.acs_job">Посада</md-table-head>
                         <md-table-head v-if="me.role.acs_role">Роль</md-table-head>
                         <md-table-head>Контакти</md-table-head>
@@ -18,7 +18,11 @@
                     <md-table-row v-for="(user, index) in users.data" :key="user.id" :class="setClass(index)"
                                   :style="!user.delete && user.active && user.role.color ?
                                   'border-left: 5px solid rgb(' + user.role.color + ');' +
-                                  'background: rgba(' + user.role.color + ',.05);' : ''">
+                                  'background: rgba(' + user.role.color + ',.05);' : 'border-left: 5px solid #fff;'">
+                        <md-table-cell>
+                            <span class="id">{{ user.id }}</span>
+                        </md-table-cell>
+
                         <md-table-cell>
                             <md-avatar>
                                 <img :src="user.photo ? user.photo : 'img/user.png'" :atl="'Користувач: ' + user.name">
@@ -95,44 +99,32 @@
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
-                <label>Пошук</label>
-                <md-input v-model="q" autofocus></md-input>
+                <label>[#] / Користувач</label>
+                <md-input v-model="qUser" autofocus></md-input>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_role" md-clearable>
+                <md-icon>search</md-icon>
+                <label>[#] / Роль</label>
+                <md-input v-model="qRole" autofocus></md-input>
+            </md-input-container>
+
+            <md-input-container v-if="me.role.acs_job" md-clearable>
+                <md-icon>search</md-icon>
+                <label>[#] / Посада</label>
+                <md-input v-model="qJob" autofocus></md-input>
             </md-input-container>
 
             <br>
 
             <md-input-container>
-                <label for="count">Кількість працівників</label>
+                <label for="count">Кількість користувачів</label>
                 <md-select name="count" id="count" v-model="count">
                     <md-option :value="10">10</md-option>
                     <md-option :value="25">25</md-option>
                     <md-option :value="50">50</md-option>
                     <md-option :value="75">75</md-option>
                     <md-option :value="100">100</md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_role">
-                <label for="role">Роль</label>
-                <md-select name="role" id="role" v-model="role">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="role in roles"
-                               :key="role.id"
-                               :value="role.id">
-                        {{ role.title }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container v-if="me.role.acs_job">
-                <label for="job">Посада</label>
-                <md-select name="job" id="job" v-model="job">
-                    <md-option :key="-1" :value="-1">Всі</md-option>
-                    <md-option v-for="job in jobs"
-                               :key="job.id"
-                               :value="job.id">
-                        {{ job.title }}
-                    </md-option>
                 </md-select>
             </md-input-container>
 
@@ -149,20 +141,18 @@
 <script>
     export default {
         props: [
-            'iUser', 'inUsers', 'inJobs', 'inRoles',
+            'iUser', 'inUsers',
         ],
 
         data() {
             return {
                 me: [],
                 users: [],
-                roles: [],
-                jobs: [],
 
-                q: '',
-                count: 25,
-                role: -1,
-                job: -1,
+                qUser: '',
+                qRole: '',
+                qJob: '',
+                count: 10,
                 active: 0,
                 del: -1,
 
@@ -174,18 +164,16 @@
         created() {
             this.me = JSON.parse(this.iUser);
             this.users = JSON.parse(this.inUsers);
-            this.jobs = JSON.parse(this.inJobs);
-            this.roles = JSON.parse(this.inRoles);
         },
 
         methods: {
             getUsers(page = 1) {
                 axios.get('/users.get', {
                     params: {
-                        q: this.q,
+                        qUser: this.qUser,
+                        qRole: this.qRole,
+                        qJob: this.qJob,
                         count: this.count,
-                        role: this.role,
-                        job: this.job,
                         active: this.active,
                         page: page,
 
@@ -213,20 +201,16 @@
         },
 
         watch: {
-            q() {
-                let len = this.q.length;
-
-                if (len > 2 || len == 0) {
-                    this.getUsers();
-                }
+            qUser() {
+                this.getUsers();
+            },
+            qRole() {
+                this.getUsers();
+            },
+            qJob() {
+                this.getUsers();
             },
             count() {
-                this.getUsers();
-            },
-            role() {
-                this.getUsers();
-            },
-            job() {
                 this.getUsers();
             },
             active() {
