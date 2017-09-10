@@ -43,7 +43,7 @@
 
                             <md-button class="md-icon-button" v-if="canTransfer && job.users_count > 0" @click="openTransfer(index)">
                                 <md-icon>people</md-icon>
-                                <md-tooltip md-direction="bottom">Перенести користувачів</md-tooltip>
+                                <md-tooltip md-direction="bottom">Трансфер</md-tooltip>
                             </md-button>
                         </md-table-cell>
                     </md-table-row>
@@ -76,7 +76,7 @@
 
         <md-dialog v-if="canDelete" ref="delete">
             <md-dialog-title v-if="delIndex > -1">
-                Видалення "{{ jobs.data[delIndex].title }}"
+                Видалення: "{{ jobs.data[delIndex].title }}"
             </md-dialog-title>
 
             <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
@@ -85,7 +85,7 @@
                 <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
                 <md-button v-if="delIndex > -1" class="md-raised md-primary"
                            @click="deleteJob(jobs.data[delIndex].id, delIndex); closeDialog('delete');">
-                    Так
+                    Видалити
                 </md-button>
             </md-dialog-actions>
         </md-dialog>
@@ -107,7 +107,7 @@
                 <md-button v-if="transferIndex > -1 && transferJob" class="md-raised md-primary"
                            @click="transferUsers(jobs.data[transferIndex].id, transferJob, transferIndex);
                            closeDialog('transfer');">
-                    Так
+                    Трансфер
                 </md-button>
             </md-dialog-actions>
         </md-dialog>
@@ -197,7 +197,6 @@
                         this.$refs.snackbar.open();
                     });
             },
-//            TODO: transfer to other component
             transferUsers(fromId, transferJob, index) {
                 transferJob = transferJob.toString().toLowerCase();
 

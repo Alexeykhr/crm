@@ -96,8 +96,7 @@
         methods: {
             logout() {
                 axios.post('/logout')
-                    .then(response => location.href = '/login')
-                    .catch(error => console.log('Error: ' + error));
+                    .then(response => location.href = '/login');
             }
         },
     }

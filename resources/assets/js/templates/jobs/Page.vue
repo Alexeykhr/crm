@@ -11,21 +11,30 @@
 
                 <span style="flex: 1"></span>
 
-                <template v-if="canEdit">
-                    <md-button class="md-icon-button" :href="'/jobs/' + job.id + '/edit'">
-                        <md-icon>edit</md-icon>
-                        <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
-                    </md-button>
-                </template>
+                <md-button v-if="canView" class="md-icon-button" :href="'/jobs/' + job.id">
+                    <md-icon>remove_red_eye</md-icon>
+                    <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
+                </md-button>
 
-                <!--TODO: canDelete, canTransfer with errors-->
+                <md-button v-if="canEdit" class="md-icon-button" :href="'/jobs/' + job.id + '/edit'">
+                    <md-icon>edit</md-icon>
+                    <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
+                </md-button>
 
-                <template v-if="canView">
-                    <md-button class="md-icon-button" :href="'/jobs/' + job.id">
-                        <md-icon>remove_red_eye</md-icon>
-                        <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
-                    </md-button>
-                </template>
+                <md-button v-if="canDelete && job.users_count < 1" class="md-icon-button" @click="openDialog('delete');">
+                    <md-icon>delete</md-icon>
+                    <md-tooltip md-direction="bottom">Видалити</md-tooltip>
+                </md-button>
+
+                <md-button v-if="canTransfer && job.users_count > 0" class="md-icon-button" @click="openDialog('transfer');">
+                    <md-icon>people</md-icon>
+                    <md-tooltip md-direction="bottom">Трансфер</md-tooltip>
+                </md-button>
+
+                <md-button v-if="inJob" class="md-icon-button" href="/jobs/create">
+                    <md-icon>add</md-icon>
+                    <md-tooltip md-direction="bottom">Створити посаду</md-tooltip>
+                </md-button>
             </div>
 
             <md-input-container :class="duplicateTitle ? 'md-input-invalid' : ''">
@@ -65,6 +74,41 @@
             </md-button>
         </form>
 
+        <md-dialog v-if="canDelete" ref="delete">
+            <md-dialog-title>
+                Видалення: "{{ title }}"
+            </md-dialog-title>
+
+            <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
+                <md-button class="md-raised md-primary" @click="deleteJob();">
+                    Видалити
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog>
+
+        <md-dialog v-if="canTransfer" ref="transfer">
+            <md-dialog-title>
+                Трансфер: "{{ title }}"
+            </md-dialog-title>
+
+            <md-dialog-content>
+                <md-input-container>
+                    <label>Номер/назва нової посада</label>
+                    <md-input v-model="transferJob"></md-input>
+                </md-input-container>
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
+                <md-button v-if="transferJob" class="md-raised md-primary" @click="transferUsers();">
+                    Трансфер
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog>
+
         <md-snackbar class="snackbar-black" ref="snackbar" :md-duration="2000">
             <span>{{ response }}</span>
             <md-button @click="$refs.snackbar.close()">Сховати</md-button>
@@ -73,9 +117,12 @@
 </template>
 
 <script>
+    import MdButton from "../../../../../node_modules/vue-material/src/components/mdButton/mdButton.vue";
+
     export default {
+        components: {MdButton},
         props: [
-            'inJob', 'action', 'canEdit', 'canView',
+            'inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete',
         ],
 
         data() {
@@ -87,6 +134,8 @@
                 search: false,
                 duplicateTitle: false,
                 response: '',
+
+                transferJob: '',
             }
         },
 
@@ -149,12 +198,41 @@
                     })
                     .catch(error => this.parseError(error));
             },
+            deleteJob() {
+                axios.delete('/jobs/' + this.job.id)
+                    .then(res => {
+                        if (res.data == 1) {
+                            location.href = '/jobs'
+                        }
+                    })
+                    .catch(error => this.parseError(error));
+            },
+            transferUsers() {
+                let transferJob = this.transferJob.toString().toLowerCase();
+
+                axios.post('/jobs.transfer', {
+                    from: this.job.id.toString(),
+                    to: transferJob,
+                })
+                    .then(res => {
+                        if (res.data > 0) {
+                            this.job.users_count = 0;
+
+                            this.response = 'Користувачі успішно перенесені';
+                            this.$refs.snackbar.open();
+                            this.closeDialog('transfer');
+                        }
+                    })
+                    .catch(error => this.parseError(error));
+            },
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            closeDialog(ref) {
+                this.$refs[ref].close();
+            },
             parseError(error) {
-                if (!error.response.data.title && !error.response.data.desc) {
-                    this.response = 'Виникла помилка';
-                    this.$refs.snackbar.open();
-                    return false;
-                }
+                this.response = 'Виникла помилка';
 
                 if (error.response.data.title) {
                     switch (error.response.data.title[0]) {
@@ -173,27 +251,44 @@
                         case 'validation.max.string':
                             this.response = 'Назва має бути менше 61 символа';
                             break;
-
-                        default:
-                            this.response = 'Виникла помилка в назві';
                     }
-
-                    this.$refs.snackbar.open();
-                    return;
                 }
-
-                if (error.response.data.desc) {
+                else if (error.response.data.desc) {
                     switch (error.response.data.desc[0]) {
                         case 'validation.max.string':
                             this.response = 'Опис має бути менше 256 символів';
                             break;
-
-                        default:
-                            this.response = 'Виникла помилка в описі';
                     }
-
-                    this.$refs.snackbar.open();
                 }
+                else if (error.response.data.to) {
+                    switch (error.response.data.to[0]) {
+                        case 'validation.min.numeric':
+                        case 'validation.exists':
+                            this.response = parseInt(this.transferJob) == this.transferJob
+                                ? 'Посада з таким номером не існує'
+                                : 'Посада з такою назвою не існує';
+                            break;
+
+                        case 'validation.different':
+                            this.response = parseInt(this.transferJob) == this.transferJob
+                                ? 'Номера співпадають'
+                                : 'Назви співпадають';
+                            break;
+                    }
+                }
+                else if (error.response.data.error) {
+                    switch (error.response.data.error[0]) {
+                        case 'validation.empty':
+                            this.response = 'Посади не існує';
+                            break;
+
+                        case 'validation.exists_users':
+                            this.response = 'Користувачі прікріплені на цю посаду';
+                            break;
+                    }
+                }
+
+                this.$refs.snackbar.open();
             },
         },
     }

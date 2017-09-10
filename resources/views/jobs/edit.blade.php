@@ -14,6 +14,8 @@
     <jobs-page in-job="{{ json_encode($job) }}"
                action="{{ $action }}"
                can-view="{{ $canView }}"
+               can-delete="{{ $canDelete }}"
+               can-transfer="{{ $canTransfer }}"
     ></jobs-page>
 
 @endsection

@@ -27367,8 +27367,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         logout: function logout() {
             axios.post('/logout').then(function (response) {
                 return location.href = '/login';
-            }).catch(function (error) {
-                return console.log('Error: ' + error);
             });
         }
     }
@@ -27582,8 +27580,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.$refs.snackbar.open();
             });
         },
-
-        //            TODO: transfer to other component
         transferUsers: function transferUsers(fromId, transferJob, index) {
             var _this3 = this;
 
@@ -27665,6 +27661,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdButton_mdButton_vue__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdButton_mdButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdButton_mdButton_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -27740,8 +27782,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['inJob', 'action', 'canEdit', 'canView'],
+    components: { MdButton: __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdButton_mdButton_vue___default.a },
+    props: ['inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete'],
 
     data: function data() {
         return {
@@ -27751,7 +27796,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             search: false,
             duplicateTitle: false,
-            response: ''
+            response: '',
+
+            transferJob: ''
         };
     },
     created: function created() {
@@ -27819,12 +27866,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return _this3.parseError(error);
             });
         },
+        deleteJob: function deleteJob() {
+            var _this4 = this;
+
+            axios.delete('/jobs/' + this.job.id).then(function (res) {
+                if (res.data == 1) {
+                    location.href = '/jobs';
+                }
+            }).catch(function (error) {
+                return _this4.parseError(error);
+            });
+        },
+        transferUsers: function transferUsers() {
+            var _this5 = this;
+
+            var transferJob = this.transferJob.toString().toLowerCase();
+
+            axios.post('/jobs.transfer', {
+                from: this.job.id.toString(),
+                to: transferJob
+            }).then(function (res) {
+                if (res.data > 0) {
+                    _this5.job.users_count = 0;
+
+                    _this5.response = 'Користувачі успішно перенесені';
+                    _this5.$refs.snackbar.open();
+                    _this5.closeDialog('transfer');
+                }
+            }).catch(function (error) {
+                return _this5.parseError(error);
+            });
+        },
+        openDialog: function openDialog(ref) {
+            this.$refs[ref].open();
+        },
+        closeDialog: function closeDialog(ref) {
+            this.$refs[ref].close();
+        },
         parseError: function parseError(error) {
-            if (!error.response.data.title && !error.response.data.desc) {
-                this.response = 'Виникла помилка';
-                this.$refs.snackbar.open();
-                return false;
-            }
+            this.response = 'Виникла помилка';
 
             if (error.response.data.title) {
                 switch (error.response.data.title[0]) {
@@ -27843,27 +27923,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     case 'validation.max.string':
                         this.response = 'Назва має бути менше 61 символа';
                         break;
-
-                    default:
-                        this.response = 'Виникла помилка в назві';
                 }
-
-                this.$refs.snackbar.open();
-                return;
-            }
-
-            if (error.response.data.desc) {
+            } else if (error.response.data.desc) {
                 switch (error.response.data.desc[0]) {
                     case 'validation.max.string':
                         this.response = 'Опис має бути менше 256 символів';
                         break;
-
-                    default:
-                        this.response = 'Виникла помилка в описі';
                 }
+            } else if (error.response.data.to) {
+                switch (error.response.data.to[0]) {
+                    case 'validation.min.numeric':
+                    case 'validation.exists':
+                        this.response = parseInt(this.transferJob) == this.transferJob ? 'Посада з таким номером не існує' : 'Посада з такою назвою не існує';
+                        break;
 
-                this.$refs.snackbar.open();
+                    case 'validation.different':
+                        this.response = parseInt(this.transferJob) == this.transferJob ? 'Номера співпадають' : 'Назви співпадають';
+                        break;
+                }
+            } else if (error.response.data.error) {
+                switch (error.response.data.error[0]) {
+                    case 'validation.empty':
+                        this.response = 'Посади не існує';
+                        break;
+
+                    case 'validation.exists_users':
+                        this.response = 'Користувачі прікріплені на цю посаду';
+                        break;
+                }
             }
+
+            this.$refs.snackbar.open();
         }
     }
 });
@@ -57470,7 +57560,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Перенести користувачів")])], 1) : _vm._e()], 1)], 1)
+    }, [_vm._v("Трансфер")])], 1) : _vm._e()], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.jobs,
@@ -57534,7 +57624,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("100")])], 1)], 1)], 1), _vm._v(" "), (_vm.canDelete) ? _c('md-dialog', {
     ref: "delete"
-  }, [(_vm.delIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Видалення \"" + _vm._s(_vm.jobs.data[_vm.delIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_vm._v("Ви впевнені, що хочете видалити посаду?")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+  }, [(_vm.delIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Видалення: \"" + _vm._s(_vm.jobs.data[_vm.delIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_vm._v("Ви впевнені, що хочете видалити посаду?")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
     on: {
       "click": function($event) {
@@ -57549,7 +57639,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('delete');
       }
     }
-  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
+  }, [_vm._v("\n                Видалити\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
     ref: "transfer"
   }, [(_vm.transferIndex > -1) ? _c('md-dialog-title', [_vm._v("\n            Трансфер: \"" + _vm._s(_vm.jobs.data[_vm.transferIndex].title) + "\"\n        ")]) : _vm._e(), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
     model: {
@@ -57574,7 +57664,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.closeDialog('transfer');
       }
     }
-  }, [_vm._v("\n                Так\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _c('md-snackbar', {
+  }, [_vm._v("\n                Трансфер\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
     staticClass: "snackbar-black",
     attrs: {
@@ -57631,16 +57721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "1"
     }
-  }), _vm._v(" "), (_vm.canEdit) ? [_c('md-button', {
-    staticClass: "md-icon-button",
-    attrs: {
-      "href": '/jobs/' + _vm.job.id + '/edit'
-    }
-  }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
-    attrs: {
-      "md-direction": "bottom"
-    }
-  }, [_vm._v("Редагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
+  }), _vm._v(" "), (_vm.canView) ? _c('md-button', {
     staticClass: "md-icon-button",
     attrs: {
       "href": '/jobs/' + _vm.job.id
@@ -57649,7 +57730,47 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-direction": "bottom"
     }
-  }, [_vm._v("Переглянути")])], 1)] : _vm._e()], 2), _vm._v(" "), _c('md-input-container', {
+  }, [_vm._v("Переглянути")])], 1) : _vm._e(), _vm._v(" "), (_vm.canEdit) ? _c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": '/jobs/' + _vm.job.id + '/edit'
+    }
+  }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && _vm.job.users_count < 1) ? _c('md-button', {
+    staticClass: "md-icon-button",
+    on: {
+      "click": function($event) {
+        _vm.openDialog('delete');
+      }
+    }
+  }, [_c('md-icon', [_vm._v("delete")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Видалити")])], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer && _vm.job.users_count > 0) ? _c('md-button', {
+    staticClass: "md-icon-button",
+    on: {
+      "click": function($event) {
+        _vm.openDialog('transfer');
+      }
+    }
+  }, [_c('md-icon', [_vm._v("people")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Трансфер")])], 1) : _vm._e(), _vm._v(" "), (_vm.inJob) ? _c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": "/jobs/create"
+    }
+  }, [_c('md-icon', [_vm._v("add")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Створити посаду")])], 1) : _vm._e()], 2), _vm._v(" "), _c('md-input-container', {
     class: _vm.duplicateTitle ? 'md-input-invalid' : ''
   }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
     attrs: {
@@ -57740,7 +57861,47 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateJob()
       }
     }
-  }, [_vm._v("\n            Оновити\n        ")]) : _vm._e()], 1), _vm._v(" "), _c('md-snackbar', {
+  }, [_vm._v("\n            Оновити\n        ")]) : _vm._e()], 1), _vm._v(" "), (_vm.canDelete) ? _c('md-dialog', {
+    ref: "delete"
+  }, [_c('md-dialog-title', [_vm._v("\n            Видалення: \"" + _vm._s(_vm.title) + "\"\n        ")]), _vm._v(" "), _c('md-dialog-content', [_vm._v("Ви впевнені, що хочете видалити посаду?")]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+    staticClass: "md-primary",
+    on: {
+      "click": function($event) {
+        _vm.closeDialog('delete')
+      }
+    }
+  }, [_vm._v("Ні")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-raised md-primary",
+    on: {
+      "click": function($event) {
+        _vm.deleteJob();
+      }
+    }
+  }, [_vm._v("\n                Видалити\n            ")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
+    ref: "transfer"
+  }, [_c('md-dialog-title', [_vm._v("\n            Трансфер: \"" + _vm._s(_vm.title) + "\"\n        ")]), _vm._v(" "), _c('md-dialog-content', [_c('md-input-container', [_c('label', [_vm._v("Номер/назва нової посада")]), _vm._v(" "), _c('md-input', {
+    model: {
+      value: (_vm.transferJob),
+      callback: function($$v) {
+        _vm.transferJob = $$v
+      },
+      expression: "transferJob"
+    }
+  })], 1)], 1), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+    staticClass: "md-primary",
+    on: {
+      "click": function($event) {
+        _vm.closeDialog('transfer')
+      }
+    }
+  }, [_vm._v("Ні")]), _vm._v(" "), (_vm.transferJob) ? _c('md-button', {
+    staticClass: "md-raised md-primary",
+    on: {
+      "click": function($event) {
+        _vm.transferUsers();
+      }
+    }
+  }, [_vm._v("\n                Трансфер\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
     staticClass: "snackbar-black",
     attrs: {
@@ -57981,7 +58142,62 @@ module.exports = __webpack_require__(128);
 
 /***/ }),
 /* 193 */,
-/* 194 */,
+/* 194 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
 /* 195 */,
 /* 196 */,
 /* 197 */,
@@ -57991,12 +58207,311 @@ module.exports = __webpack_require__(128);
 /* 201 */,
 /* 202 */,
 /* 203 */,
-/* 204 */,
+/* 204 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// Theme mixin
+
+// Grab the closest ancestor component's `md-theme` attribute OR grab the
+// `md-name` attribute from an `<md-theme>` component.
+function getAncestorThemeName(component) {
+  if (!component) {
+    return null;
+  }
+
+  let name = component.mdTheme;
+
+  if (!name && component.$options._componentTag === 'md-theme') {
+    name = component.mdName;
+  }
+
+  return name || getAncestorThemeName(component.$parent);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: {
+    mdTheme: String
+  },
+  computed: {
+    mdEffectiveTheme() {
+      return getAncestorThemeName(this) || this.$material.currentTheme;
+    },
+    themeClass() {
+      return this.$material.prefix + this.mdEffectiveTheme;
+    }
+  },
+  watch: {
+    mdTheme(value) {
+      this.$material.useTheme(value);
+    }
+  },
+  beforeMount() {
+    const localTheme = this.mdTheme;
+
+    this.$material.useTheme(localTheme ? localTheme : 'default');
+  }
+});
+
+
+/***/ }),
 /* 205 */,
 /* 206 */,
 /* 207 */,
-/* 208 */,
-/* 209 */,
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(209)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction) {
+  isProduction = _isProduction
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
 /* 210 */,
 /* 211 */,
 /* 212 */,
@@ -58507,6 +59022,177 @@ if (false) {
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-706baca2", module.exports)
   }
+}
+
+/***/ }),
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_components_mdTheme_mixin__ = __webpack_require__(204);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'md-button',
+  props: {
+    href: String,
+    target: String,
+    rel: String,
+    type: {
+      type: String,
+      default: 'button'
+    },
+    disabled: Boolean
+  },
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__core_components_mdTheme_mixin__["a" /* default */]],
+  computed: {
+    newRel: function newRel() {
+      if (this.target === '_blank') {
+        return this.rel || 'noopener';
+      }
+
+      return this.rel;
+    }
+  }
+});
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(194)();
+exports.push([module.i, "/* Common */\n/* Responsive Breakpoints */\n/* Transitions - Based on Angular Material */\n/* Elevation - Based on Angular Material */\n.md-button {\n  min-width: 88px;\n  min-height: 36px;\n  margin: 6px 8px;\n  padding: 0 16px;\n  display: inline-block;\n  position: relative;\n  overflow: hidden;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  outline: none;\n  background: none;\n  border: 0;\n  border-radius: 2px;\n  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);\n  color: currentColor;\n  font-family: inherit;\n  font-size: 14px;\n  font-style: inherit;\n  font-variant: inherit;\n  font-weight: 500;\n  letter-spacing: inherit;\n  line-height: 36px;\n  text-align: center;\n  text-transform: uppercase;\n  text-decoration: none;\n  vertical-align: top;\n  white-space: nowrap;\n}\n.md-button:focus {\n    outline: none;\n}\n.md-button::-moz-focus-inner {\n    border: 0;\n}\n.md-button:hover:not([disabled]):not(.md-raised) {\n    background-color: rgba(153, 153, 153, 0.2);\n    text-decoration: none;\n}\n.md-button:hover:not([disabled]).md-raised {\n    background-color: rgba(0, 0, 0, 0.12);\n}\n.md-button:active:not([disabled]) {\n    background-color: rgba(153, 153, 153, 0.4);\n}\n.md-button.md-raised:not([disabled]) {\n    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);\n}\n.md-button.md-dense {\n    min-height: 32px;\n    line-height: 32px;\n    font-size: 13px;\n}\n.md-button.md-icon-button .md-icon, .md-button.md-fab .md-icon {\n    position: absolute;\n    top: 1px;\n    right: 0;\n    bottom: 0;\n    left: 0;\n}\n.md-button.md-icon-button {\n    width: 40px;\n    min-width: 40px;\n    height: 40px;\n    margin: 0 6px;\n    padding: 8px;\n    border-radius: 50%;\n    line-height: 24px;\n}\n.md-button.md-icon-button:not([disabled]):hover {\n      background: none;\n}\n.md-button.md-icon-button.md-dense {\n      width: 32px;\n      min-width: 32px;\n      height: 32px;\n      min-height: 32px;\n      padding: 4px;\n      line-height: 32px;\n}\n.md-button.md-icon-button .md-ink-ripple {\n      border-radius: 50%;\n}\n.md-button.md-icon-button .md-ink-ripple .md-ripple {\n        top: 0 !important;\n        right: 0 !important;\n        bottom: 0 !important;\n        left: 0 !important;\n}\n.md-button.md-icon-button .md-ripple.md-active {\n      -webkit-animation-duration: .9s;\n              animation-duration: .9s;\n}\n.md-button.md-fab {\n    width: 56px;\n    height: 56px;\n    padding: 0;\n    min-width: 0;\n    overflow: hidden;\n    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);\n    border-radius: 56px;\n    line-height: 56px;\n    background-clip: padding-box;\n    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);\n    transition-property: background-color, box-shadow, -webkit-transform;\n    transition-property: background-color, box-shadow, transform;\n    transition-property: background-color, box-shadow, transform, -webkit-transform;\n}\n.md-button.md-fab:hover, .md-button.md-fab:focus {\n      box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px rgba(0, 0, 0, 0.14), 0 1px 14px rgba(0, 0, 0, 0.12);\n}\n.md-button.md-fab.md-mini {\n      width: 40px;\n      height: 40px;\n      line-height: 40px;\n}\n.md-button.md-fab .md-ink-ripple {\n      border-radius: 56px;\n}\n.md-button[disabled] {\n    color: rgba(0, 0, 0, 0.26);\n    cursor: default;\n    pointer-events: none;\n}\n.md-button[disabled].md-raised, .md-button[disabled].md-fab {\n      background-color: rgba(0, 0, 0, 0.12);\n}\n.md-button[disabled].md-fab {\n      box-shadow: none;\n}\n.md-button:after {\n    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n.md-button .md-ink-ripple {\n    border-radius: 2px;\n    background-clip: padding-box;\n    overflow: hidden;\n}\n.md-button.md-icon-button .md-icon,\n.md-button.md-fab .md-icon {\n  display: block;\n}\n.md-fab.md-fab-top-left, .md-fab.md-fab-top-center, .md-fab.md-fab-top-right, .md-fab.md-fab-bottom-left, .md-fab.md-fab-bottom-center, .md-fab.md-fab-bottom-right,\n.md-speed-dial.md-fab-top-left,\n.md-speed-dial.md-fab-top-center,\n.md-speed-dial.md-fab-top-right,\n.md-speed-dial.md-fab-bottom-left,\n.md-speed-dial.md-fab-bottom-center,\n.md-speed-dial.md-fab-bottom-right {\n  margin: 0;\n  position: absolute;\n  z-index: 10;\n}\n.md-fab.md-fab-top-left,\n.md-speed-dial.md-fab-top-left {\n  top: 24px;\n  left: 24px;\n}\n.md-fab.md-fab-top-center,\n.md-speed-dial.md-fab-top-center {\n  top: 24px;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n}\n.md-fab.md-fab-top-right,\n.md-speed-dial.md-fab-top-right {\n  top: 24px;\n  right: 24px;\n}\n.md-fab.md-fab-bottom-left,\n.md-speed-dial.md-fab-bottom-left {\n  bottom: 24px;\n  left: 24px;\n}\n.md-fab.md-fab-bottom-center,\n.md-speed-dial.md-fab-bottom-center {\n  bottom: 24px;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n}\n.md-fab.md-fab-bottom-right,\n.md-speed-dial.md-fab-bottom-right {\n  right: 24px;\n  bottom: 24px;\n}\n.md-button-tooltip.md-tooltip-top {\n  margin-top: -8px;\n}\n.md-button-tooltip.md-tooltip-right {\n  margin-left: 8px;\n}\n.md-button-tooltip.md-tooltip-bottom {\n  margin-top: 8px;\n}\n.md-button-tooltip.md-tooltip-left {\n  margin-left: -8px;\n}\n", ""]);
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(231)
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(227),
+  /* template */
+  __webpack_require__(230),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\dev\\crm\\node_modules\\vue-material\\src\\components\\mdButton\\mdButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mdButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2900b31c", Component.options)
+  } else {
+    hotAPI.reload("data-v-2900b31c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.href) ? _c('a', {
+    staticClass: "md-button",
+    class: [_vm.themeClass],
+    attrs: {
+      "href": _vm.href,
+      "disabled": _vm.disabled,
+      "target": _vm.target,
+      "rel": _vm.newRel
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('click', $event)
+      }
+    }
+  }, [_c('md-ink-ripple', {
+    attrs: {
+      "md-disabled": _vm.disabled
+    }
+  }), _vm._v(" "), _vm._t("default")], 2) : _c('button', {
+    staticClass: "md-button",
+    class: [_vm.themeClass],
+    attrs: {
+      "type": _vm.type,
+      "disabled": _vm.disabled
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('click', $event)
+      }
+    }
+  }, [_c('md-ink-ripple', {
+    attrs: {
+      "md-disabled": _vm.disabled
+    }
+  }), _vm._v(" "), _vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2900b31c", module.exports)
+  }
+}
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(228);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(208)("4207e941", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../css-loader/index.js!../../../../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2900b31c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../sass-loader/lib/loader.js!./mdButton.scss", function() {
+     var newContent = require("!!../../../../css-loader/index.js!../../../../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2900b31c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../sass-loader/lib/loader.js!./mdButton.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
 
 /***/ })
