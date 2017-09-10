@@ -27498,7 +27498,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer'],
@@ -27556,6 +27555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.response = 'Посада успішно видалена';
 
                     _this2.$refs.snackbar.open();
+                    _this2.closeDialog('delete');
                 }
             }).catch(function (error) {
                 if (!error.response.data.error) {
@@ -27600,9 +27600,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                     _this3.response = 'Користувачі успішно перенесені';
                     _this3.$refs.snackbar.open();
+                    _this3.closeDialog('transfer');
                 }
             }).catch(function (error) {
                 if (!error.response.data.to) {
+                    _this3.response = 'Виникла помилка';
+                    _this3.$refs.snackbar.open();
                     return;
                 }
 
@@ -57636,7 +57639,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": function($event) {
         _vm.deleteJob(_vm.jobs.data[_vm.delIndex].id, _vm.delIndex);
-        _vm.closeDialog('delete');
       }
     }
   }, [_vm._v("\n                Видалити\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.canTransfer) ? _c('md-dialog', {
@@ -57661,7 +57663,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": function($event) {
         _vm.transferUsers(_vm.jobs.data[_vm.transferIndex].id, _vm.transferJob, _vm.transferIndex);
-        _vm.closeDialog('transfer');
       }
     }
   }, [_vm._v("\n                Трансфер\n            ")]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _c('md-snackbar', {

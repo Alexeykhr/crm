@@ -114,7 +114,7 @@ class RoleController extends Controller
             ->where('id', '=', $id)
             ->firstOrFail();
 
-        if ($me->role->level <= $role->level) {
+        if ($me->role->level < $role->level) {
             return response()->json(['error' => ['validation.level']], 422);
         }
 
@@ -147,7 +147,7 @@ class RoleController extends Controller
 
         $role = Role::where('id', '=', $id)->firstOrFail();
 
-        if ($me->role->level <= $role->level) {
+        if ($me->role->level < $role->level) {
             return response()->json(['error' => ['validation.level']], 422);
         }
 
@@ -179,6 +179,10 @@ class RoleController extends Controller
 
         if (! $this->access($me->role->acs_role, 'delete')) {
             return abort(404);
+        }
+
+        if ($id == 1) {
+            return response()->json(['error' => ['validation.id1']]);
         }
 
         $role = Role::where('id', '=', $id)->firstOrFail();

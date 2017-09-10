@@ -84,7 +84,7 @@
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
                 <md-button v-if="delIndex > -1" class="md-raised md-primary"
-                           @click="deleteJob(jobs.data[delIndex].id, delIndex); closeDialog('delete');">
+                           @click="deleteJob(jobs.data[delIndex].id, delIndex);">
                     Видалити
                 </md-button>
             </md-dialog-actions>
@@ -105,8 +105,7 @@
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
                 <md-button v-if="transferIndex > -1 && transferJob" class="md-raised md-primary"
-                           @click="transferUsers(jobs.data[transferIndex].id, transferJob, transferIndex);
-                           closeDialog('transfer');">
+                           @click="transferUsers(jobs.data[transferIndex].id, transferJob, transferIndex);">
                     Трансфер
                 </md-button>
             </md-dialog-actions>
@@ -172,6 +171,7 @@
                             this.response = 'Посада успішно видалена';
 
                             this.$refs.snackbar.open();
+                            this.closeDialog('delete');
                         }
                     })
                     .catch(error => {
@@ -216,10 +216,13 @@
 
                             this.response = 'Користувачі успішно перенесені';
                             this.$refs.snackbar.open();
+                            this.closeDialog('transfer');
                         }
                     })
                     .catch(error => {
                         if (! error.response.data.to) {
+                            this.response = 'Виникла помилка';
+                            this.$refs.snackbar.open();
                             return;
                         }
 
