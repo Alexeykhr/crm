@@ -36,7 +36,7 @@ Vue.component('profile', require('./templates/users/Profile.vue'));
 Vue.component('users-create', require('./templates/users/Create.vue'));
 
 Vue.component('roles', require('./templates/roles/Index.vue'));
-Vue.component('roles-create', require('./templates/roles/Create.vue'));
+Vue.component('roles-page', require('./templates/roles/Page.vue'));
 
 Vue.component('jobs', require('./templates/jobs/Index.vue'));
 Vue.component('jobs-page', require('./templates/jobs/Page.vue'));

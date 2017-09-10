@@ -21,9 +21,9 @@ class CreateRolesTable extends Migration
             $table->tinyInteger('acs_user')->default(1); // [0, ..,  15]
             $table->tinyInteger('acs_role')->default(1); // [0, ..,  15]
             $table->tinyInteger('acs_job')->default(1); // [0, ..,  15]
-            $table->tinyInteger('acs_profile')->default(0); // [0, 1]
-            $table->tinyInteger('acs_calendar')->default(0); // [0, 1]
-            $table->tinyInteger('acs_log')->default(0); // [0, 1]
+            $table->tinyInteger('acs_calendar')->default(0); // [0, 1] TODO: on future [0, .., 15]
+            $table->boolean('acs_profile')->default(0); // [0, 1]
+            $table->boolean('acs_log')->default(0); // [0, 1]
             $table->timestamps();
         });
 
@@ -34,8 +34,8 @@ class CreateRolesTable extends Migration
             'acs_user' => 15,
             'acs_role' => 15,
             'acs_job' => 15,
-            'acs_profile' => 1,
             'acs_calendar' => 1,
+            'acs_profile' => 1,
             'acs_log' => 1,
         ]);
 

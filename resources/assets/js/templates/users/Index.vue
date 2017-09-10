@@ -31,7 +31,7 @@
 
                         <md-table-cell>
                             <span class="title">{{ user.name }}</span><br>
-                            <span v-if="user.active">{{ user.nick }}</span>
+                            <span v-if="user.nick && user.active">{{ user.nick }}</span>
                         </md-table-cell>
 
                         <md-table-cell v-if="me.role.acs_job">

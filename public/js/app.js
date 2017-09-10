@@ -26140,7 +26140,7 @@ Vue.component('profile', __webpack_require__(177));
 Vue.component('users-create', __webpack_require__(175));
 
 Vue.component('roles', __webpack_require__(174));
-Vue.component('roles-create', __webpack_require__(173));
+Vue.component('roles-page', __webpack_require__(214));
 
 Vue.component('jobs', __webpack_require__(169));
 Vue.component('jobs-page', __webpack_require__(170));
@@ -28091,65 +28091,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 155 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser'],
-
-    data: function data() {
-        return {
-            me: [],
-            action: [[], [], [], [], []],
-            name: ['Користувачі', '', '', '']
-        };
-    },
-    created: function created() {
-        this.me = JSON.parse(this.iUser);
-
-        console.log(this.me);
-    },
-
-
-    methods: {
-        findUser: function findUser() {},
-        test: function test() {
-            console.log(this.action);
-        }
-    }
-});
-
-/***/ }),
+/* 155 */,
 /* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56707,40 +56649,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 173 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(155),
-  /* template */
-  __webpack_require__(182),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\roles\\Create.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Create.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-460573c7", Component.options)
-  } else {
-    hotAPI.reload("data-v-460573c7", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 173 */,
 /* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -57124,54 +57033,7 @@ if (false) {
 }
 
 /***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-whiteframe', {
-    staticClass: "page",
-    attrs: {
-      "md-elevation": "2"
-    }
-  }, [_vm._m(0)], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Перегляд")]), _vm._v(" "), _c('md-table-head', [_vm._v("Редагування")]), _vm._v(" "), _c('md-table-head', [_vm._v("Створення")]), _vm._v(" "), _c('md-table-head', [_vm._v("Видалення")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((5), function(row, i) {
-    return _c('md-table-row', {
-      key: i
-    }, [_c('md-table-cell', [_vm._v("Dessert Name")]), _vm._v(" "), _vm._l((4), function(n, j) {
-      return _c('md-table-cell', {
-        key: j
-      }, [_c('md-checkbox', {
-        model: {
-          value: (_vm.action[i][j]),
-          callback: function($$v) {
-            var $$exp = _vm.action[i],
-              $$idx = j;
-            if (!Array.isArray($$exp)) {
-              _vm.action[i][j] = $$v
-            } else {
-              $$exp.splice($$idx, 1, $$v)
-            }
-          },
-          expression: "action[i][j]"
-        }
-      })], 1)
-    })], 2)
-  })), _vm._v(" "), _c('md-button', {
-    on: {
-      "click": _vm.test
-    }
-  }, [_vm._v("Test")])], 1)
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-460573c7", module.exports)
-  }
-}
-
-/***/ }),
+/* 182 */,
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -57499,7 +57361,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })])], 1), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title"
-    }, [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(!user.delete && user.active) ? _c('span', [_vm._v(_vm._s(user.role.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
+    }, [_vm._v(_vm._s(user.name))]), _c('br'), _vm._v(" "), (user.nick && user.active) ? _c('span', [_vm._v(_vm._s(user.nick))]) : _vm._e()]), _vm._v(" "), (_vm.me.role.acs_job) ? _c('md-table-cell', [(user.job_id) ? _c('span', [_vm._v(_vm._s(user.job.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.me.role.acs_role) ? _c('md-table-cell', [(!user.delete && user.active) ? _c('span', [_vm._v(_vm._s(user.role.title))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('md-table-cell', [(user.phone || user.work_phone || user.email || user.work_email) ? _c('md-menu', {
       attrs: {
         "md-size": "6",
         "md-align-trigger": ""
@@ -58272,6 +58134,165 @@ attrs:{"md-src":t.imageSrc}}):n("i",{staticClass:"md-icon",class:[t.themeClass,t
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
+
+/***/ }),
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['iUser'],
+
+    data: function data() {
+        return {
+            me: []
+        };
+    },
+    created: function created() {
+        this.me = JSON.parse(this.iUser);
+
+        console.log(this.me);
+    },
+
+
+    methods: {
+        findUser: function findUser() {},
+        test: function test() {
+            console.log(this.action);
+        }
+    }
+});
+
+/***/ }),
+/* 214 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(213),
+  /* template */
+  __webpack_require__(215),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\roles\\Page.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Page.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0e63249a", Component.options)
+  } else {
+    hotAPI.reload("data-v-0e63249a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    staticClass: "page",
+    attrs: {
+      "md-elevation": "2"
+    }
+  }, [_vm._m(0)], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Назва")]), _vm._v(" "), _c('md-table-head', [_vm._v("Перегляд")]), _vm._v(" "), _c('md-table-head', [_vm._v("Редагування")]), _vm._v(" "), _c('md-table-head', [_vm._v("Створення")]), _vm._v(" "), _c('md-table-head', [_vm._v("Видалення")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((5), function(row, i) {
+    return _c('md-table-row', {
+      key: i
+    }, [_c('md-table-cell', [_vm._v("Dessert Name")]), _vm._v(" "), _vm._l((4), function(n, j) {
+      return _c('md-table-cell', {
+        key: j
+      }, [_c('md-checkbox', {
+        model: {
+          value: (_vm.action[i][j]),
+          callback: function($$v) {
+            var $$exp = _vm.action[i],
+              $$idx = j;
+            if (!Array.isArray($$exp)) {
+              _vm.action[i][j] = $$v
+            } else {
+              $$exp.splice($$idx, 1, $$v)
+            }
+          },
+          expression: "action[i][j]"
+        }
+      })], 1)
+    })], 2)
+  })), _vm._v(" "), _c('md-button', {
+    on: {
+      "click": _vm.test
+    }
+  }, [_vm._v("Test")])], 1)
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0e63249a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
