@@ -14,7 +14,7 @@
                 <md-table-body>
                     <md-table-row v-for="(job, index) in jobs.data" :key="job.id" class="list-row">
                         <md-table-cell>
-                            <span>{{ job.id }}</span>
+                            <span class="id">{{ job.id }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
@@ -112,7 +112,7 @@
             </md-dialog-actions>
         </md-dialog>
 
-        <md-snackbar class="snackbar-black" :md-position="'top right'" ref="snackbar" :md-duration="5000">
+        <md-snackbar class="snackbar-black" ref="snackbar" :md-duration="3000">
             <span>{{ response }}</span>
             <md-button @click="$refs.snackbar.close()">Сховати</md-button>
         </md-snackbar>
@@ -131,16 +131,15 @@
 
                 q: '',
                 count: 25,
-                active: 0,
 
                 sortColumn: '',
                 sortType: '',
 
-                delIndex: -1,
-                transferIndex: -1,
                 response: '',
+                delIndex: -1,
 
                 transferJob: null,
+                transferIndex: -1,
             }
         },
 
@@ -272,9 +271,6 @@
                 this.getJobs();
             },
             count() {
-                this.getJobs();
-            },
-            active() {
                 this.getJobs();
             },
         },

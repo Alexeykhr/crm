@@ -28,7 +28,7 @@ class JobController extends Controller
         $jobs = Job::withCount('users')
             ->paginate(25);
 
-        LogController::logView(self::LOG_MODULE, 'Перегляд головної сторінки');
+        LogController::logView(self::LOG_MODULE, 'Всі посади');
 
         return view('jobs.index', [
             'me'        => $me,
@@ -85,7 +85,11 @@ class JobController extends Controller
             'desc'  => $request->desc,
         ]);
 
-        LogController::logAdd(self::LOG_MODULE, 'Створення посади', DB::getPdo()->lastInsertId());
+        LogController::logAdd(
+            self::LOG_MODULE,
+            '[' . DB::getPdo()->lastInsertId() . '] ' . $request->title,
+            DB::getPdo()->lastInsertId()
+        );
     }
 
     /**
@@ -105,7 +109,11 @@ class JobController extends Controller
 
         $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
 
-        LogController::logView(self::LOG_MODULE, 'Перегляд посади', $id);
+        LogController::logView(
+            self::LOG_MODULE,
+            '[' . $id . '] ' . $job->title,
+            $id
+        );
 
         return view('jobs.view', [
             'me'      => $me,
@@ -132,8 +140,6 @@ class JobController extends Controller
 
         $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
 
-        LogController::logView(self::LOG_MODULE, 'Редагування посади', $id);
-
         return view('jobs.edit', [
             'me'      => $me,
             'job'     => $job,
@@ -148,7 +154,7 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return boolean
      */
     public function update(Request $request, $id)
     {
@@ -163,9 +169,13 @@ class JobController extends Controller
             'desc'  => 'max:255',
         ]);
 
-        LogController::logView(self::LOG_MODULE, 'Оновлення інформації про посаду', $id);
+        LogController::logEdit(
+            self::LOG_MODULE,
+            '[' . $id . '] ' . $request->title,
+            $id
+        );
 
-        Job::where('id', '=', $id)->update([
+        return Job::where('id', '=', $id)->update([
             'title' => $request->title,
             'desc'  => $request->desc,
         ]);
@@ -176,7 +186,7 @@ class JobController extends Controller
      *
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return boolean
      */
     public function destroy($id)
     {
@@ -196,7 +206,7 @@ class JobController extends Controller
             return response()->json(['error' => ['validation.exists_users']], 422);
         }
 
-        LogController::logDelete(self::LOG_MODULE, 'Видалення посади', $id);
+        LogController::logDelete(self::LOG_MODULE, '[' . $job->id . '] ' . $job->title);
 
         return Job::destroy($id);
     }
@@ -273,7 +283,7 @@ class JobController extends Controller
         }
 
         $this->validate($request, [
-            'from' => 'required|integer|min:1',
+            'from' => 'required|integer|min:1|exists:jobs,id',
             'to'   => 'required'
         ]);
 
@@ -299,7 +309,11 @@ class JobController extends Controller
             'to' => 'integer|different:from|min:1|exists:jobs,id'
         ]);
 
-        LogController::logTransfer(self::LOG_MODULE, 'Трансфер всіх працівників', $request->to);
+        LogController::logTransfer(
+            self::LOG_MODULE,
+            '[' . $request->from . '] => [' . $request->to . ']',
+            $request->to
+        );
 
         return User::where('job_id', '=', $request->from)
             ->update([
@@ -327,6 +341,12 @@ class JobController extends Controller
         if ($job->id == $request->from) {
             return response()->json(['to' => ['validation.different']], 422);
         }
+
+        LogController::logTransfer(
+            self::LOG_MODULE,
+            '[' . $request->from . '] => [' . $job->id . ']',
+            $job->id
+        );
 
         return User::where('job_id', '=', $request->from)
             ->update([

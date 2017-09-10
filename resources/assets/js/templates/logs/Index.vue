@@ -22,12 +22,14 @@
                         <md-table-cell>{{ log.desc }}</md-table-cell>
                         <md-table-cell>{{ timestamp(log.date) }}</md-table-cell>
                         <md-table-cell>
-                            <md-button :href="'/users/'+log.user.id" class="md-icon-button">
+                            <md-button :href="'/users/' + log.user.id" class="md-icon-button">
                                 <md-icon>account_circle</md-icon>
+                                <md-tooltip md-direction="bottom">Користувач</md-tooltip>
                             </md-button>
                             <!--TODO: link (ref_id)-->
-                            <md-button href="/" class="md-icon-button">
+                            <md-button :disabled="!log.ref_id" href="/" class="md-icon-button">
                                 <md-icon>remove_red_eye</md-icon>
+                                <md-tooltip md-direction="bottom">Об'єкт</md-tooltip>
                             </md-button>
                         </md-table-cell>
 
@@ -127,11 +129,7 @@
 
         watch: {
             q() {
-                let len = this.q.length;
-
-                if (len > 2 || len == 0) {
-                    this.getLogs();
-                }
+                this.getLogs();
             },
             action() {
                 this.getLogs();

@@ -202,12 +202,6 @@ class UserController extends Controller
             $users->where('active', '=', $request->active > 0);
         }
 
-        if (! empty($request->del)) {
-            $users->where('delete', '=', $request->del > 0);
-        } elseif (! isset($request->del)) {
-            $users->where('delete', '=', 0);
-        }
-
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 25;
 
         return json_encode($users->paginate($count));

@@ -22,9 +22,9 @@
             <md-button class="md-raised md-primary" type="submit">Увійти</md-button>
         </form>
 
-        <md-snackbar md-position="top right" ref="snackbar" md-duration="4000">
+        <md-snackbar class="snackbar-black" ref="snackbar" md-duration="3000">
             <span>Логін або пароль невірний</span>
-            <md-button class="md-primary" style="color: #fff;" @click="$refs.snackbar.close()">Закрити</md-button>
+            <md-button class="md-primary" @click="$refs.snackbar.close()">Закрити</md-button>
         </md-snackbar>
     </div>
 </template>

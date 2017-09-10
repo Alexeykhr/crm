@@ -83,6 +83,12 @@
   .title.bold {
     font-weight: bold;
   }
+  .id {
+    background: $main-color;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2px 5px;
+  }
 }
 
 .md-table-cell {

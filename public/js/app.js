@@ -27512,16 +27512,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             q: '',
             count: 25,
-            active: 0,
 
             sortColumn: '',
             sortType: '',
 
-            delIndex: -1,
-            transferIndex: -1,
             response: '',
+            delIndex: -1,
 
-            transferJob: null
+            transferJob: null,
+            transferIndex: -1
         };
     },
     created: function created() {
@@ -27654,9 +27653,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getJobs();
         },
         count: function count() {
-            this.getJobs();
-        },
-        active: function active() {
             this.getJobs();
         }
     }
@@ -27950,6 +27946,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -28004,11 +28002,7 @@ moment.locale('uk');
 
     watch: {
         q: function q() {
-            var len = this.q.length;
-
-            if (len > 2 || len == 0) {
-                this.getLogs();
-            }
+            this.getLogs();
         },
         action: function action() {
             this.getLogs();
@@ -57208,7 +57202,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "list-row",
       style: ('border-left: 5px solid rgb(' + role.color + ');' +
         'background: rgba(' + role.color + ',.05)')
-    }, [_c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
+    }, [_c('md-table-cell', [_c('span', {
+      staticClass: "id"
+    }, [_vm._v(_vm._s(role.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
     }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', {
       staticClass: "flex-end"
@@ -57427,15 +57423,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Увійти")])], 1), _vm._v(" "), _c('md-snackbar', {
     ref: "snackbar",
+    staticClass: "snackbar-black",
     attrs: {
-      "md-position": "top right",
-      "md-duration": "4000"
+      "md-duration": "3000"
     }
   }, [_c('span', [_vm._v("Логін або пароль невірний")]), _vm._v(" "), _c('md-button', {
     staticClass: "md-primary",
-    staticStyle: {
-      "color": "#fff"
-    },
     on: {
       "click": function($event) {
         _vm.$refs.snackbar.close()
@@ -57730,7 +57723,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('md-table-row', {
       key: job.id,
       staticClass: "list-row"
-    }, [_c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
+    }, [_c('md-table-cell', [_c('span', {
+      staticClass: "id"
+    }, [_vm._v(_vm._s(job.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
     }, [_vm._v(_vm._s(job.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(job.users_count))])]), _vm._v(" "), _c('md-table-cell', {
       staticClass: "flex-end"
@@ -57882,8 +57877,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "snackbar",
     staticClass: "snackbar-black",
     attrs: {
-      "md-position": 'top right',
-      "md-duration": 5000
+      "md-duration": 3000
     }
   }, [_c('span', [_vm._v(_vm._s(_vm.response))]), _vm._v(" "), _c('md-button', {
     on: {
@@ -58062,12 +58056,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "href": '/users/' + log.user.id
       }
-    }, [_c('md-icon', [_vm._v("account_circle")])], 1), _vm._v(" "), _c('md-button', {
+    }, [_c('md-icon', [_vm._v("account_circle")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Користувач")])], 1), _vm._v(" "), _c('md-button', {
       staticClass: "md-icon-button",
       attrs: {
+        "disabled": !log.ref_id,
         "href": "/"
       }
-    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)], 1)
+    }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('md-tooltip', {
+      attrs: {
+        "md-direction": "bottom"
+      }
+    }, [_vm._v("Об'єкт")])], 1)], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.logs,

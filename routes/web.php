@@ -12,7 +12,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::resource('users', 'UserController');
 Route::get('profile', 'UserController@profile');
 Route::get('profile/edit', 'UserController@profileEdit');
-Route::get('axios/users.get', 'UserController@getUsers');
+Route::get('users.get', 'UserController@getUsers');
 
 // Roles
 Route::resource('roles', 'RoleController');

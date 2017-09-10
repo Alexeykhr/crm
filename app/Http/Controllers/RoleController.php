@@ -49,7 +49,8 @@ class RoleController extends Controller
         }
 
         return view('roles.create', [
-            'me' => $me,
+            'me'     => $me,
+            'action' => 'create',
         ]);
     }
 
@@ -110,7 +111,15 @@ class RoleController extends Controller
 //        TODO: create validation
 
         Role::where('id', '=', $id)->update([
-
+            'title'        => $request->title,
+            'level'        => $request->level,
+            'color'        => $request->color,
+            'acs_user'     => $request->acs_user,
+            'acs_role'     => $request->acs_role,
+            'acs_job'      => $request->acs_job,
+            'acs_profile'  => $request->acs_profile,
+            'acs_calendar' => $request->acs_calendar,
+            'acs_log'      => $request->acs_log,
         ]);
     }
 
@@ -128,7 +137,7 @@ class RoleController extends Controller
             return abort(404);
         }
 
-        $role = Role::where($id, '=', $id)->firstOrFail();
+        $role = Role::where('id', '=', $id)->firstOrFail();
 
         if ($me->role->level < $role->level) {
             return response()->json(['error' => ['validation.level']], 422);
