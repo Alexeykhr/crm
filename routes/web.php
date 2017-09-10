@@ -17,11 +17,12 @@ Route::get('users.get', 'UserController@getUsers');
 // Roles
 Route::resource('roles', 'RoleController');
 Route::get('roles.get', 'RoleController@get');
+Route::get('roles.exist', 'RoleController@existTitle');
 
 // Jobs
 Route::resource('jobs', 'JobController');
 Route::get('jobs.get', 'JobController@get');
-Route::get('jobs.exist', 'JobController@exist');
+Route::get('jobs.exist', 'JobController@existTitle');
 Route::post('jobs.transfer', 'JobController@transfer');
 
 // Folders

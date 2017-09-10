@@ -16,6 +16,7 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 60)->unique();
+            $table->string('desc', 255)->nullable();
             $table->tinyInteger('level')->default(1);
             $table->string('color', 11)->default('218,218,218');
             $table->tinyInteger('acs_user')->default(1); // [0, ..,  15]

@@ -56,8 +56,9 @@ class JobController extends Controller
         }
 
         return view('jobs.create', [
-            'me' => $me,
-            'action' => 'create',
+            'me'      => $me,
+            'action'  => 'create',
+            'canView' => $this->access($me->role->acs_job, 'view'),
         ]);
     }
 
@@ -123,6 +124,7 @@ class JobController extends Controller
             'job'     => $job,
             'action'  => 'view',
             'canEdit' => $this->access($me->role->acs_job, 'edit'),
+            'canView' => $this->access($me->role->acs_job, 'view'),
         ]);
     }
 
@@ -142,6 +144,12 @@ class JobController extends Controller
         }
 
         $job = Job::withCount('users')->where('id', '=', $id)->firstOrFail();
+
+        LogController::logView(
+            self::LOG_MODULE,
+            '[' . $id . '] ' . $job->title,
+            $id
+        );
 
         return view('jobs.edit', [
             'me'      => $me,
@@ -256,13 +264,13 @@ class JobController extends Controller
     }
 
     /**
-     * [Ajax] Checking user.
+     * [Ajax] Checking job.
      *
      * @param Request $request
      *
      * @return boolean
      */
-    public function exist(Request $request)
+    public function existTitle(Request $request)
     {
         $me = Auth::user();
 

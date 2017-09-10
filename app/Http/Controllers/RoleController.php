@@ -25,11 +25,11 @@ class RoleController extends Controller
             ->paginate(10);
 
         return view('roles.index', [
-            'me'         => $me,
-            'roles'      => $roles,
-            'canCreate'  => $this->access($me->role->acs_role, 'create'),
-            'canDelete'  => $this->access($me->role->acs_role, 'delete'),
-            'canEdit'    => $this->access($me->role->acs_role, 'edit'),
+            'me'          => $me,
+            'roles'       => $roles,
+            'canCreate'   => $this->access($me->role->acs_role, 'create'),
+            'canDelete'   => $this->access($me->role->acs_role, 'delete'),
+            'canEdit'     => $this->access($me->role->acs_role, 'edit'),
             'canTransfer' => $this->access($me->role->acs_role, 'edit')
                 && $this->access($me->role->acs_user, 'edit'),
         ]);
@@ -49,15 +49,17 @@ class RoleController extends Controller
         }
 
         return view('roles.create', [
-            'me'     => $me,
-            'action' => 'create',
+            'me'      => $me,
+            'action'  => 'create',
+            'canView' => $this->access($me->role->acs_role, 'view'),
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Ajax] Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,6 +71,7 @@ class RoleController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -80,6 +83,7 @@ class RoleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -88,10 +92,11 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Ajax] Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -124,9 +129,10 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Ajax] Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -147,7 +153,7 @@ class RoleController extends Controller
     }
 
     /**
-     * For getting users through axios.
+     * [Ajax] For getting users.
      *
      * @param Request $request
      *
@@ -181,5 +187,23 @@ class RoleController extends Controller
         $count = in_array((int)$request->count, [10, 25, 50, 75, 100]) ? (int)$request->count : 10;
 
         return json_encode($roles->paginate($count));
+    }
+
+    /**
+     * [Ajax] Checking role.
+     *
+     * @param Request $request
+     *
+     * @return boolean
+     */
+    public function existTitle(Request $request)
+    {
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'view')) {
+            return abort(404);
+        }
+
+        return json_encode(Role::where('title', '=', $request->title)->exists());
     }
 }

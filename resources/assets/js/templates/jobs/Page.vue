@@ -3,7 +3,7 @@
         <form novalidate @submit.stop.prevent="submit">
             <div class="header">
                 <template v-if="inJob">
-                    <h1 :title="'Посада #' + job.id">Посада: #{{ job.id }}</h1>
+                    <h1 :title="'Посада: #' + job.id">Посада: #{{ job.id }}</h1>
                 </template>
                 <template v-else>
                     <h1 title="Створення посади">Створення посади</h1>
@@ -75,7 +75,7 @@
 <script>
     export default {
         props: [
-            'iUser', 'inJob', 'action', 'canEdit', 'canView',
+            'inJob', 'action', 'canEdit', 'canView',
         ],
 
         data() {
@@ -91,8 +91,6 @@
         },
 
         created() {
-            this.me = JSON.parse(this.iUser);
-
             if (this.inJob) {
                 this.job = JSON.parse(this.inJob);
                 this.title = this.job.title;
