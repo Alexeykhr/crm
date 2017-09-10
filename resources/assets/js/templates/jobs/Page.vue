@@ -42,7 +42,17 @@
 
             <md-input-container v-if="inJob">
                 <label>Кількість працівників</label>
-                <md-input v-model="job.users_count" readonly></md-input>
+                <md-input v-model="job.users_count" readonly :disabled="action == 'edit'"></md-input>
+            </md-input-container>
+
+            <md-input-container v-if="inJob">
+                <label>Останнє оновлення</label>
+                <md-input v-model="job.updated_at" readonly :disabled="action == 'edit'"></md-input>
+            </md-input-container>
+
+            <md-input-container v-if="inJob">
+                <label>Створений</label>
+                <md-input v-model="job.created_at" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 
             <md-button v-if="action == 'create'" :disabled="search || this.title.length < 3"
@@ -87,8 +97,6 @@
                 this.job = JSON.parse(this.inJob);
                 this.title = this.job.title;
                 this.desc = this.job.desc;
-
-                console.log(this.job);
             }
         },
 

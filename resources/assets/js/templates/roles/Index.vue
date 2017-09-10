@@ -17,7 +17,7 @@
                                   :style="'border-left: 5px solid rgb(' + role.color + ');' +
                                   'background: rgba(' + role.color + ',.05)'">
                         <md-table-cell>
-                            <span class="id">{{ role.id }}</span>
+                            <span class="id transperent">{{ role.id }}</span>
                         </md-table-cell>
 
                         <md-table-cell>

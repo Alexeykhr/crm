@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Log;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,10 +48,14 @@ class LogController extends Controller
             $q->select('id', 'name');
         }])->orderBy('date', 'desc');
 
-        if (! empty($request->q)) {
+        if (! empty($request->qUser)) {
             $logs->whereHas('user', function ($query) use ($request) {
-                $query->select('id')->where('name', 'LIKE', '%' . $request->q . '%');
+                $query->select('id')->where('name', 'LIKE', '%' . $request->qUser . '%');
             });
+        }
+
+        if (! empty($request->qDesc)) {
+            $logs->where('desc', 'LIKE', '%' . $request->qDesc . '%');
         }
 
         if (! empty($request->module)) {

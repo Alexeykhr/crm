@@ -197,6 +197,7 @@
                         this.$refs.snackbar.open();
                     });
             },
+//            TODO: transfer to other component
             transferUsers(fromId, transferJob, index) {
                 transferJob = transferJob.toString().toLowerCase();
 

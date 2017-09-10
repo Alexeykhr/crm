@@ -43,8 +43,14 @@
         <md-layout class="right-column" md-flex="25">
             <md-input-container md-clearable>
                 <md-icon>search</md-icon>
-                <label>Пошук</label>
-                <md-input v-model="q" autofocus></md-input>
+                <label>Працівник</label>
+                <md-input v-model="qUser" autofocus></md-input>
+            </md-input-container>
+
+            <md-input-container md-clearable>
+                <md-icon>search</md-icon>
+                <label>Опис</label>
+                <md-input v-model="qDesc" autofocus></md-input>
             </md-input-container>
 
             <br>
@@ -75,6 +81,8 @@
                     <md-option value="Інше">Інше</md-option>
                 </md-select>
             </md-input-container>
+
+            <!--TODO: create field for data-->
         </md-layout>
     </md-layout>
 </template>
@@ -93,7 +101,8 @@
                 me: [],
                 logs: [],
 
-                q: '',
+                qUser: '',
+                qDesc: '',
                 module: '',
                 action: '',
                 count: 25,
@@ -112,7 +121,8 @@
             getLogs(page = 1) {
                 axios.get('/axios/logs.get', {
                     params: {
-                        q: this.q,
+                        qUser: this.qUser,
+                        qDesc: this.qDesc,
                         module: this.module,
                         action: this.action,
                         count: this.count,
@@ -128,7 +138,10 @@
         },
 
         watch: {
-            q() {
+            qUser() {
+                this.getLogs();
+            },
+            qDesc() {
                 this.getLogs();
             },
             action() {

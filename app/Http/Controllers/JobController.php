@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +84,8 @@ class JobController extends Controller
         Job::insert([
             'title' => $request->title,
             'desc'  => $request->desc,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         LogController::logAdd(
@@ -206,9 +209,11 @@ class JobController extends Controller
             return response()->json(['error' => ['validation.exists_users']], 422);
         }
 
-        LogController::logDelete(self::LOG_MODULE, '[' . $job->id . '] ' . $job->title);
+        $isDeleted = Job::destroy($id);
 
-        return Job::destroy($id);
+        if ($isDeleted) {
+            LogController::logDelete(self::LOG_MODULE, '[' . $job->id . '] ' . $job->title);
+        }
     }
 
     /**

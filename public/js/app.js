@@ -27583,6 +27583,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.$refs.snackbar.open();
             });
         },
+
+        //            TODO: transfer to other component
         transferUsers: function transferUsers(fromId, transferJob, index) {
             var _this3 = this;
 
@@ -27728,6 +27730,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['iUser', 'inJob', 'action', 'canEdit', 'canView'],
@@ -27750,8 +27762,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.job = JSON.parse(this.inJob);
             this.title = this.job.title;
             this.desc = this.job.desc;
-
-            console.log(this.job);
         }
     },
 
@@ -27948,6 +27958,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 var moment = __webpack_require__(0);
 moment.locale('uk');
@@ -27960,7 +27978,8 @@ moment.locale('uk');
             me: [],
             logs: [],
 
-            q: '',
+            qUser: '',
+            qDesc: '',
             module: '',
             action: '',
             count: 25
@@ -27983,7 +28002,8 @@ moment.locale('uk');
 
             axios.get('/axios/logs.get', {
                 params: {
-                    q: this.q,
+                    qUser: this.qUser,
+                    qDesc: this.qDesc,
                     module: this.module,
                     action: this.action,
                     count: this.count,
@@ -28001,7 +28021,10 @@ moment.locale('uk');
     },
 
     watch: {
-        q: function q() {
+        qUser: function qUser() {
+            this.getLogs();
+        },
+        qDesc: function qDesc() {
             this.getLogs();
         },
         action: function action() {
@@ -57203,7 +57226,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       style: ('border-left: 5px solid rgb(' + role.color + ');' +
         'background: rgba(' + role.color + ',.05)')
     }, [_c('md-table-cell', [_c('span', {
-      staticClass: "id"
+      staticClass: "id transperent"
     }, [_vm._v(_vm._s(role.id))])]), _vm._v(" "), _c('md-table-cell', [_c('span', {
       staticClass: "title bold"
     }, [_vm._v(_vm._s(role.title))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.level))])]), _vm._v(" "), _c('md-table-cell', [_c('span', [_vm._v(_vm._s(role.users_count))])]), _vm._v(" "), _c('md-table-cell', {
@@ -57985,7 +58008,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Кількість працівників")]), _vm._v(" "), _c('md-input', {
     attrs: {
-      "readonly": ""
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
     },
     model: {
       value: (_vm.job.users_count),
@@ -57993,6 +58017,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.job.users_count = $$v
       },
       expression: "job.users_count"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Останнє оновлення")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
+    },
+    model: {
+      value: (_vm.job.updated_at),
+      callback: function($$v) {
+        _vm.job.updated_at = $$v
+      },
+      expression: "job.updated_at"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Створений")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
+    },
+    model: {
+      value: (_vm.job.created_at),
+      callback: function($$v) {
+        _vm.job.created_at = $$v
+      },
+      expression: "job.created_at"
     }
   })], 1) : _vm._e(), _vm._v(" "), (_vm.action == 'create') ? _c('md-button', {
     staticClass: "md-raised md-primary btn-action",
@@ -58085,16 +58133,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-clearable": ""
     }
-  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Пошук")]), _vm._v(" "), _c('md-input', {
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Працівник")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "autofocus": ""
     },
     model: {
-      value: (_vm.q),
+      value: (_vm.qUser),
       callback: function($$v) {
-        _vm.q = $$v
+        _vm.qUser = $$v
       },
-      expression: "q"
+      expression: "qUser"
+    }
+  })], 1), _vm._v(" "), _c('md-input-container', {
+    attrs: {
+      "md-clearable": ""
+    }
+  }, [_c('md-icon', [_vm._v("search")]), _vm._v(" "), _c('label', [_vm._v("Опис")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "autofocus": ""
+    },
+    model: {
+      value: (_vm.qDesc),
+      callback: function($$v) {
+        _vm.qDesc = $$v
+      },
+      expression: "qDesc"
     }
   })], 1), _vm._v(" "), _c('br'), _vm._v(" "), _c('md-input-container', [_c('label', {
     attrs: {
