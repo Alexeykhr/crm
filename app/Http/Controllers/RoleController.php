@@ -91,7 +91,7 @@ class RoleController extends Controller
             'role'    => $role,
             'action'  => 'view',
             'canEdit' => $this->access($me->role->acs_role, 'edit')
-                && $me->role->level > $role->level,
+                && $me->role->level >= $role->level,
         ]);
     }
 

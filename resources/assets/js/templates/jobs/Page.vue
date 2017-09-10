@@ -117,10 +117,7 @@
 </template>
 
 <script>
-    import MdButton from "../../../../../node_modules/vue-material/src/components/mdButton/mdButton.vue";
-
     export default {
-        components: {MdButton},
         props: [
             'inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete',
         ],

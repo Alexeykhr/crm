@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Створення користувача')
+@section('title', 'Редагування користувача')
 
 @if ($canView)
     @section('h-btn-title', 'Всі працівники')
@@ -11,11 +11,8 @@
 
 @section('content')
 
-    <users-page inUser="{{ json_encode() }}"
+    <users-page i-user="{{ json_encode($me) }}"
                 action="{{ $action }}"
-                can-edit="{{ $canEdit }}"
-                can-view="{{ $canView }}"
-                can-delete="{{ $canDelete }}"
     ></users-page>
 
 @endsection

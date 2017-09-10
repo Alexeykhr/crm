@@ -39,12 +39,15 @@
                         </md-table-cell>
 
                         <md-table-cell v-if="me.role.acs_role">
-                            <span v-if="!user.delete && user.active">{{ user.role.title }}</span>
+                            <span v-if="user.active">{{ user.role.title }}</span>
                         </md-table-cell>
 
                         <md-table-cell>
-                            <md-menu md-size="6" md-align-trigger v-if="user.phone || user.work_phone || user.email || user.work_email">
-                                <md-button class="md-icon-button" md-menu-trigger><md-icon>contact_mail</md-icon></md-button>
+                            <md-menu md-size="6" md-align-trigger
+                                     v-if="user.phone || user.work_phone || user.email || user.work_email">
+                                <md-button class="md-icon-button" md-menu-trigger>
+                                    <md-icon>contact_mail</md-icon>
+                                </md-button>
 
                                 <md-menu-content>
                                     <md-menu-item :href="'tel:+' + user.phone.replace(/\D/g,'')" v-if="user.phone">
@@ -70,24 +73,23 @@
                             </md-menu>
                         </md-table-cell>
 
-                        <md-table-cell>
-                            <md-menu md-size="4">
-                                <md-button class="md-icon-button" md-menu-trigger>
-                                    <md-icon>more_vert</md-icon>
-                                </md-button>
+                        <md-table-cell class="flex-end">
+                            <md-button class="md-icon-button" :href="'/users/' + user.id">
+                                <md-icon>remove_red_eye</md-icon>
+                                <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
+                            </md-button>
 
-                                <md-menu-content>
-                                    <md-menu-item :href="'/users/' + user.id">
-                                        <md-icon>remove_red_eye</md-icon> <span>Переглянути</span>
-                                    </md-menu-item>
-                                    <md-menu-item :href="'/users/' + user.id + '/edit'">
-                                        <md-icon>edit</md-icon> <span>Редагувати</span>
-                                    </md-menu-item>
-                                    <md-menu-item>
-                                        <md-icon>delete</md-icon> <span>Видалити</span>
-                                    </md-menu-item>
-                                </md-menu-content>
-                            </md-menu>
+                            <md-button class="md-icon-button" v-if="canEdit && me.role.level >= user.role.level"
+                                       :href="'/users/' + user.id + '/edit'">
+                                <md-icon>edit</md-icon>
+                                <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-icon-button" v-if="canDelete && me.role.level >= user.role.level"
+                                       @click="openDelete(index)">
+                                <md-icon>delete</md-icon>
+                                <md-tooltip md-direction="bottom">Видалити</md-tooltip>
+                            </md-button>
                         </md-table-cell>
                     </md-table-row>
                 </md-table-body>
@@ -135,13 +137,29 @@
                 <md-radio v-model="active" name="active" md-value="-1">Ні</md-radio>
             </div>
         </md-layout>
+
+        <md-dialog v-if="canDelete" ref="delete">
+            <md-dialog-title v-if="delIndex > -1">
+                Видалення: "{{ users.data[delIndex].title }}"
+            </md-dialog-title>
+
+            <md-dialog-content>Ви впевнені, що хочете видалити посаду?</md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
+                <md-button v-if="delIndex > -1" class="md-raised md-primary"
+                           @click="deleteUser();">
+                    Видалити
+                </md-button>
+            </md-dialog-actions>
+        </md-dialog>
     </md-layout>
 </template>
 
 <script>
     export default {
         props: [
-            'iUser', 'inUsers',
+            'iUser', 'inUsers', 'canEdit', 'canDelete',
         ],
 
         data() {
@@ -158,6 +176,9 @@
 
                 sortColumn: '',
                 sortType: '',
+
+                response: '',
+                delIndex: -1,
             }
         },
 
@@ -186,6 +207,40 @@
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);
             },
+            deleteUser() {
+                axios.delete('/users/' + id)
+                    .then(res => {
+                        if (res.data == 1) {
+                            this.users.data.splice(index, 1);
+                            this.response = 'Користувач успішно видалений';
+
+                            this.$refs.snackbar.open();
+                            this.closeDialog('delete');
+                        }
+                    })
+                    .catch(error => {
+                        if (! error.response.data.error) {
+                            this.response = 'Виникла помилка';
+                            this.$refs.snackbar.open();
+                            return;
+                        }
+
+                        switch (error.response.data.error[0]) {
+                            case 'validation.empty':
+                                this.response = 'Посади не існує';
+                                break;
+
+                            case 'validation.exists_users':
+                                this.response = 'Користувачі прікріплені на цю посаду';
+                                break;
+
+                            default:
+                                this.response = 'Виникла помилка';
+                        }
+
+                        this.$refs.snackbar.open();
+                    });
+            },
             setClass(id) {
                 let classes = 'list-row';
 
@@ -197,6 +252,16 @@
                 this.sortColumn = action.name;
                 this.sortType = action.type;
                 this.getUsers(this.users.current_page);
+            },
+            openDialog(ref) {
+                this.$refs[ref].open();
+            },
+            closeDialog(ref) {
+                this.$refs[ref].close();
+            },
+            openDelete(index) {
+                this.delIndex = index;
+                this.openDialog('delete');
             },
         },
 

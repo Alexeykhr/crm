@@ -13,8 +13,8 @@
 
     <users i-user="{{ json_encode($me) }}"
            in-users="{{ json_encode($users) }}"
-           in-roles="{{ json_encode($roles) }}"
-           in-jobs="{{ json_encode($jobs) }}"
+           can-edit="{{ json_encode($canEdit) }}"
+           can-delete="{{ json_encode($canDelete) }}"
     ></users>
 
 @endsection
