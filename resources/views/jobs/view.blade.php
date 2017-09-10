@@ -2,12 +2,10 @@
 
 @section('title', 'Перегляд посади')
 
-@if ($canView)
-    @section('h-btn-title', 'Всі посади')
-    @section('h-btn-icon', 'arrow_back')
-    @section('h-btn-href', '/jobs')
-    @section('h-btn-class', 'md-raised')
-@endif
+@section('h-btn-title', 'Всі посади')
+@section('h-btn-icon', 'arrow_back')
+@section('h-btn-href', '/jobs')
+@section('h-btn-class', 'md-raised')
 
 @section('content')
 

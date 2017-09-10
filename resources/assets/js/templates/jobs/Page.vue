@@ -14,7 +14,7 @@
                 <template v-if="canEdit">
                     <md-button class="md-icon-button" :href="'/jobs/' + job.id + '/edit'">
                         <md-icon>edit</md-icon>
-                        <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
+                        <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
                     </md-button>
                 </template>
 

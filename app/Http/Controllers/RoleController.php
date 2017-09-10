@@ -76,7 +76,23 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'view')) {
+            return abort(404);
+        }
+
+        $role = Role::withCount('users')
+            ->where('id', '=', $id)
+            ->firstOrFail();
+
+        return view('roles.view', [
+            'me'      => $me,
+            'role'    => $role,
+            'action'  => 'view',
+            'canEdit' => $this->access($me->role->acs_role, 'edit')
+                && $me->role->level > $role->level,
+        ]);
     }
 
     /**
@@ -88,7 +104,29 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $me = Auth::user();
+
+        if (! $this->access($me->role->acs_role, 'edit')) {
+            return abort(404);
+        }
+
+        $role = Role::withCount('users')
+            ->where('id', '=', $id)
+            ->firstOrFail();
+
+        if ($me->role->level <= $role->level) {
+            return response()->json(['error' => ['validation.level']], 422);
+        }
+
+        return view('roles.edit', [
+            'me'          => $me,
+            'role'        => $role,
+            'action'      => 'edit',
+            'canView'     => $this->access($me->role->acs_role, 'view'),
+            'canDelete'   => $this->access($me->role->acs_role, 'delete'),
+            'canTransfer' => $this->access($me->role->acs_role, 'edit')
+                && $this->access($me->role->acs_user, 'edit'),
+        ]);
     }
 
     /**
@@ -109,7 +147,7 @@ class RoleController extends Controller
 
         $role = Role::where('id', '=', $id)->firstOrFail();
 
-        if ($me->role->level < $role->level) {
+        if ($me->role->level <= $role->level) {
             return response()->json(['error' => ['validation.level']], 422);
         }
 

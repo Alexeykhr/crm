@@ -124,7 +124,6 @@ class JobController extends Controller
             'job'     => $job,
             'action'  => 'view',
             'canEdit' => $this->access($me->role->acs_job, 'edit'),
-            'canView' => $this->access($me->role->acs_job, 'view'),
         ]);
     }
 
@@ -152,10 +151,13 @@ class JobController extends Controller
         );
 
         return view('jobs.edit', [
-            'me'      => $me,
-            'job'     => $job,
-            'action'  => 'edit',
-            'canView' => $this->access($me->role->acs_job, 'view'),
+            'me'          => $me,
+            'job'         => $job,
+            'action'      => 'edit',
+            'canView'     => $this->access($me->role->acs_job, 'view'),
+            'canDelete'   => $this->access($me->role->acs_role, 'delete'),
+            'canTransfer' => $this->access($me->role->acs_role, 'edit')
+                && $this->access($me->role->acs_user, 'edit'),
         ]);
     }
 

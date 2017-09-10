@@ -26136,8 +26136,7 @@ Vue.component('navbar', __webpack_require__(168));
 Vue.component('pagination', __webpack_require__(172));
 
 Vue.component('users', __webpack_require__(176));
-Vue.component('profile', __webpack_require__(177));
-Vue.component('users-create', __webpack_require__(175));
+Vue.component('users-page', __webpack_require__(222));
 
 Vue.component('roles', __webpack_require__(174));
 Vue.component('roles-page', __webpack_require__(214));
@@ -28246,23 +28245,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 157 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({});
-
-/***/ }),
+/* 157 */,
 /* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28493,38 +28476,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 159 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['user', 'canEdit'],
-
-    data: function data() {
-        return {
-            u: null,
-            isProfile: true
-        };
-    },
-    created: function created() {
-        if (this.user) {
-            this.u = JSON.parse(this.user);
-            this.isProfile = false;
-        }
-
-        console.log(this.canEdit);
-    }
-});
-
-/***/ }),
+/* 159 */,
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56682,40 +56634,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(157),
-  /* template */
-  __webpack_require__(181),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\users\\Create.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Create.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-41bf879c", Component.options)
-  } else {
-    hotAPI.reload("data-v-41bf879c", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 175 */,
 /* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56750,40 +56669,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(159),
-  /* template */
-  __webpack_require__(179),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\users\\Profile.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Profile.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-20d46eb9", Component.options)
-  } else {
-    hotAPI.reload("data-v-20d46eb9", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 177 */,
 /* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56878,23 +56764,7 @@ if (false) {
 }
 
 /***/ }),
-/* 179 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-layout', {
-    staticClass: "page"
-  }, [_vm._v("\n    " + _vm._s(_vm.u.name) + "\n")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-20d46eb9", module.exports)
-  }
-}
-
-/***/ }),
+/* 179 */,
 /* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -57006,31 +56876,7 @@ if (false) {
 }
 
 /***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-layout', {
-    staticClass: "page",
-    attrs: {
-      "md-align": "center"
-    }
-  }, [_c('md-avatar', [_c('img', {
-    attrs: {
-      "src": "/img/user.png",
-      "alt": "Avatar"
-    }
-  })])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-41bf879c", module.exports)
-  }
-}
-
-/***/ }),
+/* 181 */,
 /* 182 */,
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -57097,7 +56943,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Відредагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && role.users_count < 1) ? _c('md-button', {
+    }, [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && role.users_count < 1) ? _c('md-button', {
       staticClass: "md-icon-button",
       on: {
         "click": function($event) {
@@ -57119,7 +56965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Перенести користувачів")])], 1) : _vm._e()], 1)], 1)
+    }, [_vm._v("Трансфер")])], 1) : _vm._e()], 1)], 1)
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "data": _vm.roles,
@@ -57602,7 +57448,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-direction": "bottom"
       }
-    }, [_vm._v("Відредагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && job.users_count < 1) ? _c('md-button', {
+    }, [_vm._v("Редагувати")])], 1) : _vm._e(), _vm._v(" "), (_vm.canDelete && job.users_count < 1) ? _c('md-button', {
       staticClass: "md-icon-button",
       on: {
         "click": function($event) {
@@ -57794,7 +57640,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-direction": "bottom"
     }
-  }, [_vm._v("Відредагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
+  }, [_vm._v("Редагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
     staticClass: "md-icon-button",
     attrs: {
       "href": '/jobs/' + _vm.job.id
@@ -58135,62 +57981,7 @@ module.exports = __webpack_require__(128);
 
 /***/ }),
 /* 193 */,
-/* 194 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
+/* 194 */,
 /* 195 */,
 /* 196 */,
 /* 197 */,
@@ -58200,311 +57991,12 @@ module.exports = function() {
 /* 201 */,
 /* 202 */,
 /* 203 */,
-/* 204 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// Theme mixin
-
-// Grab the closest ancestor component's `md-theme` attribute OR grab the
-// `md-name` attribute from an `<md-theme>` component.
-function getAncestorThemeName(component) {
-  if (!component) {
-    return null;
-  }
-
-  let name = component.mdTheme;
-
-  if (!name && component.$options._componentTag === 'md-theme') {
-    name = component.mdName;
-  }
-
-  return name || getAncestorThemeName(component.$parent);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  props: {
-    mdTheme: String
-  },
-  computed: {
-    mdEffectiveTheme() {
-      return getAncestorThemeName(this) || this.$material.currentTheme;
-    },
-    themeClass() {
-      return this.$material.prefix + this.mdEffectiveTheme;
-    }
-  },
-  watch: {
-    mdTheme(value) {
-      this.$material.useTheme(value);
-    }
-  },
-  beforeMount() {
-    const localTheme = this.mdTheme;
-
-    this.$material.useTheme(localTheme ? localTheme : 'default');
-  }
-});
-
-
-/***/ }),
+/* 204 */,
 /* 205 */,
 /* 206 */,
 /* 207 */,
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-var listToStyles = __webpack_require__(209)
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-module.exports = function (parentId, list, _isProduction) {
-  isProduction = _isProduction
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
-
-
-/***/ }),
-/* 209 */
-/***/ (function(module, exports) {
-
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-module.exports = function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-
-/***/ }),
+/* 208 */,
+/* 209 */,
 /* 210 */,
 /* 211 */,
 /* 212 */,
@@ -58513,8 +58005,6 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdIcon_mdIcon_vue__ = __webpack_require__(218);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdIcon_mdIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdIcon_mdIcon_vue__);
 //
 //
 //
@@ -58607,12 +58097,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { MdIcon: __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_material_src_components_mdIcon_mdIcon_vue___default.a },
-    props: ['iUser', 'inRole', 'action'],
+    props: ['iUser', 'inRole', 'action', 'canView', 'canEdit', 'canDelete', 'canTransfer'],
 
     data: function data() {
         return {
@@ -58620,6 +58140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             role: [],
             title: '',
             desc: '',
+            level: 1,
 
             search: false,
             duplicateTitle: false,
@@ -58630,10 +58151,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.me = JSON.parse(this.iUser);
 
         if (this.inRole) {
-            this.job = JSON.parse(this.inRole);
+            this.role = JSON.parse(this.inRole);
+            this.title = this.role.title;
+            this.desc = this.role.desc;
+            this.level = this.role.level;
         }
-
-        console.log(this.action);
     },
 
 
@@ -58648,7 +58170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.inRole) {
-                if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
+                if (this.role.title.toLowerCase() === this.title.toLowerCase()) {
                     return;
                 }
             }
@@ -58735,7 +58257,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": "Створення ролі"
     }
-  }, [_vm._v("Створення ролі")])]], 2), _vm._v(" "), _c('md-input-container', {
+  }, [_vm._v("Створення ролі")])], _vm._v(" "), _c('span', {
+    staticStyle: {
+      "flex": "1"
+    }
+  }), _vm._v(" "), (_vm.canEdit) ? [_c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": '/roles/' + _vm.role.id + '/edit'
+    }
+  }, [_c('md-icon', [_vm._v("edit")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Редагувати")])], 1)] : _vm._e(), _vm._v(" "), (_vm.canView) ? [_c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "href": '/roles/' + _vm.role.id
+    }
+  }, [_c('md-icon', [_vm._v("remove_red_eye")]), _vm._v(" "), _c('md-tooltip', {
+    attrs: {
+      "md-direction": "bottom"
+    }
+  }, [_vm._v("Переглянути")])], 1)] : _vm._e()], 2), _vm._v(" "), _c('md-input-container', {
     class: _vm.duplicateTitle ? 'md-input-invalid' : ''
   }, [_c('label', [_vm._v("Назва")]), _vm._v(" "), _c('md-input', {
     attrs: {
@@ -58772,16 +58316,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('md-input-container', [_c('label', [_vm._v("Рівень")]), _vm._v(" "), _c('md-textarea', {
     attrs: {
-      "readonly": _vm.action == 'view'
+      "readonly": _vm.action == 'view',
+      "required": "",
+      "type": "number"
     },
     model: {
-      value: (_vm.desc),
+      value: (_vm.level),
       callback: function($$v) {
-        _vm.desc = $$v
+        _vm.level = $$v
       },
-      expression: "desc"
+      expression: "level"
     }
-  })], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("remove_red_eye")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("edit")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("add")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("delete")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("people")])], 1)], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', [_vm._v("Користувачі")]), _vm._v(" "), _vm._l((4), function(col, index) {
+  })], 1), _vm._v(" "), (_vm.inRole) ? _c('md-input-container', [_c('label', [_vm._v("Користувачів")]), _vm._v(" "), _c('md-textarea', {
+    attrs: {
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
+    },
+    model: {
+      value: (_vm.role.users_count),
+      callback: function($$v) {
+        _vm.role.users_count = $$v
+      },
+      expression: "role.users_count"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.inRole) ? _c('md-input-container', [_c('label', [_vm._v("Останнє оновлення")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
+    },
+    model: {
+      value: (_vm.role.updated_at),
+      callback: function($$v) {
+        _vm.role.updated_at = $$v
+      },
+      expression: "role.updated_at"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.inRole) ? _c('md-input-container', [_c('label', [_vm._v("Створений")]), _vm._v(" "), _c('md-input', {
+    attrs: {
+      "readonly": "",
+      "disabled": _vm.action == 'edit'
+    },
+    model: {
+      value: (_vm.role.created_at),
+      callback: function($$v) {
+        _vm.role.created_at = $$v
+      },
+      expression: "role.created_at"
+    }
+  })], 1) : _vm._e(), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Модуль")]), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("remove_red_eye")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("edit")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("add")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("delete")])], 1), _vm._v(" "), _c('md-table-head', [_c('md-icon', [_vm._v("people")])], 1)], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', [_vm._v("Користувачі")]), _vm._v(" "), _vm._l((4), function(col, index) {
     return _c('md-table-cell', {
       key: index
     }, [_c('md-checkbox')], 1)
@@ -58840,141 +58422,59 @@ if (false) {
 }
 
 /***/ }),
-/* 216 */
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_components_mdTheme_mixin__ = __webpack_require__(204);
 //
 //
 //
 //
 //
 //
-//
-//
-//
-//
-//
-//
-
-
-
-var registeredIcons = {};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'md-icon',
-  props: {
-    mdSrc: String,
-    mdIconset: {
-      type: String,
-      default: 'material-icons'
-    }
-  },
-  data: function data() {
-    return {
-      svgContent: null,
-      imageSrc: null
-    };
-  },
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__core_components_mdTheme_mixin__["a" /* default */]],
-  watch: {
-    mdSrc: function mdSrc() {
-      this.svgContent = null;
-      this.imageSrc = null;
-      this.checkSrc();
-    }
-  },
-  methods: {
-    isImage: function isImage(mimetype) {
-      return mimetype.indexOf('image') >= 0;
-    },
-    isSVG: function isSVG(mimetype) {
-      return mimetype.indexOf('svg') >= 0;
-    },
-    setSVGContent: function setSVGContent(value) {
-      var _this = this;
+    props: ['user', 'canEdit'],
 
-      this.svgContent = value;
-
-      this.$nextTick(function () {
-        _this.$el.children[0].removeAttribute('fill');
-      });
-    },
-    loadSVG: function loadSVG() {
-      if (!registeredIcons[this.mdSrc]) {
-        var request = new XMLHttpRequest();
-        var self = this;
-
-        request.open('GET', this.mdSrc, true);
-
-        request.onload = function () {
-          var mimetype = this.getResponseHeader('content-type');
-
-          if (this.status >= 200 && this.status < 400 && self.isImage(mimetype)) {
-            if (self.isSVG(mimetype)) {
-              registeredIcons[self.mdSrc] = this.response;
-              self.setSVGContent(this.response);
-            } else {
-              self.loadImage();
-            }
-          } else {
-            console.warn('The file ' + self.mdSrc + ' is not a valid image.');
-          }
+    data: function data() {
+        return {
+            u: null,
+            isProfile: true
         };
-
-        request.send();
-      } else {
-        this.setSVGContent(registeredIcons[this.mdSrc]);
-      }
     },
-    loadImage: function loadImage() {
-      this.imageSrc = this.mdSrc;
-    },
-    checkSrc: function checkSrc() {
-      if (this.mdSrc) {
-        if (this.mdSrc.indexOf('.svg') >= 0) {
-          this.loadSVG();
-        } else {
-          this.loadImage();
+    created: function created() {
+        if (this.user) {
+            this.u = JSON.parse(this.user);
+            this.isProfile = false;
         }
-      }
+
+        console.log(this.canEdit);
     }
-  },
-  mounted: function mounted() {
-    this.checkSrc();
-  }
 });
 
 /***/ }),
-/* 217 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(194)();
-exports.push([module.i, "/* Common */\n/* Responsive Breakpoints */\n/* Transitions - Based on Angular Material */\n/* Elevation - Based on Angular Material */\n.md-icon {\n  width: 24px;\n  min-width: 24px;\n  height: 24px;\n  min-height: 24px;\n  font-size: 24px;\n  margin: auto;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  fill: currentColor;\n  text-rendering: optimizeLegibility;\n  vertical-align: middle;\n}\n.md-icon.md-size-2x {\n    width: 48px;\n    min-width: 48px;\n    height: 48px;\n    min-height: 48px;\n    font-size: 48px;\n}\n.md-icon.md-size-3x {\n    width: 72px;\n    min-width: 72px;\n    height: 72px;\n    min-height: 72px;\n    font-size: 72px;\n}\n.md-icon.md-size-4x {\n    width: 96px;\n    min-width: 96px;\n    height: 96px;\n    min-height: 96px;\n    font-size: 96px;\n}\n.md-icon.md-size-5x {\n    width: 120px;\n    min-width: 120px;\n    height: 120px;\n    min-height: 120px;\n    font-size: 120px;\n}\n.md-icon svg {\n    width: 100%;\n    height: 100%;\n}\nimg.md-icon {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  -webkit-user-drag: none;\n}\n", ""]);
-
-/***/ }),
-/* 218 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(220)
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(216),
+  __webpack_require__(221),
   /* template */
-  __webpack_require__(219),
+  __webpack_require__(223),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\dev\\crm\\node_modules\\vue-material\\src\\components\\mdIcon\\mdIcon.vue"
+Component.options.__file = "D:\\dev\\crm\\resources\\assets\\js\\templates\\users\\Page.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] mdIcon.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] Page.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -58983,9 +58483,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5dfcdd88", Component.options)
+    hotAPI.createRecord("data-v-706baca2", Component.options)
   } else {
-    hotAPI.reload("data-v-5dfcdd88", Component.options)
+    hotAPI.reload("data-v-706baca2", Component.options)
   }
 })()}
 
@@ -58993,62 +58493,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 219 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.svgContent) ? _c('i', {
-    staticClass: "md-icon",
-    class: [_vm.themeClass],
-    domProps: {
-      "innerHTML": _vm._s(_vm.svgContent)
-    }
-  }) : (_vm.imageSrc) ? _c('md-image', {
-    staticClass: "md-icon",
-    class: [_vm.themeClass],
-    attrs: {
-      "md-src": _vm.imageSrc
-    }
-  }) : _c('i', {
-    staticClass: "md-icon",
-    class: [_vm.themeClass, _vm.mdIconset],
-    attrs: {
-      "aria-hidden": !!_vm.mdIconset
-    }
-  }, [_vm._t("default")], 2)
+  return _c('md-layout', {
+    staticClass: "page"
+  }, [_vm._v("\n    " + _vm._s(_vm.u.name) + "\n")])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5dfcdd88", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-706baca2", module.exports)
   }
-}
-
-/***/ }),
-/* 220 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(217);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(208)("45e577aa", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../css-loader/index.js!../../../../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5dfcdd88\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../sass-loader/lib/loader.js!./mdIcon.scss", function() {
-     var newContent = require("!!../../../../css-loader/index.js!../../../../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5dfcdd88\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../sass-loader/lib/loader.js!./mdIcon.scss");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
 }
 
 /***/ })

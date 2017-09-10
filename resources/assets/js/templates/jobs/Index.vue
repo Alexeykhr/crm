@@ -33,7 +33,7 @@
 
                             <md-button class="md-icon-button" v-if="canEdit" :href="'/jobs/' + job.id + '/edit'">
                                 <md-icon>edit</md-icon>
-                                <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
+                                <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
                             </md-button>
 
                             <md-button class="md-icon-button" v-if="canDelete && job.users_count < 1" @click="openDelete(index)">

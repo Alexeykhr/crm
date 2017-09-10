@@ -12,7 +12,9 @@
 @section('content')
 
     <roles-page i-user="{{ json_encode($me) }}"
+                in-role="{{ json_encode($role) }}"
                 action="{{ $action }}"
+                can-view="{{ $canView }}"
     ></roles-page>
 
 @endsection

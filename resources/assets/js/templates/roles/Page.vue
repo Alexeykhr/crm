@@ -9,6 +9,24 @@
                 <template v-else>
                     <h1 title="Створення ролі">Створення ролі</h1>
                 </template>
+
+                <span style="flex: 1"></span>
+
+                <template v-if="canEdit">
+                    <md-button class="md-icon-button" :href="'/roles/' + role.id + '/edit'">
+                        <md-icon>edit</md-icon>
+                        <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
+                    </md-button>
+                </template>
+
+                <!--TODO: canDelete, canTransfer with errors-->
+
+                <template v-if="canView">
+                    <md-button class="md-icon-button" :href="'/roles/' + role.id">
+                        <md-icon>remove_red_eye</md-icon>
+                        <md-tooltip md-direction="bottom">Переглянути</md-tooltip>
+                    </md-button>
+                </template>
             </div>
 
             <md-input-container :class="duplicateTitle ? 'md-input-invalid' : ''">
@@ -25,7 +43,22 @@
 
             <md-input-container>
                 <label>Рівень</label>
-                <md-textarea :readonly="action == 'view'" v-model="desc"></md-textarea>
+                <md-textarea :readonly="action == 'view'" v-model="level" required type="number"></md-textarea>
+            </md-input-container>
+
+            <md-input-container v-if="inRole">
+                <label>Користувачів</label>
+                <md-textarea v-model="role.users_count" readonly :disabled="action == 'edit'"></md-textarea>
+            </md-input-container>
+
+            <md-input-container v-if="inRole">
+                <label>Останнє оновлення</label>
+                <md-input v-model="role.updated_at" readonly :disabled="action == 'edit'"></md-input>
+            </md-input-container>
+
+            <md-input-container v-if="inRole">
+                <label>Створений</label>
+                <md-input v-model="role.created_at" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 
             <md-table>
@@ -91,12 +124,9 @@
 </template>
 
 <script>
-    import MdIcon from "../../../../../node_modules/vue-material/src/components/mdIcon/mdIcon.vue";
-
     export default {
-        components: {MdIcon},
         props: [
-            'iUser', 'inRole', 'action',
+            'iUser', 'inRole', 'action', 'canView', 'canEdit', 'canDelete', 'canTransfer',
         ],
 
         data() {
@@ -105,6 +135,7 @@
                 role: [],
                 title: '',
                 desc: '',
+                level: 1,
 
                 search: false,
                 duplicateTitle: false,
@@ -116,10 +147,11 @@
             this.me = JSON.parse(this.iUser);
 
             if (this.inRole) {
-                this.job = JSON.parse(this.inRole);
+                this.role = JSON.parse(this.inRole);
+                this.title = this.role.title;
+                this.desc = this.role.desc;
+                this.level = this.role.level;
             }
-
-            console.log(this.action);
         },
 
         methods: {
@@ -131,7 +163,7 @@
                 }
 
                 if (this.inRole) {
-                    if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
+                    if (this.role.title.toLowerCase() === this.title.toLowerCase()) {
                         return;
                     }
                 }

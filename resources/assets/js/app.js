@@ -32,8 +32,7 @@ Vue.component('navbar', require('./templates/header/Navbar.vue'));
 Vue.component('pagination', require('./templates/parts/Pagination.vue'));
 
 Vue.component('users', require('./templates/users/Index.vue'));
-Vue.component('profile', require('./templates/users/Profile.vue'));
-Vue.component('users-create', require('./templates/users/Create.vue'));
+Vue.component('users-page', require('./templates/users/Page.vue'));
 
 Vue.component('roles', require('./templates/roles/Index.vue'));
 Vue.component('roles-page', require('./templates/roles/Page.vue'));

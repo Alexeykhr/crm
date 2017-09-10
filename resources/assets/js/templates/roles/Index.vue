@@ -40,7 +40,7 @@
 
                             <md-button class="md-icon-button" v-if="canEdit" :href="'/roles/' + role.id + '/edit'">
                                 <md-icon>edit</md-icon>
-                                <md-tooltip md-direction="bottom">Відредагувати</md-tooltip>
+                                <md-tooltip md-direction="bottom">Редагувати</md-tooltip>
                             </md-button>
 
                             <md-button class="md-icon-button" v-if="canDelete && role.users_count < 1" @click="openDelete(index)">
@@ -50,7 +50,7 @@
 
                             <md-button class="md-icon-button" v-if="canTransfer && role.users_count > 0" @click="openTransfer(index)">
                                 <md-icon>people</md-icon>
-                                <md-tooltip md-direction="bottom">Перенести користувачів</md-tooltip>
+                                <md-tooltip md-direction="bottom">Трансфер</md-tooltip>
                             </md-button>
                         </md-table-cell>
                     </md-table-row>
