@@ -15,7 +15,7 @@
     <div id="app">
         @if (isset($me))
             <navbar firm="{{ config('app.name', 'CRM') }}"
-                    i-user="{{ $me }}"
+                    :me="{{ json_encode($me) }}"
                     btn-href="@yield('h-btn-href')"
                     btn-title="@yield('h-btn-title')"
                     btn-class="@yield('h-btn-class')"

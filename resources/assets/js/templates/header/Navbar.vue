@@ -79,18 +79,27 @@
 
 <script>
     export default {
-        props: [
-            'iUser', 'firm', 'btnHref', 'btnTitle', 'btnClass', 'btnIcon',
-        ],
-
-        data () {
-            return {
-                me: null,
-            }
-        },
-
-        created () {
-            this.me = JSON.parse(this.iUser);
+        props: {
+            me: {
+                type: Object,
+                required: true,
+            },
+            firm: {
+                type: String,
+                required: true,
+            },
+            btnHref: {
+                type: String,
+            },
+            btnTitle: {
+                type: String,
+            },
+            btnClass: {
+                type: String,
+            },
+            btnIcon: {
+                type: String,
+            },
         },
 
         methods: {

@@ -35,7 +35,7 @@ class CreateRolesTable extends Migration
             'acs_user' => 15,
             'acs_role' => 15,
             'acs_job' => 15,
-            'acs_calendar' => 1,
+            'acs_calendar' => 15,
             'acs_profile' => 1,
             'acs_log' => 1,
         ]);

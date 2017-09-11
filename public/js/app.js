@@ -27348,17 +27348,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'firm', 'btnHref', 'btnTitle', 'btnClass', 'btnIcon'],
-
-    data: function data() {
-        return {
-            me: null
-        };
+    props: {
+        me: {
+            type: Object,
+            required: true
+        },
+        firm: {
+            type: String,
+            required: true
+        },
+        btnHref: {
+            type: String
+        },
+        btnTitle: {
+            type: String
+        },
+        btnClass: {
+            type: String
+        },
+        btnIcon: {
+            type: String
+        }
     },
-    created: function created() {
-        this.me = JSON.parse(this.iUser);
-    },
-
 
     methods: {
         logout: function logout() {
