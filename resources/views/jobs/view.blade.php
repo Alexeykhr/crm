@@ -9,10 +9,10 @@
 
 @section('content')
 
-    <jobs-page in-job="{{ json_encode($job) }}"
+    <jobs-page :job="{{ json_encode($job) }}"
                action="{{ $action }}"
-               can-edit="{{ $canEdit }}"
-               can-create="{{ $canCreate }}"
+               :can-edit="{{ json_encode($canEdit) }}"
+               :can-create="{{ json_encode($canCreate) }}"
     ></jobs-page>
 
 @endsection

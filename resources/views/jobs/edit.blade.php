@@ -11,12 +11,12 @@
 
 @section('content')
 
-    <jobs-page in-job="{{ json_encode($job) }}"
+    <jobs-page :job="{{ json_encode($job) }}"
                action="{{ $action }}"
-               can-view="{{ $canView }}"
-               can-delete="{{ $canDelete }}"
-               can-transfer="{{ $canTransfer }}"
-               can-create="{{ $canCreate }}"
+               :can-view="{{ json_encode($canView) }}"
+               :can-delete="{{ json_encode($canDelete) }}"
+               :can-transfer="{{ json_encode($canTransfer) }}"
+               :can-create="{{ json_encode($canCreate) }}"
     ></jobs-page>
 
 @endsection

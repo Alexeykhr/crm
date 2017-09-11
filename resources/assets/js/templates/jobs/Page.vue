@@ -2,7 +2,7 @@
     <md-whiteframe md-elevation="2" class="page action">
         <form novalidate @submit.stop.prevent="submit">
             <div class="header">
-                <template v-if="inJob">
+                <template v-if="job">
                     <h1 :title="'Посада: #' + job.id">Посада: #{{ job.id }}</h1>
                 </template>
                 <template v-else>
@@ -31,7 +31,7 @@
                     <md-tooltip md-direction="bottom">Трансфер</md-tooltip>
                 </md-button>
 
-                <md-button v-if="inJob && canCreate" class="md-icon-button" href="/jobs/create">
+                <md-button v-if="canCreate" class="md-icon-button" href="/jobs/create">
                     <md-icon>add</md-icon>
                     <md-tooltip md-direction="bottom">Створити посаду</md-tooltip>
                 </md-button>
@@ -49,26 +49,26 @@
                 <md-textarea :readonly="action == 'view'" v-model="desc" maxlength="255"></md-textarea>
             </md-input-container>
 
-            <md-input-container v-if="inJob">
+            <md-input-container v-if="job">
                 <label>Кількість користувачів</label>
                 <md-input v-model="job.users_count" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 
-            <md-input-container v-if="inJob">
+            <md-input-container v-if="job">
                 <label>Останнє оновлення</label>
                 <md-input v-model="job.updated_at" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 
-            <md-input-container v-if="inJob">
+            <md-input-container v-if="job">
                 <label>Створений</label>
                 <md-input v-model="job.created_at" readonly :disabled="action == 'edit'"></md-input>
             </md-input-container>
 
-            <md-button v-if="action == 'create'" :disabled="search || this.title.length < 3"
+            <md-button v-if="action == 'create'" :disabled="search || title.length < 3"
                        class="md-raised md-primary btn-action" @click="createJob()">
                 Створити
             </md-button>
-            <md-button v-if="action == 'edit'" :disabled="search || this.title.length < 3"
+            <md-button v-if="action == 'edit'" :disabled="search || title.length < 3"
                        class="md-raised md-primary btn-action" @click="updateJob()">
                 Оновити
             </md-button>
@@ -118,13 +118,33 @@
 
 <script>
     export default {
-        props: [
-            'inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete', 'canCreate',
-        ],
+        props: {
+            job: {
+                type: Object,
+            },
+            action: {
+                type: String,
+                required: true,
+            },
+            canDelete: {
+                type: Boolean,
+            },
+            canEdit: {
+                type: Boolean,
+            },
+            canTransfer: {
+                type: Boolean,
+            },
+            canView: {
+                type: Boolean,
+            },
+            canCreate: {
+                type: Boolean,
+            },
+        },
 
         data() {
             return {
-                job: [],
                 title: '',
                 desc: '',
 
@@ -137,8 +157,7 @@
         },
 
         created() {
-            if (this.inJob) {
-                this.job = JSON.parse(this.inJob);
+            if (this.job) {
                 this.title = this.job.title;
                 this.desc = this.job.desc;
             }
@@ -152,7 +171,7 @@
                     return;
                 }
 
-                if (this.inJob) {
+                if (this.job) {
                     if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
                         return;
                     }

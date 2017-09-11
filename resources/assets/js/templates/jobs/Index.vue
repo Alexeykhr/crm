@@ -138,7 +138,7 @@
 
         data() {
             return {
-                jobs: [],
+                jobs: this.inJobs,
 
                 q: '',
                 count: 10,
@@ -152,10 +152,6 @@
                 transferJob: null,
                 transferIndex: -1,
             }
-        },
-
-        created() {
-            this.jobs = this.inJobs;
         },
 
         methods: {

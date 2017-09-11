@@ -27515,7 +27515,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            jobs: [],
+            jobs: this.inJobs,
 
             q: '',
             count: 10,
@@ -27529,9 +27529,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             transferJob: null,
             transferIndex: -1
         };
-    },
-    created: function created() {
-        this.jobs = this.inJobs;
     },
 
 
@@ -27795,11 +27792,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete', 'canCreate'],
+    props: {
+        job: {
+            type: Object
+        },
+        action: {
+            type: String,
+            required: true
+        },
+        canDelete: {
+            type: Boolean
+        },
+        canEdit: {
+            type: Boolean
+        },
+        canTransfer: {
+            type: Boolean
+        },
+        canView: {
+            type: Boolean
+        },
+        canCreate: {
+            type: Boolean
+        }
+    },
 
     data: function data() {
         return {
-            job: [],
             title: '',
             desc: '',
 
@@ -27811,8 +27830,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     created: function created() {
-        if (this.inJob) {
-            this.job = JSON.parse(this.inJob);
+        if (this.job) {
             this.title = this.job.title;
             this.desc = this.job.desc;
         }
@@ -27829,7 +27847,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            if (this.inJob) {
+            if (this.job) {
                 if (this.job.title.toLowerCase() === this.title.toLowerCase()) {
                     return;
                 }
@@ -58757,7 +58775,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "header"
-  }, [(_vm.inJob) ? [_c('h1', {
+  }, [(_vm.job) ? [_c('h1', {
     attrs: {
       "title": 'Посада: #' + _vm.job.id
     }
@@ -58809,7 +58827,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-direction": "bottom"
     }
-  }, [_vm._v("Трансфер")])], 1) : _vm._e(), _vm._v(" "), (_vm.inJob && _vm.canCreate) ? _c('md-button', {
+  }, [_vm._v("Трансфер")])], 1) : _vm._e(), _vm._v(" "), (_vm.canCreate) ? _c('md-button', {
     staticClass: "md-icon-button",
     attrs: {
       "href": "/jobs/create"
@@ -58853,7 +58871,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "desc"
     }
-  })], 1), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Кількість користувачів")]), _vm._v(" "), _c('md-input', {
+  })], 1), _vm._v(" "), (_vm.job) ? _c('md-input-container', [_c('label', [_vm._v("Кількість користувачів")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "readonly": "",
       "disabled": _vm.action == 'edit'
@@ -58865,7 +58883,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "job.users_count"
     }
-  })], 1) : _vm._e(), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Останнє оновлення")]), _vm._v(" "), _c('md-input', {
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.job) ? _c('md-input-container', [_c('label', [_vm._v("Останнє оновлення")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "readonly": "",
       "disabled": _vm.action == 'edit'
@@ -58877,7 +58895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "job.updated_at"
     }
-  })], 1) : _vm._e(), _vm._v(" "), (_vm.inJob) ? _c('md-input-container', [_c('label', [_vm._v("Створений")]), _vm._v(" "), _c('md-input', {
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.job) ? _c('md-input-container', [_c('label', [_vm._v("Створений")]), _vm._v(" "), _c('md-input', {
     attrs: {
       "readonly": "",
       "disabled": _vm.action == 'edit'
@@ -58892,7 +58910,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1) : _vm._e(), _vm._v(" "), (_vm.action == 'create') ? _c('md-button', {
     staticClass: "md-raised md-primary btn-action",
     attrs: {
-      "disabled": _vm.search || this.title.length < 3
+      "disabled": _vm.search || _vm.title.length < 3
     },
     on: {
       "click": function($event) {
@@ -58902,7 +58920,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n            Створити\n        ")]) : _vm._e(), _vm._v(" "), (_vm.action == 'edit') ? _c('md-button', {
     staticClass: "md-raised md-primary btn-action",
     attrs: {
-      "disabled": _vm.search || this.title.length < 3
+      "disabled": _vm.search || _vm.title.length < 3
     },
     on: {
       "click": function($event) {

@@ -156,10 +156,10 @@ class JobController extends Controller
             'job'         => $job,
             'action'      => 'edit',
             'canView'     => $this->access($me->role->acs_job, 'view'),
-            'canDelete'   => $this->access($me->role->acs_role, 'delete'),
-            'canTransfer' => $this->access($me->role->acs_role, 'edit')
+            'canCreate'   => $this->access($me->role->acs_job, 'create'),
+            'canDelete'   => $this->access($me->role->acs_job, 'delete'),
+            'canTransfer' => $this->access($me->role->acs_job, 'edit')
                 && $this->access($me->role->acs_user, 'edit'),
-            'canCreate'   => $this->access($me->role->acs_role, 'create'),
         ]);
     }
 
