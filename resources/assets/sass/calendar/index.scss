@@ -4,18 +4,20 @@
   margin: 0 auto;
   @include media-down(sm) {
     flex-direction: column;
+    margin: 10px;
+    overflow: auto;
   }
 
   > .left-column {
     width: 100%;
-    padding: 100px 50px;
+    margin: 100px 50px;
     max-width: 570px;
     @include media-down(lg) {
-      padding: 50px 25px;
+      margin: 50px 25px;
     }
     @include media-down(sm) {
       max-width: none;
-      padding: 20px;
+      margin: 0 0 20px;
     }
 
     > .header {
@@ -110,13 +112,15 @@
   }
 
   > .right-column {
-    padding: 100px 50px;
+    margin: 100px 50px;
     width: 100%;
+    overflow: hidden;
+    background: #fff;
     @include media-down(lg) {
-      padding: 50px 25px;
+      margin: 50px 25px;
     }
     @include media-down(sm) {
-      padding: 0 20px 20px;
+      margin: 0;
     }
 
     > .header {
@@ -126,11 +130,28 @@
       display: flex;
       align-items: center;
       > span {
-        display: block;
-        color: #fff;
-        font-size: 20px;
-        text-align: center;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 18px;
+        padding: 0 20px;
         width: 100%;
+        font-weight: bold;
+      }
+      i {
+        color: #fff;
+        background: rgba(0,0,0,.5);
+        height: 100%;
+        min-width: 50px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    > .body {
+      .item {
+        border-bottom: 1px solid #efefef;
+        &:last-child {
+          border-bottom: 0;
+        }
       }
     }
   }

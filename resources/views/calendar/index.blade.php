@@ -4,10 +4,10 @@
 
 @section('content')
 
-    <calendar i-user="{{ json_encode($me) }}"
-              in-users="{{ json_encode($users) }}"
-              in-month="{{ $month }}"
-              in-year="{{ $year }}"
+    <calendar :me="{{ json_encode($me) }}"
+              :in-users="{{ json_encode($users) }}"
+              :in-month="{{ json_encode($month) }}"
+              :in-year="{{ json_encode($year) }}"
     ></calendar>
 
 @endsection

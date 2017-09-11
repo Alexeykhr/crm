@@ -6,7 +6,7 @@
                     <md-icon>keyboard_arrow_left</md-icon>
                 </md-button>
 
-                <span>{{ selectedMonth }}</span>
+                <span>{{ selected }}</span>
 
                 <md-button @click="next()" class="md-raised">
                     <md-icon>keyboard_arrow_right</md-icon>
@@ -32,68 +32,78 @@
             </div>
         </div>
 
-        <div class="right-column">
+        <md-whiteframe md-elevation="1" class="phone-viewport right-column">
             <div class="header">
-                <span v-if="selectedDay">{{ formatSelectedDay() }}</span>
-                <span v-else>Виберіть день</span>
+                <md-icon>cake</md-icon>
+                <span>Дні народження</span>
             </div>
 
             <div class="body">
-                <md-whiteframe md-elevation="2" class="phone-viewport">
-                    <md-list class="md-double-line">
-                        <md-list-item v-for="(user, index) in selectedUsers" :key="index">
-                            <md-avatar>
-                                <img :src="user.photo ? user.photo : 'img/user.png'" :alt="user.name">
-                            </md-avatar>
+                <md-list class="md-double-line">
+                    <md-list-item v-for="(user, index) in selectedUsers" :key="index" class="item">
+                        <md-avatar>
+                            <img :src="user.photo ? user.photo : 'img/user.png'" :alt="user.name">
+                        </md-avatar>
 
-                            <div class="md-list-text-container">
-                                <span>{{ user.name }}</span>
-                                <span>{{ formatBirthday(user.birth) }}</span>
-                            </div>
+                        <div class="md-list-text-container">
+                            <span :title="user.name">{{ user.name }}</span>
+                            <span>{{ formatBirthday(user.birth) }}</span>
+                        </div>
 
-                            <md-icon>cake</md-icon>
-                        </md-list-item>
-                    </md-list>
-                </md-whiteframe>
+                        <md-button class="md-icon-button" :href="'/users/' + user.id">
+                            <md-icon>remove_red_eye</md-icon>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
             </div>
-        </div>
+        </md-whiteframe>
     </div>
 </template>
 
 <script>
     export default {
-        props: [
-            'iUser', 'inUsers', 'inMonth', 'inYear',
-        ],
+        props: {
+            me: {
+                type: Object,
+                required: true,
+            },
+            inUsers: {
+                type: Array,
+                required: true,
+            },
+            inMonth: {
+                type: Number,
+                required: true,
+            },
+            inYear: {
+                type: Number,
+                required: true,
+            },
+        },
 
         data() {
             return {
-                me: [],
-                users: [],
-                month: 0,
-                year: 0,
+                users: this.inUsers,
+                month: this.inMonth,
+                year: this.inYear,
 
                 sortableUsers: [],
                 daysEmpty: 0,
                 daysInMonth: 0,
 
-                selectedMonth: '00 / 0000',
+                selected: '00 / 0000',
                 selectedDay: null,
                 selectedUsers: [],
             }
         },
 
         created() {
-            this.me = JSON.parse(this.iUser);
-            this.month = this.inMonth;
-            this.year = this.inYear;
-
-            this.sortUsers(JSON.parse(this.inUsers));
+            this.sortUsers(this.users);
 
             this.daysInMonth = moment().daysInMonth();
             this.daysEmpty = moment().date(1).weekday();
 
-            this.selectedMonth = this.month + ' / ' + this.year;
+            this.selected = this.month + ' / ' + this.year;
 
             this.selectDay(moment().date());
         },
@@ -142,10 +152,9 @@
                         month: this.month,
                     }
                 })
-                    .then(res => this.sortUsers(res.data))
-                    .catch(error => console.log('Error: ' + this.error));
+                    .then(res => this.sortUsers(res.data));
 
-                this.selectedMonth = this.month + ' / ' + this.year;
+                this.selected = this.month + ' / ' + this.year;
                 this.daysEmpty = moment(this.year+'.'+this.month+'.1', 'YYYY.MM.DD').weekday();
             },
             sortUsers(users) {

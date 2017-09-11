@@ -88,18 +88,21 @@
 </template>
 
 <script>
-    let moment = require('moment');
-    moment.locale('uk');
-
     export default {
-        props: [
-            'iUser', 'inLogs',
-        ],
+        props: {
+            me: {
+                type: Object,
+                required: true,
+            },
+            inLogs: {
+                type: Object,
+                required: true,
+            },
+        },
 
         data () {
             return {
-                me: [],
-                logs: [],
+                logs: this.inLogs,
 
                 qUser: '',
                 qDesc: '',
@@ -107,11 +110,6 @@
                 action: '',
                 count: 10,
             }
-        },
-
-        created () {
-            this.me = JSON.parse(this.iUser);
-            this.logs = JSON.parse(this.inLogs);
         },
 
         methods: {
@@ -129,8 +127,7 @@
                         page: page,
                     }
                 })
-                    .then(res => this.logs = res.data)
-                    .catch(error => console.log(this.error));
+                    .then(res => this.logs = res.data);
 
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);

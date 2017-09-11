@@ -27127,35 +27127,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inUsers', 'inMonth', 'inYear'],
+    props: {
+        me: {
+            type: Object,
+            required: true
+        },
+        inUsers: {
+            type: Array,
+            required: true
+        },
+        inMonth: {
+            type: Number,
+            required: true
+        },
+        inYear: {
+            type: Number,
+            required: true
+        }
+    },
 
     data: function data() {
         return {
-            me: [],
-            users: [],
-            month: 0,
-            year: 0,
+            users: this.inUsers,
+            month: this.inMonth,
+            year: this.inYear,
 
             sortableUsers: [],
             daysEmpty: 0,
             daysInMonth: 0,
 
-            selectedMonth: '00 / 0000',
+            selected: '00 / 0000',
             selectedDay: null,
             selectedUsers: []
         };
     },
     created: function created() {
-        this.me = JSON.parse(this.iUser);
-        this.month = this.inMonth;
-        this.year = this.inYear;
-
-        this.sortUsers(JSON.parse(this.inUsers));
+        this.sortUsers(this.users);
 
         this.daysInMonth = moment().daysInMonth();
         this.daysEmpty = moment().date(1).weekday();
 
-        this.selectedMonth = this.month + ' / ' + this.year;
+        this.selected = this.month + ' / ' + this.year;
 
         this.selectDay(moment().date());
     },
@@ -27208,11 +27220,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (res) {
                 return _this.sortUsers(res.data);
-            }).catch(function (error) {
-                return console.log('Error: ' + _this.error);
             });
 
-            this.selectedMonth = this.month + ' / ' + this.year;
+            this.selected = this.month + ' / ' + this.year;
             this.daysEmpty = moment(this.year + '.' + this.month + '.1', 'YYYY.MM.DD').weekday();
         },
         sortUsers: function sortUsers(users) {
@@ -28093,16 +28103,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var moment = __webpack_require__(0);
-moment.locale('uk');
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['iUser', 'inLogs'],
+    props: {
+        me: {
+            type: Object,
+            required: true
+        },
+        inLogs: {
+            type: Object,
+            required: true
+        }
+    },
 
     data: function data() {
         return {
-            me: [],
-            logs: [],
+            logs: this.inLogs,
 
             qUser: '',
             qDesc: '',
@@ -28110,10 +28125,6 @@ moment.locale('uk');
             action: '',
             count: 10
         };
-    },
-    created: function created() {
-        this.me = JSON.parse(this.iUser);
-        this.logs = JSON.parse(this.inLogs);
     },
 
 
@@ -28137,8 +28148,6 @@ moment.locale('uk');
                 }
             }).then(function (res) {
                 return _this.logs = res.data;
-            }).catch(function (error) {
-                return console.log(_this.error);
             });
 
             $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
@@ -57616,7 +57625,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.prev()
       }
     }
-  }, [_c('md-icon', [_vm._v("keyboard_arrow_left")])], 1), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.selectedMonth))]), _vm._v(" "), _c('md-button', {
+  }, [_c('md-icon', [_vm._v("keyboard_arrow_left")])], 1), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.selected))]), _vm._v(" "), _c('md-button', {
     staticClass: "md-raised",
     on: {
       "click": function($event) {
@@ -57640,22 +57649,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('span', [_vm._v(_vm._s(day))])])
-  })], 2)])]), _vm._v(" "), _c('div', {
-    staticClass: "right-column"
+  })], 2)])]), _vm._v(" "), _c('md-whiteframe', {
+    staticClass: "phone-viewport right-column",
+    attrs: {
+      "md-elevation": "1"
+    }
   }, [_c('div', {
     staticClass: "header"
-  }, [(_vm.selectedDay) ? _c('span', [_vm._v(_vm._s(_vm.formatSelectedDay()))]) : _c('span', [_vm._v("Виберіть день")])]), _vm._v(" "), _c('div', {
+  }, [_c('md-icon', [_vm._v("cake")]), _vm._v(" "), _c('span', [_vm._v("Дні народження")])], 1), _vm._v(" "), _c('div', {
     staticClass: "body"
-  }, [_c('md-whiteframe', {
-    staticClass: "phone-viewport",
-    attrs: {
-      "md-elevation": "2"
-    }
   }, [_c('md-list', {
     staticClass: "md-double-line"
   }, _vm._l((_vm.selectedUsers), function(user, index) {
     return _c('md-list-item', {
-      key: index
+      key: index,
+      staticClass: "item"
     }, [_c('md-avatar', [_c('img', {
       attrs: {
         "src": user.photo ? user.photo : 'img/user.png',
@@ -57663,8 +57671,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })]), _vm._v(" "), _c('div', {
       staticClass: "md-list-text-container"
-    }, [_c('span', [_vm._v(_vm._s(user.name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.formatBirthday(user.birth)))])]), _vm._v(" "), _c('md-icon', [_vm._v("cake")])], 1)
-  }))], 1)], 1)])])
+    }, [_c('span', {
+      attrs: {
+        "title": user.name
+      }
+    }, [_vm._v(_vm._s(user.name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.formatBirthday(user.birth)))])]), _vm._v(" "), _c('md-button', {
+      staticClass: "md-icon-button",
+      attrs: {
+        "href": '/users/' + user.id
+      }
+    }, [_c('md-icon', [_vm._v("remove_red_eye")])], 1)], 1)
+  }))], 1)])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "weeks"
