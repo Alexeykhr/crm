@@ -84,7 +84,7 @@
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('delete')">Ні</md-button>
                 <md-button v-if="delIndex > -1" class="md-raised md-primary"
-                           @click="deleteJob(jobs.data[delIndex].id, delIndex);">
+                           @click="deleteJob();">
                     Видалити
                 </md-button>
             </md-dialog-actions>
@@ -105,7 +105,7 @@
             <md-dialog-actions>
                 <md-button class="md-primary" @click="closeDialog('transfer')">Ні</md-button>
                 <md-button v-if="transferIndex > -1 && transferJob" class="md-raised md-primary"
-                           @click="transferUsers(jobs.data[transferIndex].id, transferJob, transferIndex);">
+                           @click="transferUsers();">
                     Трансфер
                 </md-button>
             </md-dialog-actions>
@@ -120,9 +120,21 @@
 
 <script>
     export default {
-        props: [
-            'iUser', 'inJobs', 'canDelete', 'canEdit', 'canTransfer',
-        ],
+        props: {
+            inJobs: {
+                type: Object,
+                required: true,
+            },
+            canDelete: {
+                type: Boolean,
+            },
+            canEdit: {
+                type: Boolean,
+            },
+            canTransfer: {
+                type: Boolean,
+            }
+        },
 
         data() {
             return {
@@ -143,7 +155,7 @@
         },
 
         created() {
-            this.jobs = JSON.parse(this.inJobs);
+            this.jobs = this.inJobs;
         },
 
         methods: {
@@ -163,11 +175,11 @@
                 $('body').animate({ scrollTop: $('.right-column')[0].offsetHeight + 48 }, 100);
                 $('.md-table').animate({ scrollTop: 0 }, 100);
             },
-            deleteJob(id, index) {
-                axios.delete('/jobs/' + id)
+            deleteJob() {
+                axios.delete('/jobs/' + this.jobs.data[this.delIndex].id)
                     .then(res => {
                         if (res.data == 1) {
-                            this.jobs.data.splice(index, 1);
+                            this.jobs.data.splice(this.delIndex, 1);
                             this.response = 'Посада успішно видалена';
 
                             this.$refs.snackbar.open();
@@ -183,7 +195,7 @@
 
                         switch (error.response.data.error[0]) {
                             case 'validation.empty':
-                                this.response = 'Посади не існує';
+                                this.response = 'Посада не знайдена';
                                 break;
 
                             case 'validation.exists_users':
@@ -197,16 +209,16 @@
                         this.$refs.snackbar.open();
                     });
             },
-            transferUsers(fromId, transferJob, index) {
-                transferJob = transferJob.toString().toLowerCase();
+            transferUsers() {
+                let transferJob = this.transferJob.toString().toLowerCase();
 
                 axios.post('/jobs.transfer', {
-                    from: fromId.toString(),
+                    from: this.jobs.data[this.transferIndex].id.toString(),
                     to: transferJob,
                 })
                     .then(res => {
                         if (res.data > 0) {
-                            this.jobs.data[index].users_count = 0;
+                            this.jobs.data[this.transferIndex].users_count = 0;
 
                             this.jobs.data.forEach((obj, index) => {
                                 if (obj.id == transferJob || obj.title.toLowerCase() == transferJob) {

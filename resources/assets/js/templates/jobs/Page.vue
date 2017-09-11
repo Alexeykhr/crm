@@ -31,7 +31,7 @@
                     <md-tooltip md-direction="bottom">Трансфер</md-tooltip>
                 </md-button>
 
-                <md-button v-if="inJob" class="md-icon-button" href="/jobs/create">
+                <md-button v-if="inJob && canCreate" class="md-icon-button" href="/jobs/create">
                     <md-icon>add</md-icon>
                     <md-tooltip md-direction="bottom">Створити посаду</md-tooltip>
                 </md-button>
@@ -119,7 +119,7 @@
 <script>
     export default {
         props: [
-            'inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete',
+            'inJob', 'action', 'canEdit', 'canView', 'canTransfer', 'canDelete', 'canCreate',
         ],
 
         data() {
@@ -191,6 +191,7 @@
                 })
                     .then(res => {
                         this.response = 'Посада оновлена';
+                        this.job.updated_at = moment().format('YYYY-MM-DD HH:mm:ss');
                         this.$refs.snackbar.open();
                     })
                     .catch(error => this.parseError(error));
@@ -276,7 +277,7 @@
                 else if (error.response.data.error) {
                     switch (error.response.data.error[0]) {
                         case 'validation.empty':
-                            this.response = 'Посади не існує';
+                            this.response = 'Посада не знайдена';
                             break;
 
                         case 'validation.exists_users':

@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <users-page i-user="{{ json_encode($me) }}"
+    <users-page in-user="{{ json_encode($user) }}"
                 action="{{ $action }}"
     ></users-page>
 

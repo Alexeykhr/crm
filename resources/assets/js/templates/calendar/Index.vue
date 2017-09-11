@@ -61,9 +61,6 @@
 </template>
 
 <script>
-    let moment = require('moment');
-    moment.locale('uk');
-
     export default {
         props: [
             'iUser', 'inUsers', 'inMonth', 'inYear',

@@ -12,6 +12,7 @@
     <jobs-page in-job="{{ json_encode($job) }}"
                action="{{ $action }}"
                can-edit="{{ $canEdit }}"
+               can-create="{{ $canCreate }}"
     ></jobs-page>
 
 @endsection

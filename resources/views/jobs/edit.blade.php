@@ -16,6 +16,7 @@
                can-view="{{ $canView }}"
                can-delete="{{ $canDelete }}"
                can-transfer="{{ $canTransfer }}"
+               can-create="{{ $canCreate }}"
     ></jobs-page>
 
 @endsection

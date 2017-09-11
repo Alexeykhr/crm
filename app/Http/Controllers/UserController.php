@@ -145,6 +145,7 @@ class UserController extends Controller
 
         return view('users.view', [
             'me'      => $me,
+            'user'    => $me,
             'canEdit' => $me->role->acs_profile,
             'action'  => 'view',
         ]);

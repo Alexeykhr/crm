@@ -208,10 +208,10 @@
                 $('.md-table').animate({ scrollTop: 0 }, 100);
             },
             deleteUser() {
-                axios.delete('/users/' + id)
+                axios.delete('/users/' + users.data[delIndex].id)
                     .then(res => {
                         if (res.data == 1) {
-                            this.users.data.splice(index, 1);
+                            this.users.data.splice(delIndex, 1);
                             this.response = 'Користувач успішно видалений';
 
                             this.$refs.snackbar.open();
@@ -226,12 +226,16 @@
                         }
 
                         switch (error.response.data.error[0]) {
-                            case 'validation.empty':
-                                this.response = 'Посади не існує';
+                            case 'validation.id1':
+                                this.response = 'Користувача під #1 неможливо видалити';
                                 break;
 
-                            case 'validation.exists_users':
-                                this.response = 'Користувачі прікріплені на цю посаду';
+                            case 'validation.empty':
+                                this.response = 'Користувач не знайдений';
+                                break;
+
+                            case 'validation.level':
+                                this.response = 'Немає доступу, рівень менше';
                                 break;
 
                             default:
