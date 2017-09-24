@@ -43,7 +43,7 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
 $factory->define(App\Role::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->unique()->jobTitle,
-        'level' => mt_rand(0, 9),
+        'level' => mt_rand(0, 10),
         'color' => $faker->rgbColor,
         'desc' => $faker->text(255),
     ];

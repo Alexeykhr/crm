@@ -112,7 +112,7 @@
             eventClass(day) {
                 let classes = 'item';
 
-                if (this.sortableUsers[day] != null) {
+                if (this.sortableUsers[day]) {
                     classes += ' event';
                 }
 
@@ -164,7 +164,7 @@
                 for (let i = 0; i < count; i++) {
                     let date = moment(users[i].birth).date();
 
-                    if (arr[date] == null) {
+                    if (! arr[date]) {
                         arr[date] = [];
                     }
 
