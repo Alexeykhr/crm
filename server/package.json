@@ -18,7 +18,7 @@
         "moment": "^2.18.1",
         "socket.io": "^2.0.3",
         "vue": "^2.1.10",
-        "vue-material": "^0.7.5",
-        "vue-socket.io": "^2.1.1"
+        "vue-socket.io": "^2.1.1",
+        "vuetify": "^0.15.7"
     }
 }
