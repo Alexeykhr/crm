@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Tymon\JWTAuth\JWTAuth;
+use JWTAuth;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api')->only('logout');
-    }
-
     /**
      * Authenticate an user.
      *
@@ -24,31 +20,27 @@ class AuthController extends Controller
         $credentials = $request->only('nickname', 'password');
 
         $validator = Validator::make($credentials, [
-            'nickname' => 'required',
-            'password' => 'required'
+            'nickname' => 'required|between:3,40',
+            'password' => 'required|between:6,60'
         ]);
 
         if ($validator->fails()) {
-            return response()
-                ->json([
-                    'code' => 1,
-                    'message' => 'Validation failed.',
-                    'errors' => $validator->errors()
-                ], 422);
+            return response()->json(['error' => ['message' => $validator->errors()]], 422);
         }
 
         $token = JWTAuth::attempt($credentials);
 
+        // TODO: Get all permissions for user
+
         if ($token) {
-            return response()->json(['token' => $token]);
+            return response()->json(['response' => ['token' => $token]]);
         } else {
-            return response()->json(['code' => 2, 'message' => 'Invalid credentials.'], 401);
+            return response()->json(['error' => ['message' => 'Невірний логін або пароль.']], 401);
         }
     }
 
-    // TODO: make validator method
-
     /**
+     * TODO: temporary..
      * Get the user by token.
      *
      * @param  Request  $request
@@ -58,6 +50,6 @@ class AuthController extends Controller
     {
         JWTAuth::setToken($request->input('token'));
         $user = JWTAuth::toUser();
-        return response()->json($user);
+        return response()->json([$user]);
     }
 }

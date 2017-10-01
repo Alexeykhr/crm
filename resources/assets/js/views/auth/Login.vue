@@ -41,8 +41,9 @@
 
                 post('api/login', this.form)
                     .then(res => {
-                        console.log(res);
-                        if(res.data.authenticated) {
+                        console.log(res.data.response);
+                        console.log(res.data.response.token);
+                        if (res.data.authenticated) {
                             Auth.set(res.data.api_token, res.data.user_id);
                             Flash.setSuccess('You have successfully logged in.');
                             this.$router.push('/');
@@ -50,7 +51,7 @@
                         this.isProcessing = false;
                     })
                     .catch(err => {
-                        if(err.response.status === 422) {
+                        if (err.response.status === 422) {
                             this.error = err.response.data;
                         }
                         this.isProcessing = false;
