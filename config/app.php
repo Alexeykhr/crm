@@ -181,6 +181,7 @@ return [
          * Custom
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class
 
     ],
 
@@ -234,7 +235,9 @@ return [
         /*
          * Custom
          */
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
 
     ],
 
