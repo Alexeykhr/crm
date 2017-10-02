@@ -1,25 +1,35 @@
 <template>
-    <form class="form" @submit.prevent="login">
-        <h1 class="form__title">Welcome back!</h1>
+    <form class="form auth" @submit.prevent="login">
+        <h2>Авторизація</h2>
+
         <div class="form__group">
-            <label>Nickname</label>
-            <input type="text" class="form__control" v-model="form.nickname">
-            <small class="error__control" v-if="error.nickname">{{error.nickname[0]}}</small>
+            <v-text-field
+                label="Логін"
+                v-model="form.nickname"
+                single-line
+                prepend-icon="perm_identity"
+                required
+            ></v-text-field>
+
+            <v-text-field
+                label="Пароль"
+                v-model="form.password"
+                single-line
+                prepend-icon="lock_outline"
+                required
+            ></v-text-field>
+
+            <v-btn @click.prevent="login" block primary light :disabled="isProcessing">Увійти</v-btn>
         </div>
-        <div class="form__group">
-            <label>Password</label>
-            <input type="password" class="form__control" v-model="form.password">
-            <small class="error__control" v-if="error.password">{{error.password[0]}}</small>
-        </div>
-        <div class="form__group">
-            <button :disabled="isProcessing" class="btn btn__primary">Login</button>
-        </div>
+
+        <v-snackbar v-model="snackbar.model">
+            {{ snackbar.text }}
+        </v-snackbar>
     </form>
 </template>
 
 <script>
     import Auth from '../../store/auth';
-    import Flash from '../../helpers/flash';
     import { post } from '../../helpers/api';
 
     export default {
@@ -27,9 +37,12 @@
             return {
                 form: {
                     nickname: '',
-                    password: ''
+                    password: '',
                 },
-                error: {},
+                snackbar: {
+                    model: false,
+                    text: '',
+                },
                 isProcessing: false,
             }
         },
@@ -37,22 +50,21 @@
         methods: {
             login() {
                 this.isProcessing = true;
-                this.error = {};
 
                 post('api/login', this.form)
                     .then(res => {
-                        console.log(res.data.response);
-                        console.log(res.data.response.token);
-                        if (res.data.authenticated) {
-                            Auth.set(res.data.api_token, res.data.user_id);
-                            Flash.setSuccess('You have successfully logged in.');
+                        if (res.data.response.token) {
+                            Auth.set(res.data.response.token, res.data.response.user);
                             this.$router.push('/');
                         }
+
                         this.isProcessing = false;
                     })
                     .catch(err => {
-                        if (err.response.status === 422) {
-                            this.error = err.response.data;
+                        if (err.response.data.error.message) {
+                            this.snackbar.model = true;
+                            this.snackbar.text = err.response.data.error.message;
+                            // TODO: show normalize errors (other file*)
                         }
                         this.isProcessing = false;
                     })

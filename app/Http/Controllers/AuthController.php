@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use JWTAuth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -33,7 +34,11 @@ class AuthController extends Controller
         // TODO: Get all permissions for user
 
         if ($token) {
-            return response()->json(['response' => ['token' => $token]]);
+            return response()->json(['response' => [
+                'message' => 'Ви успішно увійшли в систему',
+                'token' => $token,
+                'user' => Auth::user()
+            ]]);
         } else {
             return response()->json(['error' => ['message' => 'Невірний логін або пароль.']], 401);
         }

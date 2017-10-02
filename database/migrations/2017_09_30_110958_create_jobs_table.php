@@ -30,7 +30,7 @@ class CreateJobsTable extends Migration
             $table->foreign('job_id')->references('id')->on('jobs')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->primary(['user_id', 'role_id']);
+            $table->primary(['user_id', 'job_id']);
         });
     }
 
