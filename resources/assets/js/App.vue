@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-app v-if="this.authState.token" toolbar>
-            <v-navigation-drawer absolute persistent light :mini-variant.sync="mini" v-model="drawer" overflow>
+        <v-app v-if="this.authState.token && this.authState.user" light toolbar>
+            <v-navigation-drawer hide-overlay persistent clipped :mini-variant.sync="mini" v-model="drawer">
                 <v-toolbar flat class="transparent">
                     <v-list class="pa-0">
                         <v-list-tile avatar>
@@ -19,7 +19,7 @@
                         </v-list-tile>
                     </v-list>
                 </v-toolbar>
-                <v-list class="pt-0" dense>
+                <v-list class="pt-0" @click.native.stop="mini = true">
                     <v-divider></v-divider>
                     <v-list-tile v-for="item in items" :key="item.title" :to="item.href">
                         <v-list-tile-action>
@@ -31,9 +31,19 @@
                     </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
-            <v-toolbar fixed class="indigo darken-4" dark>
+            <v-toolbar fixed dark>
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <v-toolbar-title>Toolbar</v-toolbar-title>
+                <v-toolbar-title>CRM</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <v-icon>search</v-icon>
+                </v-btn>
+                <v-btn icon>
+                    <v-icon>notifications_none</v-icon>
+                </v-btn>
+                <v-btn icon>
+                    <v-icon>more_vert</v-icon>
+                </v-btn>
             </v-toolbar>
             <main>
                 <v-container fluid>
@@ -61,8 +71,16 @@
 
                 drawer: true,
                 items: [
-                    { title: 'Головна сторінка', href: '/', icon: 'dashboard' },
-                    { title: 'Профіль', href: '/profile', icon: 'dashboard' },
+                    { title: 'Головна сторінка', href: '/dashboard', icon: 'dashboard' },
+                    { title: 'Профіль', href: '/profile', icon: 'perm_identity' },
+                    { title: 'Чат', href: '/char', icon: 'chat' },
+                    { title: 'Новини', href: '/news', icon: 'book' },
+                    { title: 'Користувачі', href: '/users', icon: 'people' },
+                    { title: 'Посади', href: '/jobs', icon: 'work' },
+                    { title: 'Сховище', href: '/dir', icon: 'storage' },
+                    { title: 'Календар', href: '/calendar', icon: 'event' },
+                    { title: 'Журнал', href: '/logs', icon: 'history' },
+                    { title: 'Статистика', href: '/statistics', icon: 'insert_chart' },
                 ],
                 mini: true,
             }

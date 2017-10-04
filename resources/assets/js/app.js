@@ -1,12 +1,20 @@
+// Other libs
+window._ = require('lodash');
+window.$ = window.jQuery = require('jquery');
+window.axios = require('axios');
+
+// Other config
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// Vue libs
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
+// Vue files
 import App from './App.vue'
 import router from './router/index';
 
-require('./bootstrap');
-
-// window.Vue = require('vue');
+// Vue use
 Vue.use(Vuetify);
 
 const app = new Vue({

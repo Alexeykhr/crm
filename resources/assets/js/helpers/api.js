@@ -6,7 +6,7 @@ export function get(url) {
         method: 'GET',
         url: url,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.api_token
+            'Authorization': 'Bearer ' + Auth.state.token
         }
     });
 }
@@ -17,7 +17,7 @@ export function post(url, data) {
         url: url,
         data: data,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.api_token
+            'Authorization': 'Bearer ' + Auth.state.token
         }
     })
 }
@@ -27,7 +27,7 @@ export function del(url) {
         method: 'DELETE',
         url: url,
         headers: {
-            'Authorization': 'Bearer ' + Auth.state.api_token
+            'Authorization': 'Bearer ' + Auth.state.token
         }
     })
 }

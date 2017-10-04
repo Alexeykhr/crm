@@ -12,8 +12,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Profile }, // Temporary
-        { path: '/login', component: Login },
+        { path: '/', component: Login },
+        { path: '/dashboard', component: Users }, // Temporary
         { path: '/users', component: Users },
         { path: '/profile', component: Profile },
         { path: '*', component: NotFound },
