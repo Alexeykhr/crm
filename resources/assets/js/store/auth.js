@@ -5,7 +5,7 @@ export default {
     },
     initialize() {
         this.state.token = localStorage.getItem('token');
-        this.state.user = localStorage.getItem('user');
+        this.state.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
     },
     set(token, user) {
         localStorage.setItem('token', token);
