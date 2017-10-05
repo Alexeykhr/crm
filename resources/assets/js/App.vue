@@ -1,108 +1,222 @@
 <template>
-    <div>
-        <v-app v-if="this.authState.token && this.authState.user" light toolbar>
-            <v-navigation-drawer hide-overlay persistent clipped :mini-variant.sync="mini" v-model="drawer">
-                <v-toolbar flat class="transparent">
-                    <v-list class="pa-0">
-                        <v-list-tile avatar>
-                            <v-list-tile-avatar>
-                                <img src="https://randomuser.me/api/portraits/men/85.jpg" />
-                            </v-list-tile-avatar>
-                            <v-list-tile-content>
-                                <v-list-tile-title>John Leider</v-list-tile-title>
-                            </v-list-tile-content>
+    <v-app id="inspire">
+        <v-navigation-drawer
+                persistent
+                clipped
+                app
+                v-model="drawer"
+        >
+            <v-list dense>
+                <template v-for="(item, i) in items">
+                    <v-layout
+                            row
+                            v-if="item.heading"
+                            align-center
+                            :key="i"
+                    >
+                        <v-flex xs6>
+                            <v-subheader v-if="item.heading">
+                                {{ item.heading }}
+                            </v-subheader>
+                        </v-flex>
+                        <v-flex xs6 class="text-xs-center">
+                            <a href="#!" class="body-2 black--text">EDIT</a>
+                        </v-flex>
+                    </v-layout>
+                    <v-list-group v-else-if="item.children" v-model="item.model" no-action>
+                        <v-list-tile slot="item" @click="">
                             <v-list-tile-action>
-                                <v-btn icon @click.native.stop="mini = !mini">
-                                    <v-icon>chevron_left</v-icon>
-                                </v-btn>
+                                <v-icon>{{ item.model ? item.icon : item['icon-alt'] }}</v-icon>
                             </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{ item.text }}
+                                </v-list-tile-title>
+                            </v-list-tile-content>
                         </v-list-tile>
-                    </v-list>
-                </v-toolbar>
-                <v-list class="pt-0" @click.native.stop="mini = true">
-                    <v-divider></v-divider>
-                    <v-list-tile v-for="item in items" :key="item.title" :to="item.href">
+                        <v-list-tile
+                                v-for="(child, i) in item.children"
+                                :key="i"
+                                @click=""
+                        >
+                            <v-list-tile-action v-if="child.icon">
+                                <v-icon>{{ child.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{ child.text }}
+                                </v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list-group>
+                    <v-list-tile v-else @click="">
                         <v-list-tile-action>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile-title>
+                                {{ item.text }}
+                            </v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-            <v-toolbar fixed dark>
+                </template>
+            </v-list>
+        </v-navigation-drawer>
+        <v-toolbar
+                class="blue darken-3"
+                dark
+                app
+                clipped-left
+                fixed
+        >
+            <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <v-toolbar-title>CRM</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon>
-                    <v-icon>search</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>notifications_none</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>more_vert</v-icon>
-                </v-btn>
-            </v-toolbar>
-            <main>
-                <v-container fluid>
-                    <router-view></router-view>
+                Google Contacts
+            </v-toolbar-title>
+            <v-text-field
+                    solo
+                    prepend-icon="search"
+                    placeholder="Search"
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn icon>
+                <v-icon>apps</v-icon>
+            </v-btn>
+            <v-btn icon>
+                <v-icon>notifications</v-icon>
+            </v-btn>
+            <v-btn icon large>
+                <v-avatar size="32px" tile>
+                    <img
+                            src="https://vuetifyjs.com/static/doc-images/logo.svg"
+                            alt="Vuetify"
+                    >
+                </v-avatar>
+            </v-btn>
+        </v-toolbar>
+        <main>
+            <v-content>
+                <router-view></router-view>
+            </v-content>
+        </main>
+        <v-btn
+                fab
+                bottom
+                right
+                class="pink"
+                dark
+                fixed
+                @click.stop="dialog = !dialog"
+        >
+            <v-icon>add</v-icon>
+        </v-btn>
+        <v-dialog v-model="dialog" width="800px">
+            <v-card>
+                <v-card-title
+                        class="grey lighten-4 py-4 title"
+                >
+                    Create contact
+                </v-card-title>
+                <v-container grid-list-sm class="pa-4">
+                    <v-layout row wrap>
+                        <v-flex xs12 d-flex align-center justify-space-between>
+                            <v-avatar size="40px" class="mr-3">
+                                <img
+                                        src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+                                        alt=""
+                                >
+                            </v-avatar>
+                            <v-text-field
+                                    placeholder="Name"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs6>
+                            <v-text-field
+                                    prepend-icon="business"
+                                    placeholder="Company"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs6>
+                            <v-text-field
+                                    placeholder="Job title"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-text-field
+                                    prepend-icon="mail"
+                                    placeholder="Email"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-text-field
+                                    prepend-icon="phone"
+                                    placeholder="(000) 000 - 0000"
+                                    mask="phone"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-text-field
+                                    prepend-icon="notes"
+                                    placeholder="Notes"
+                            ></v-text-field>
+                        </v-flex>
+                    </v-layout>
                 </v-container>
-            </main>
-        </v-app>
-
-        <template v-else>
-            <router-view></router-view>
-        </template>
-    </div>
+                <v-card-actions>
+                    <v-btn flat primary>More</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn flat primary @click="dialog = false">Cancel</v-btn>
+                    <v-btn flat @click="dialog = false">Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-app>
 </template>
+
 
 <script>
     import Auth from './store/auth'
-    import Flash from './helpers/flash'
     import { post, interceptors } from './helpers/api'
 
     export default {
         data() {
             return {
                 authState: Auth.state,
-                flash: Flash.state,
 
+                dialog: false,
                 drawer: true,
                 items: [
-                    { title: 'Головна сторінка', href: '/dashboard', icon: 'dashboard' },
-                    { title: 'Профіль', href: '/profile', icon: 'perm_identity' },
-                    { title: 'Чат', href: '/char', icon: 'chat' },
-                    { title: 'Новини', href: '/news', icon: 'book' },
-                    { title: 'Користувачі', href: '/users', icon: 'people' },
-                    { title: 'Посади', href: '/jobs', icon: 'work' },
-                    { title: 'Сховище', href: '/dir', icon: 'storage' },
-                    { title: 'Календар', href: '/calendar', icon: 'event' },
-                    { title: 'Журнал', href: '/logs', icon: 'history' },
-                    { title: 'Статистика', href: '/statistics', icon: 'insert_chart' },
-                ],
-                mini: true,
-            }
-        },
-        created() {
-            interceptors(err => {
-                if (err.response.status === 401) {
-                    Auth.remove();
-                    this.$router.push('/login');
-                }
-                else if (err.response.status === 500) {
-                    Flash.setError(err.response.statusText);
-                }
-                else if (err.response.status === 404) {
-                    this.$router.push('/not-found');
-                }
-            });
-
-            Auth.initialize();
-
-            if (! this.authState.token) {
-                this.$router.push('/login');
+                    { icon: 'contacts', text: 'Contacts' },
+                    { icon: 'history', text: 'Frequently contacted' },
+                    { icon: 'content_copy', text: 'Duplicates' },
+                    {
+                        icon: 'keyboard_arrow_up',
+                        'icon-alt': 'keyboard_arrow_down',
+                        text: 'Labels',
+                        model: true,
+                        children: [
+                            { icon: 'add', text: 'Create label' }
+                        ]
+                    },
+                    {
+                        icon: 'keyboard_arrow_up',
+                        'icon-alt': 'keyboard_arrow_down',
+                        text: 'More',
+                        model: false,
+                        children: [
+                            { text: 'Import' },
+                            { text: 'Export' },
+                            { text: 'Print' },
+                            { text: 'Undo changes' },
+                            { text: 'Other contacts' }
+                        ]
+                    },
+                    { icon: 'settings', text: 'Settings' },
+                    { icon: 'chat_bubble', text: 'Send feedback' },
+                    { icon: 'help', text: 'Help' },
+                    { icon: 'phonelink', text: 'App downloads' },
+                    { icon: 'keyboard', text: 'Go to the old version' }
+                ]
             }
         },
         computed: {
@@ -117,11 +231,9 @@
             logout() {
                 post('/api/logout')
                     .then(res => {
-                        if (res.data.done) {
-                            // remove token
+                        if (res.data.done) { // TODO: see*
                             Auth.remove();
-                            Flash.setSuccess('You have successfully logged out.');
-                            this.$router.push('/login');
+                            this.$router.push('login');
                         }
                     })
             }

@@ -1,23 +1,55 @@
+// Vue libs
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Login from '../views/auth/Login.vue';
-import NotFound from '../views/NotFound.vue';
+// Other libs
+import axios from 'axios';
 
+// Store
+import AuthStore from '../store/auth';
+
+// Vue views
+import Login from '../views/auth/Login.vue';
+import Dashboard from '../views/Dashboard.vue';
 import Users from '../views/users/Users.vue';
 import Profile from '../views/users/Profile.vue';
+import NotFound from '../views/NotFound.vue';
 
+// Vue use
 Vue.use(VueRouter);
 
+// Auth store set
+AuthStore.initialize();
+
+// Vue router
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Login },
-        { path: '/dashboard', component: Users }, // Temporary
-        { path: '/users', component: Users },
-        { path: '/profile', component: Profile },
+        { path: '/login', name: 'login', component: Login },
+        { path: '/dashboard', name: 'dashboard', component: Dashboard },
+        { path: '/users', name: 'users', component: Users },
+        { path: '/profile', name: 'profile', component: Profile },
         { path: '*', component: NotFound },
     ]
+});
+
+// Axios global interceptors
+axios.interceptors.response.use(null, err => {
+    if (err.status === 401) {
+        AuthStore.remove();
+        router.push('login');
+    }
+
+    return Promise.reject(err);
+});
+
+// Protect router
+router.beforeEach((to, from, next) => {
+    if (! AuthStore.state.token && to.name !== 'login') {
+        next({ name: 'login' });
+    } else {
+        next();
+    }
 });
 
 export default router;

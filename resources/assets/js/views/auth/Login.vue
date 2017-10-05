@@ -19,7 +19,7 @@
                 required
             ></v-text-field>
 
-            <v-btn @click.prevent="login" block primary light :disabled="isProcessing">Увійти</v-btn>
+            <v-btn @click.prevent="login" block primary black :disabled="isProcessing">Увійти</v-btn>
         </div>
 
         <v-snackbar v-model="snackbar.model">
@@ -46,7 +46,6 @@
                 isProcessing: false,
             }
         },
-
         methods: {
             login() {
                 this.isProcessing = true;
@@ -55,7 +54,7 @@
                     .then(res => {
                         if (res.data.response.token) {
                             Auth.set(res.data.response.token, res.data.response.user);
-                            this.$router.push('/');
+                            this.$router.push('dashboard');
                         }
 
                         this.isProcessing = false;

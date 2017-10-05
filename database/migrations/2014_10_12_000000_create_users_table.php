@@ -27,8 +27,13 @@ class CreateUsersTable extends Migration
             $table->string('phone_work', 30)->nullable();
             $table->string('email', 50)->nullable();
             $table->string('email_work', 50)->nullable();
+            $table->string('job_id')->unsigned()->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
+
+            $table->foreign('job_id')->references('id')->on('jobs');
+
+            $table->index('job_id');
         });
 
         DB::table('users')->insert([

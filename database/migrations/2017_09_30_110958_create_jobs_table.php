@@ -20,18 +20,6 @@ class CreateJobsTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
         });
-
-        Schema::create('job_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('job_id')->unsigned();
-
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('job_id')->references('id')->on('jobs')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->primary(['user_id', 'job_id']);
-        });
     }
 
     /**
@@ -42,6 +30,5 @@ class CreateJobsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_user');
     }
 }

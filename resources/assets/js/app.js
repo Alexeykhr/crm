@@ -10,8 +10,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
-// Vue files
+// Vue views
 import App from './App.vue'
+
+// Vue files
 import router from './router/index';
 
 // Vue use
@@ -20,6 +22,6 @@ Vue.use(Vuetify);
 const app = new Vue({
     el: '#app',
     template: '<app></app>',
-    components: { App },
+    components: {  App },
     router
 });
