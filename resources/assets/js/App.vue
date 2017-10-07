@@ -8,14 +8,13 @@
                             <v-icon>exit_to_app</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>Hide live</v-list-tile-title>
+                            <v-list-tile-title>Users online</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
 
-            <v-navigation-drawer persistent enable-resize-watcher disable-route-watcher clipped app
-                                 :mini-variant.sync="mini" v-model="drawer">
+            <v-navigation-drawer persistent enable-resize-watcher clipped app :mini-variant.sync="mini" v-model="drawer">
                 <v-toolbar flat class="transparent">
                     <v-list class="pa-0">
                         <v-list-tile avatar>
@@ -37,15 +36,15 @@
                 <v-list class="pt-0" dense>
                     <v-divider></v-divider>
                     <template v-for="(item, i) in items">
-                        <v-divider v-if="item.divider" dark class="my-4" :key="i"></v-divider>
-                        <v-list-tile v-else :to="item.to">
-                            <v-list-tile-action >
+                        <v-divider v-if="item.divider" dark class="my-2" :key="i"></v-divider>
+                        <v-list-tile v-else :to="item.to" @click.native.stop="!!mini">
+                            <v-list-tile-action>
                                 <v-icon>{{ item.icon }}</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>{{ item.text }}</v-list-tile-title>
                             </v-list-tile-content>
-                            <v-list-tile-action>
+                            <v-list-tile-action v-if="item.subTo">
                                 <v-tooltip bottom>
                                     <v-btn icon ripple :to="item.subTo" slot="activator">
                                         <v-icon>{{ item.subIcon }}</v-icon>
@@ -65,13 +64,22 @@
                 </v-toolbar-title>
                 <v-text-field solo prepend-icon="search" placeholder="Search"></v-text-field>
                 <v-spacer></v-spacer>
-                <v-btn @click="logout" icon>
-                    <v-icon>exit_to_app</v-icon>
-                </v-btn>
-                <v-btn icon> <!-- TODO: ..-->
-                    <v-icon>notifications</v-icon>
-                </v-btn>
-                <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
+                <v-tooltip bottom>
+                    <v-btn @click="logout" icon slot="activator">
+                        <v-icon>exit_to_app</v-icon>
+                    </v-btn>
+                    <span>Log Out</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <v-btn icon slot="activator">
+                        <v-icon>notifications</v-icon>
+                    </v-btn>
+                    <span>Notifications</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight" slot="activator"></v-toolbar-side-icon>
+                    <span>{{ drawerRight ? 'Hide' : 'Show' }} online</span>
+                </v-tooltip>
             </v-toolbar>
             <main>
                 <v-content>
@@ -95,28 +103,28 @@
 
                 drawer: true,
                 mini: true,
-                drawerRight: true,
+                drawerRight: false,
                 items: [
-                    { icon: 'dashboard', text: 'Dashboard', to: 'dashboard' },
-                    { icon: 'account_circle', text: 'Profile', to: 'profile',
-                        subIcon: 'edit', subText: 'Settings', subTo: 'edit' },
-                    { icon: 'message', text: 'Chat', to: 'chat' },
-                    { icon: 'description', text: 'News', to: 'news',
-                        subIcon: 'add', subText: 'Add news', subTo: 'news-create' },
-                    { icon: 'event', text: 'Calendar', to: 'calendar',
-                        subIcon: 'add', subText: 'Add event', subTo: 'event-create' },
+                    { icon: 'dashboard', text: 'Dashboard', to: '/dashboard' },
+                    { icon: 'account_circle', text: 'Profile', to: '/user/' + Auth.state.user.id,
+                        subIcon: 'edit', subText: 'Settings', subTo: '/profile/edit' },
+                    { icon: 'message', text: 'Chat', to: '/chat' },
+                    { icon: 'description', text: 'News', to: '/news',
+                        subIcon: 'add', subText: 'Add news', subTo: '/news/create' },
+                    { icon: 'event', text: 'Calendar', to: '/calendar',
+                        subIcon: 'add', subText: 'Add event', subTo: '/event/create' },
                     { divider: true },
-                    { icon: 'storage', text: 'Storage', to: 'storage' },
+                    { icon: 'storage', text: 'Storage', to: '/storage' },
                     { divider: true },
-                    { icon: 'people', text: 'Users', to: 'users',
-                        subIcon: 'add', subText: 'Add user', subTo: 'user-create' },
-                    { icon: 'stars', text: 'Roles', to: 'roles',
-                        subIcon: 'add', subText: 'Add role', subTo: 'role-create' },
-                    { icon: 'local_offer', text: 'Jobs', to: 'jobs',
-                        subIcon: 'add',subText: 'Add job', subTo: 'job-create' },
+                    { icon: 'people', text: 'Users', to: '/users',
+                        subIcon: 'add', subText: 'Add a user', subTo: '/user/create' },
+                    { icon: 'stars', text: 'Roles', to: '/roles',
+                        subIcon: 'add', subText: 'Add a role', subTo: '/role/create' },
+                    { icon: 'local_offer', text: 'Jobs', to: '/jobs',
+                        subIcon: 'add',subText: 'Add a job', subTo: '/job-create' },
                     { divider: true },
-                    { icon: 'security', text: 'Logs', to: 'logs' },
-                    { icon: 'timeline', text: 'Statistics', to: 'statistics' },
+                    { icon: 'security', text: 'Logs', to: '/logs' },
+                    { icon: 'timeline', text: 'Statistics', to: '/statistics' },
                 ]
             }
         },

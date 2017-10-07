@@ -28,14 +28,14 @@ const router = new VueRouter({
         { path: '/login', name: 'login', component: Login },
         { path: '/dashboard', name: 'dashboard', component: Dashboard },
         { path: '/users', name: 'users', component: Users },
-        { path: '/profile', name: 'profile', component: Profile },
+        { path: '/user/:id', name: 'user', component: Profile },
         { path: '*', component: NotFound },
     ]
 });
 
 // Axios global interceptors
 axios.interceptors.response.use(null, err => {
-    if (err.status === 401) {
+    if (err.response.status === 401) {
         AuthStore.remove();
         router.push('login');
     }
@@ -45,8 +45,12 @@ axios.interceptors.response.use(null, err => {
 
 // Protect router
 router.beforeEach((to, from, next) => {
+    console.log(to);
+
     if (! AuthStore.state.token && to.name !== 'login') {
         next({ name: 'login' });
+    } else if (to.path === '/') {
+        next({ name: 'dashboard' });
     } else {
         next();
     }

@@ -475,6 +475,52 @@ module.exports = function normalizeComponent (
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = get;
+/* harmony export (immutable) */ __webpack_exports__["b"] = post;
+/* unused harmony export del */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__(3);
+
+
+
+function get(url, params) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
+        method: 'GET',
+        url: url,
+        params: params,
+        headers: {
+            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
+        }
+    });
+}
+
+function post(url, data) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
+        method: 'POST',
+        url: url,
+        data: data,
+        headers: {
+            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
+        }
+    });
+}
+
+function del(url) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
+        method: 'DELETE',
+        url: url,
+        headers: {
+            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
+        }
+    });
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: {
         token: null,
@@ -497,13 +543,13 @@ module.exports = function normalizeComponent (
 });
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(18);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -601,51 +647,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = get;
-/* harmony export (immutable) */ __webpack_exports__["b"] = post;
-/* unused harmony export del */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__(2);
-
-
-
-function get(url) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
-        method: 'GET',
-        url: url,
-        headers: {
-            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
-        }
-    });
-}
-
-function post(url, data) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
-        method: 'POST',
-        url: url,
-        data: data,
-        headers: {
-            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
-        }
-    });
-}
-
-function del(url) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
-        method: 'DELETE',
-        url: url,
-        headers: {
-            'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.token
-        }
-    });
-}
 
 /***/ }),
 /* 6 */
@@ -11168,7 +11169,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // Other libs
 window._ = __webpack_require__(15);
 window.$ = window.jQuery = __webpack_require__(17);
-window.axios = __webpack_require__(3);
+window.axios = __webpack_require__(4);
 
 // Other config
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -38595,7 +38596,7 @@ return jQuery;
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(7);
 var Axios = __webpack_require__(20);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -38678,7 +38679,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(30);
 var dispatchRequest = __webpack_require__(31);
@@ -39400,7 +39401,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(32);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -55619,8 +55620,16 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -55718,14 +55727,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             drawer: true,
             mini: true,
-            drawerRight: true,
-            items: [{ icon: 'dashboard', text: 'Dashboard', to: 'dashboard' }, { icon: 'account_circle', text: 'Profile', to: 'profile',
-                subIcon: 'edit', subText: 'Settings', subTo: 'edit' }, { icon: 'message', text: 'Chat', to: 'chat' }, { icon: 'description', text: 'News', to: 'news',
-                subIcon: 'add', subText: 'Add news', subTo: 'news-create' }, { icon: 'event', text: 'Calendar', to: 'calendar',
-                subIcon: 'add', subText: 'Add event', subTo: 'event-create' }, { divider: true }, { icon: 'storage', text: 'Storage', to: 'storage' }, { divider: true }, { icon: 'people', text: 'Users', to: 'users',
-                subIcon: 'add', subText: 'Add user', subTo: 'user-create' }, { icon: 'stars', text: 'Roles', to: 'roles',
-                subIcon: 'add', subText: 'Add role', subTo: 'role-create' }, { icon: 'local_offer', text: 'Jobs', to: 'jobs',
-                subIcon: 'add', subText: 'Add job', subTo: 'job-create' }, { divider: true }, { icon: 'security', text: 'Logs', to: 'logs' }, { icon: 'timeline', text: 'Statistics', to: 'statistics' }]
+            drawerRight: false,
+            items: [{ icon: 'dashboard', text: 'Dashboard', to: '/dashboard' }, { icon: 'account_circle', text: 'Profile', to: '/user/' + __WEBPACK_IMPORTED_MODULE_0__store_auth__["a" /* default */].state.user.id,
+                subIcon: 'edit', subText: 'Settings', subTo: '/profile/edit' }, { icon: 'message', text: 'Chat', to: '/chat' }, { icon: 'description', text: 'News', to: '/news',
+                subIcon: 'add', subText: 'Add news', subTo: '/news/create' }, { icon: 'event', text: 'Calendar', to: '/calendar',
+                subIcon: 'add', subText: 'Add event', subTo: '/event/create' }, { divider: true }, { icon: 'storage', text: 'Storage', to: '/storage' }, { divider: true }, { icon: 'people', text: 'Users', to: '/users',
+                subIcon: 'add', subText: 'Add a user', subTo: '/user/create' }, { icon: 'stars', text: 'Roles', to: '/roles',
+                subIcon: 'add', subText: 'Add a role', subTo: '/role/create' }, { icon: 'local_offer', text: 'Jobs', to: '/jobs',
+                subIcon: 'add', subText: 'Add a job', subTo: '/job-create' }, { divider: true }, { icon: 'security', text: 'Logs', to: '/logs' }, { icon: 'timeline', text: 'Statistics', to: '/statistics' }]
         };
     },
 
@@ -55808,7 +55817,7 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "v-list-tile-content",
-                          [_c("v-list-tile-title", [_vm._v("Hide live")])],
+                          [_c("v-list-tile-title", [_vm._v("Users online")])],
                           1
                         )
                       ],
@@ -55827,7 +55836,6 @@ var render = function() {
                 attrs: {
                   persistent: "",
                   "enable-resize-watcher": "",
-                  "disable-route-watcher": "",
                   clipped: "",
                   app: "",
                   "mini-variant": _vm.mini
@@ -55919,12 +55927,20 @@ var render = function() {
                         item.divider
                           ? _c("v-divider", {
                               key: i,
-                              staticClass: "my-4",
+                              staticClass: "my-2",
                               attrs: { dark: "" }
                             })
                           : _c(
                               "v-list-tile",
-                              { attrs: { to: item.to } },
+                              {
+                                attrs: { to: item.to },
+                                nativeOn: {
+                                  click: function($event) {
+                                    $event.stopPropagation()
+                                    !!_vm.mini
+                                  }
+                                }
+                              },
                               [
                                 _c(
                                   "v-list-tile-action",
@@ -55942,41 +55958,43 @@ var render = function() {
                                   1
                                 ),
                                 _vm._v(" "),
-                                _c(
-                                  "v-list-tile-action",
-                                  [
-                                    _c(
-                                      "v-tooltip",
-                                      { attrs: { bottom: "" } },
+                                item.subTo
+                                  ? _c(
+                                      "v-list-tile-action",
                                       [
                                         _c(
-                                          "v-btn",
-                                          {
-                                            attrs: {
-                                              slot: "activator",
-                                              icon: "",
-                                              ripple: "",
-                                              to: item.subTo
-                                            },
-                                            slot: "activator"
-                                          },
+                                          "v-tooltip",
+                                          { attrs: { bottom: "" } },
                                           [
-                                            _c("v-icon", [
-                                              _vm._v(_vm._s(item.subIcon))
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  slot: "activator",
+                                                  icon: "",
+                                                  ripple: "",
+                                                  to: item.subTo
+                                                },
+                                                slot: "activator"
+                                              },
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(_vm._s(item.subIcon))
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v(_vm._s(item.subText))
                                             ])
                                           ],
                                           1
-                                        ),
-                                        _vm._v(" "),
-                                        _c("span", [
-                                          _vm._v(_vm._s(item.subText))
-                                        ])
+                                        )
                                       ],
                                       1
                                     )
-                                  ],
-                                  1
-                                )
+                                  : _vm._e()
                               ],
                               1
                             )
@@ -56030,27 +56048,67 @@ var render = function() {
                 _c("v-spacer"),
                 _vm._v(" "),
                 _c(
-                  "v-btn",
-                  { attrs: { icon: "" }, on: { click: _vm.logout } },
-                  [_c("v-icon", [_vm._v("exit_to_app")])],
+                  "v-tooltip",
+                  { attrs: { bottom: "" } },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { slot: "activator", icon: "" },
+                        on: { click: _vm.logout },
+                        slot: "activator"
+                      },
+                      [_c("v-icon", [_vm._v("exit_to_app")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Log Out")])
+                  ],
                   1
                 ),
                 _vm._v(" "),
                 _c(
-                  "v-btn",
-                  { attrs: { icon: "" } },
-                  [_c("v-icon", [_vm._v("notifications")])],
+                  "v-tooltip",
+                  { attrs: { bottom: "" } },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { slot: "activator", icon: "" },
+                        slot: "activator"
+                      },
+                      [_c("v-icon", [_vm._v("notifications")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Notifications")])
+                  ],
                   1
                 ),
                 _vm._v(" "),
-                _c("v-toolbar-side-icon", {
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.drawerRight = !_vm.drawerRight
-                    }
-                  }
-                })
+                _c(
+                  "v-tooltip",
+                  { attrs: { bottom: "" } },
+                  [
+                    _c("v-toolbar-side-icon", {
+                      attrs: { slot: "activator" },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.drawerRight = !_vm.drawerRight
+                        }
+                      },
+                      slot: "activator"
+                    }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        _vm._s(_vm.drawerRight ? "Hide" : "Show") + " online"
+                      )
+                    ])
+                  ],
+                  1
+                )
               ],
               1
             ),
@@ -56080,9 +56138,9 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_auth__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_auth__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue__ = __webpack_require__(47);
@@ -56119,12 +56177,12 @@ __WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].initialize();
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     mode: 'history',
-    routes: [{ path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a }, { path: '/dashboard', name: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue___default.a }, { path: '/users', name: 'users', component: __WEBPACK_IMPORTED_MODULE_6__views_users_Users_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a }, { path: '*', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
+    routes: [{ path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a }, { path: '/dashboard', name: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue___default.a }, { path: '/users', name: 'users', component: __WEBPACK_IMPORTED_MODULE_6__views_users_Users_vue___default.a }, { path: '/user/:id', name: 'user', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a }, { path: '*', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, function (err) {
-    if (err.status === 401) {
+    if (err.response.status === 401) {
         __WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].remove();
         router.push('login');
     }
@@ -56134,8 +56192,12 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
 
 // Protect router
 router.beforeEach(function (to, from, next) {
+    console.log(to);
+
     if (!__WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].state.token && to.name !== 'login') {
         next({ name: 'login' });
+    } else if (to.path === '/') {
+        next({ name: 'dashboard' });
     } else {
         next();
     }
@@ -58707,8 +58769,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
 //
 //
 //
@@ -58943,7 +59005,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
 //
 //
 //
@@ -58952,9 +59014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    created: function created() {
-        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/v1/me');
-    }
+    created: function created() {}
 });
 
 /***/ }),
@@ -59029,12 +59089,35 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            count: 10
+        };
+    },
+    created: function created() {
+        this.all();
+    },
+
+
+    methods: {
+        all: function all() {
+            Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/users/all', {
+                count: this.count
+            }).then(function (res) {
+                return console.log(res);
+            });
+        }
+    }
+});
 
 /***/ }),
 /* 52 */
@@ -59044,7 +59127,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [_vm._v("It's users")])
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -59108,12 +59191,53 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            user: null
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/users/get', {
+            id: this.$route.params.id
+        }).then(function (res) {
+            return _this.user = res.data;
+        });
+    },
+
+
+    computed: {
+        name: function name() {
+            return this.user.first_name + ' ' + this.user.last_name;
+        },
+        image: function image() {
+            return this.user.image ? this.user.image : '/img/user.png';
+        }
+    }
+});
 
 /***/ }),
 /* 55 */
@@ -59123,7 +59247,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [_vm._v("It's profile")])
+  return _vm.user
+    ? _c("div", { staticClass: "template user" }, [
+        _c("div", { staticClass: "u-left" }, [
+          _c("div", { staticClass: "image" }, [
+            _c("img", {
+              attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "info" })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "u-right" })
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

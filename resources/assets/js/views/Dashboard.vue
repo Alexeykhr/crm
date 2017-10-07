@@ -7,7 +7,7 @@
 
     export default {
         created() {
-            get('/api/v1/me');
+
         }
     }
 </script>

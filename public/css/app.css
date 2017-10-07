@@ -15574,3 +15574,17 @@ table.table tfoot tr {
   text-transform: uppercase;
 }
 
+.template.user {
+  padding: 20px;
+}
+
+.template.user .image {
+  width: 200px;
+  height: 200px;
+}
+
+.template.user .image > img {
+  width: 100%;
+  height: 100%;
+}
+

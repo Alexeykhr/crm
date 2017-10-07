@@ -4,6 +4,11 @@ Route::post('login', 'AuthController@authenticate');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 
-    Route::get('me', 'AuthController@getUser');
+    Route::group(['prefix' => 'users'], function () {
+
+        Route::get('get', 'UsersController@get');
+        Route::get('all', 'UsersController@all');
+
+    });
 
 });
