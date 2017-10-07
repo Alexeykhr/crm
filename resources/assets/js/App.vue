@@ -8,7 +8,7 @@
                             <v-icon>exit_to_app</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>Users online</v-list-tile-title>
+                            <v-list-tile-title>Користувачі онлайн</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
@@ -68,17 +68,17 @@
                     <v-btn @click="logout" icon slot="activator">
                         <v-icon>exit_to_app</v-icon>
                     </v-btn>
-                    <span>Log Out</span>
+                    <span>Вийти</span>
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-btn icon slot="activator">
                         <v-icon>notifications</v-icon>
                     </v-btn>
-                    <span>Notifications</span>
+                    <span>Повідомлення</span>
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight" slot="activator"></v-toolbar-side-icon>
-                    <span>{{ drawerRight ? 'Hide' : 'Show' }} online</span>
+                    <span>{{ drawerRight ? 'Сховати' : 'Показати' }} онлайн</span>
                 </v-tooltip>
             </v-toolbar>
             <main>
@@ -105,32 +105,47 @@
                 mini: true,
                 drawerRight: false,
                 items: [
-                    { icon: 'dashboard', text: 'Dashboard', to: '/dashboard' },
-                    { icon: 'account_circle', text: 'Profile', to: '/user/' + Auth.state.user.id,
-                        subIcon: 'edit', subText: 'Settings', subTo: '/profile/edit' },
-                    { icon: 'message', text: 'Chat', to: '/chat' },
-                    { icon: 'description', text: 'News', to: '/news',
-                        subIcon: 'add', subText: 'Add news', subTo: '/news/create' },
-                    { icon: 'event', text: 'Calendar', to: '/calendar',
-                        subIcon: 'add', subText: 'Add event', subTo: '/event/create' },
-                    { divider: true },
-                    { icon: 'storage', text: 'Storage', to: '/storage' },
-                    { divider: true },
-                    { icon: 'people', text: 'Users', to: '/users',
-                        subIcon: 'add', subText: 'Add a user', subTo: '/user/create' },
-                    { icon: 'stars', text: 'Roles', to: '/roles',
-                        subIcon: 'add', subText: 'Add a role', subTo: '/role/create' },
-                    { icon: 'local_offer', text: 'Jobs', to: '/jobs',
-                        subIcon: 'add',subText: 'Add a job', subTo: '/job-create' },
-                    { divider: true },
-                    { icon: 'security', text: 'Logs', to: '/logs' },
-                    { icon: 'timeline', text: 'Statistics', to: '/statistics' },
+                    {
+                        icon: 'dashboard', text: 'Головна сторінка', to: '/dashboard'
+                    }, {
+                        icon: 'account_circle', text: 'Профіль', to: '/profile',
+                        subIcon: 'edit', subText: 'Налаштування', subTo: '/profile/edit'
+                    }, {
+                        icon: 'message', text: 'Чат', to: '/chat'
+                    }, {
+                        icon: 'description', text: 'Новини', to: '/news',
+                        subIcon: 'add', subText: 'Додати', subTo: '/news/create'
+                    }, {
+                        icon: 'event', text: 'Календар', to: '/calendar',
+                        subIcon: 'add', subText: 'Додати', subTo: '/event/create'
+                    }, {
+                        divider: true
+                    }, {
+                        icon: 'storage', text: 'Сховище', to: '/storage'
+                    }, {
+                        divider: true
+                    }, {
+                        icon: 'people', text: 'Користувачі', to: '/users',
+                        subIcon: 'add', subText: 'Додати', subTo: '/user/create'
+                    }, {
+                        icon: 'stars', text: 'Ролі', to: '/roles',
+                        subIcon: 'add', subText: 'Додати', subTo: '/role/create'
+                    }, {
+                        icon: 'local_offer', text: 'Посади', to: '/jobs',
+                        subIcon: 'add',subText: 'Додати', subTo: '/job-create'
+                    }, {
+                        divider: true
+                    }, {
+                        icon: 'security', text: 'Журнал', to: '/logs'
+                    }, {
+                        icon: 'timeline', text: 'Статистика   ', to: '/statistics'
+                    },
                 ]
             }
         },
         computed: {
             auth() {
-                return !!this.authState.token && !!this.authState.user;
+                return !!this.authState.token;
             },
             guest() {
                 return !this.auth;

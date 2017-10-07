@@ -55728,19 +55728,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             drawer: true,
             mini: true,
             drawerRight: false,
-            items: [{ icon: 'dashboard', text: 'Dashboard', to: '/dashboard' }, { icon: 'account_circle', text: 'Profile', to: '/user/' + __WEBPACK_IMPORTED_MODULE_0__store_auth__["a" /* default */].state.user.id,
-                subIcon: 'edit', subText: 'Settings', subTo: '/profile/edit' }, { icon: 'message', text: 'Chat', to: '/chat' }, { icon: 'description', text: 'News', to: '/news',
-                subIcon: 'add', subText: 'Add news', subTo: '/news/create' }, { icon: 'event', text: 'Calendar', to: '/calendar',
-                subIcon: 'add', subText: 'Add event', subTo: '/event/create' }, { divider: true }, { icon: 'storage', text: 'Storage', to: '/storage' }, { divider: true }, { icon: 'people', text: 'Users', to: '/users',
-                subIcon: 'add', subText: 'Add a user', subTo: '/user/create' }, { icon: 'stars', text: 'Roles', to: '/roles',
-                subIcon: 'add', subText: 'Add a role', subTo: '/role/create' }, { icon: 'local_offer', text: 'Jobs', to: '/jobs',
-                subIcon: 'add', subText: 'Add a job', subTo: '/job-create' }, { divider: true }, { icon: 'security', text: 'Logs', to: '/logs' }, { icon: 'timeline', text: 'Statistics', to: '/statistics' }]
+            items: [{
+                icon: 'dashboard', text: 'Головна сторінка', to: '/dashboard'
+            }, {
+                icon: 'account_circle', text: 'Профіль', to: '/profile',
+                subIcon: 'edit', subText: 'Налаштування', subTo: '/profile/edit'
+            }, {
+                icon: 'message', text: 'Чат', to: '/chat'
+            }, {
+                icon: 'description', text: 'Новини', to: '/news',
+                subIcon: 'add', subText: 'Додати', subTo: '/news/create'
+            }, {
+                icon: 'event', text: 'Календар', to: '/calendar',
+                subIcon: 'add', subText: 'Додати', subTo: '/event/create'
+            }, {
+                divider: true
+            }, {
+                icon: 'storage', text: 'Сховище', to: '/storage'
+            }, {
+                divider: true
+            }, {
+                icon: 'people', text: 'Користувачі', to: '/users',
+                subIcon: 'add', subText: 'Додати', subTo: '/user/create'
+            }, {
+                icon: 'stars', text: 'Ролі', to: '/roles',
+                subIcon: 'add', subText: 'Додати', subTo: '/role/create'
+            }, {
+                icon: 'local_offer', text: 'Посади', to: '/jobs',
+                subIcon: 'add', subText: 'Додати', subTo: '/job-create'
+            }, {
+                divider: true
+            }, {
+                icon: 'security', text: 'Журнал', to: '/logs'
+            }, {
+                icon: 'timeline', text: 'Статистика   ', to: '/statistics'
+            }]
         };
     },
 
     computed: {
         auth: function auth() {
-            return !!this.authState.token && !!this.authState.user;
+            return !!this.authState.token;
         },
         guest: function guest() {
             return !this.auth;
@@ -55817,7 +55845,11 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "v-list-tile-content",
-                          [_c("v-list-tile-title", [_vm._v("Users online")])],
+                          [
+                            _c("v-list-tile-title", [
+                              _vm._v("Користувачі онлайн")
+                            ])
+                          ],
                           1
                         )
                       ],
@@ -56062,7 +56094,7 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("span", [_vm._v("Log Out")])
+                    _c("span", [_vm._v("Вийти")])
                   ],
                   1
                 ),
@@ -56081,7 +56113,7 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("span", [_vm._v("Notifications")])
+                    _c("span", [_vm._v("Повідомлення")])
                   ],
                   1
                 ),
@@ -56103,7 +56135,8 @@ var render = function() {
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        _vm._s(_vm.drawerRight ? "Hide" : "Show") + " online"
+                        _vm._s(_vm.drawerRight ? "Сховати" : "Показати") +
+                          " онлайн"
                       )
                     ])
                   ],
@@ -56177,7 +56210,7 @@ __WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].initialize();
 // Vue router
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     mode: 'history',
-    routes: [{ path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a }, { path: '/dashboard', name: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue___default.a }, { path: '/users', name: 'users', component: __WEBPACK_IMPORTED_MODULE_6__views_users_Users_vue___default.a }, { path: '/user/:id', name: 'user', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a }, { path: '*', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
+    routes: [{ path: '/login', name: 'login', component: __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default.a }, { path: '/dashboard', name: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue___default.a }, { path: '/users', name: 'users', component: __WEBPACK_IMPORTED_MODULE_6__views_users_Users_vue___default.a }, { path: '/profile', name: 'profile', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a }, { path: '/user/:id', name: 'user', component: __WEBPACK_IMPORTED_MODULE_7__views_users_Profile_vue___default.a }, { path: '*', component: __WEBPACK_IMPORTED_MODULE_8__views_NotFound_vue___default.a }]
 });
 
 // Axios global interceptors
@@ -56192,12 +56225,12 @@ __WEBPACK_IMPORTED_MODULE_2_axios___default.a.interceptors.response.use(null, fu
 
 // Protect router
 router.beforeEach(function (to, from, next) {
-    console.log(to);
-
     if (!__WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].state.token && to.name !== 'login') {
         next({ name: 'login' });
     } else if (to.path === '/') {
         next({ name: 'dashboard' });
+    } else if (to.name === 'user' && to.params.id == __WEBPACK_IMPORTED_MODULE_3__store_auth__["a" /* default */].state.user.id) {
+        next({ name: 'profile' });
     } else {
         next();
     }
@@ -58800,8 +58833,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -58832,13 +58863,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     __WEBPACK_IMPORTED_MODULE_0__store_auth__["a" /* default */].set(res.data.response.token, res.data.response.user);
                     _this.$router.push('dashboard');
                 }
-
                 _this.isProcessing = false;
             }).catch(function (err) {
                 if (err.response.data.error.message) {
                     _this.snackbar.model = true;
                     _this.snackbar.text = err.response.data.error.message;
-                    // TODO: show normalize errors (other file*)
+                    // TODO: show normalize errors
                 }
                 _this.isProcessing = false;
             });
@@ -58865,65 +58895,53 @@ var render = function() {
       }
     },
     [
-      _c("h2", [_vm._v("Authorization")]),
+      _c("h2", [_vm._v("Авторизація")]),
+      _vm._v(" "),
+      _c("v-text-field", {
+        attrs: {
+          label: "Логін",
+          "single-line": "",
+          "prepend-icon": "perm_identity",
+          required: ""
+        },
+        model: {
+          value: _vm.form.nickname,
+          callback: function($$v) {
+            _vm.form.nickname = $$v
+          },
+          expression: "form.nickname"
+        }
+      }),
+      _vm._v(" "),
+      _c("v-text-field", {
+        attrs: {
+          label: "Пароль",
+          "single-line": "",
+          "prepend-icon": "lock_outline",
+          type: "password",
+          required: ""
+        },
+        model: {
+          value: _vm.form.password,
+          callback: function($$v) {
+            _vm.form.password = $$v
+          },
+          expression: "form.password"
+        }
+      }),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "form__group" },
-        [
-          _c("v-text-field", {
-            attrs: {
-              label: "Login",
-              "single-line": "",
-              "prepend-icon": "perm_identity",
-              required: ""
-            },
-            model: {
-              value: _vm.form.nickname,
-              callback: function($$v) {
-                _vm.form.nickname = $$v
-              },
-              expression: "form.nickname"
+        "v-btn",
+        {
+          attrs: { block: "", color: "primary", disabled: _vm.isProcessing },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.login($event)
             }
-          }),
-          _vm._v(" "),
-          _c("v-text-field", {
-            attrs: {
-              label: "Password",
-              "single-line": "",
-              "prepend-icon": "lock_outline",
-              type: "password",
-              required: ""
-            },
-            model: {
-              value: _vm.form.password,
-              callback: function($$v) {
-                _vm.form.password = $$v
-              },
-              expression: "form.password"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: {
-                block: "",
-                primary: "",
-                black: "",
-                disabled: _vm.isProcessing
-              },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.login($event)
-                }
-              }
-            },
-            [_vm._v("Log In")]
-          )
-        ],
-        1
+          }
+        },
+        [_vm._v("Увійти")]
       ),
       _vm._v(" "),
       _c(
@@ -59191,7 +59209,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
 //
 //
 //
@@ -59209,23 +59228,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            user: null
+            user: __WEBPACK_IMPORTED_MODULE_0__store_auth__["a" /* default */].state.user
         };
-    },
-    created: function created() {
-        var _this = this;
-
-        Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/users/get', {
-            id: this.$route.params.id
-        }).then(function (res) {
-            return _this.user = res.data;
-        });
     },
 
 
@@ -59247,21 +59268,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.user
-    ? _c("div", { staticClass: "template user" }, [
-        _c("div", { staticClass: "u-left" }, [
-          _c("div", { staticClass: "image" }, [
-            _c("img", {
-              attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info" })
-        ]),
+  return _c("div", { staticClass: "template user" }, [
+    _c("div", { staticClass: "u-left" }, [
+      _c("div", { staticClass: "u-image" }, [
+        _c("img", { attrs: { src: _vm.image, title: _vm.name, alt: _vm.name } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "u-info" }, [
+        _c("div", { staticClass: "u-name" }, [_vm._v(_vm._s(_vm.name))]),
         _vm._v(" "),
-        _c("div", { staticClass: "u-right" })
+        _c("div", { staticClass: "u-nickname" }, [
+          _vm._v(_vm._s(_vm.user.nickname))
+        ])
       ])
-    : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "u-right" }, [
+      _c("div", { staticClass: "u-content" }, [
+        _c("div", { staticClass: "u-contacts" }, [
+          _c("h5", [_vm._v("Контакти")]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "u-block-contacts" },
+            [
+              _c("span", { staticClass: "ttl" }, [_vm._v("Домашній телефон")]),
+              _vm._v(" "),
+              _c("v-icon", [_vm._v("call")]),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(_vm.user.phone))])
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

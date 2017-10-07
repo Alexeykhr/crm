@@ -1,5 +1,5 @@
 <template>
-    <div class="template user">
+    <div class="template user" v-if="user">
         <div class="u-left">
             <div class="u-image">
                 <img :src="image" :title="name" :alt="name">
@@ -26,14 +26,20 @@
 </template>
 
 <script>
-    import Auth from '../../store/auth';
     import { get } from '../../helpers/api';
 
     export default {
         data() {
             return {
-                user: Auth.state.user,
+                user: null,
             }
+        },
+
+        created() {
+            get('/api/users/get', {
+                id: this.$route.params.id
+            })
+                .then(res => this.user = res.data);
         },
 
         computed: {
