@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -27,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_work', 30)->nullable();
             $table->string('email', 50)->nullable();
             $table->string('email_work', 50)->nullable();
-            $table->string('job_id')->unsigned()->nullable();
+            $table->integer('job_id')->unsigned()->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
 
@@ -37,10 +36,10 @@ class CreateUsersTable extends Migration
         });
 
         DB::table('users')->insert([
-            'first_name' => 'Name',
-            'last_name' => 'Family',
             'nickname' => 'admin',
-            'password' => Hash::make('admin123'),
+            'first_name' => 'Alexey',
+            'last_name' => 'Khrusch',
+            'password' => bcrypt('admin123'),
         ]);
     }
 

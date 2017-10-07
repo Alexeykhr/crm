@@ -1,6 +1,6 @@
 <template>
-    <v-app>
-        <template v-if="authState.token">
+    <v-app :class="guest ? 'auth' : ''">
+        <template v-if="auth">
             <v-navigation-drawer persistent clipped enable-resize-watcher v-model="drawerRight" right light app>
                 <v-list dense>
                     <v-list-tile @click.stop="drawerRight = !drawerRight">
@@ -46,11 +46,11 @@
                                 <v-list-tile-title>{{ item.text }}</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                                <v-tooltip bottom v-if="item.subIcon">
-                                    <v-btn icon ripple slot="activator" :to="item.subTo">
+                                <v-tooltip bottom>
+                                    <v-btn icon ripple :to="item.subTo" slot="activator">
                                         <v-icon>{{ item.subIcon }}</v-icon>
                                     </v-btn>
-                                    <span v-if="item.subText">{{ item.subText }}</span>
+                                    <span>{{ item.subText }}</span>
                                 </v-tooltip>
                             </v-list-tile-action>
                         </v-list-tile>
@@ -65,6 +65,9 @@
                 </v-toolbar-title>
                 <v-text-field solo prepend-icon="search" placeholder="Search"></v-text-field>
                 <v-spacer></v-spacer>
+                <v-btn @click="logout" icon>
+                    <v-icon>exit_to_app</v-icon>
+                </v-btn>
                 <v-btn icon> <!-- TODO: ..-->
                     <v-icon>notifications</v-icon>
                 </v-btn>
@@ -119,7 +122,7 @@
         },
         computed: {
             auth() {
-                return !!this.authState.token;
+                return !!this.authState.token && !!this.authState.user;
             },
             guest() {
                 return !this.auth;
@@ -133,13 +136,8 @@
         },
         methods: {
             logout() {
-                post('/api/logout')
-                    .then(res => {
-                        if (res.data.done) { // TODO: see*
-                            Auth.remove();
-                            this.$router.push('login');
-                        }
-                    })
+                Auth.remove();
+                this.$router.push('login');
             }
         }
     }

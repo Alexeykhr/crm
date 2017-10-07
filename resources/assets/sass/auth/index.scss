@@ -1,12 +1,21 @@
-.form.auth {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 30px;
-  border: 1px solid;
+#app.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  > h2 {
-    font-size: 35px;
-    text-align: center;
-    font-weight: bold;
+  > form {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #d0d0d0;
+    padding: 30px;
+    margin: 0 auto;
+    background: #fff;
+
+    > h2 {
+      font-size: 32px;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   }
 }

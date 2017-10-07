@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons);/*!
-* Vuetify v0.16.0
+* Vuetify v0.16.3
 * Forged by John Leider
 * Released under the MIT License.
 */
@@ -5325,14 +5325,6 @@ main {
   will-change: padding-left;
 }
 
-.application--light a {
-  color: #1976d2;
-}
-
-.application--dark a {
-  color: #82b1ff;
-}
-
 ::-ms-clear,
 ::-ms-reveal {
   display: none;
@@ -6277,9 +6269,29 @@ p {
   color: rgba(0, 0, 0, 0.87);
 }
 
+.application--light a {
+  color: #1976d2;
+}
+
+.application--light a:active,
+.application--light a:focus,
+.application--light a:hover {
+  color: #424242;
+}
+
 .application--dark {
   background: #303030;
   color: #fff;
+}
+
+.application--dark a {
+  color: #82b1ff;
+}
+
+.application--dark a:active,
+.application--dark a:focus,
+.application--dark a:hover {
+  color: #eee;
 }
 
 .alert {
@@ -6346,7 +6358,7 @@ p {
 }
 
 .application--light .icon.icon--disabled {
-  color: rgba(0, 0, 0, 0.38);
+  color: rgba(0, 0, 0, 0.38) !important;
 }
 
 .application .theme--light.icon {
@@ -6354,7 +6366,7 @@ p {
 }
 
 .application .theme--light.icon.icon--disabled {
-  color: rgba(0, 0, 0, 0.38);
+  color: rgba(0, 0, 0, 0.38) !important;
 }
 
 .application--dark .icon {
@@ -6362,7 +6374,7 @@ p {
 }
 
 .application--dark .icon.icon--disabled {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .application .theme--dark.icon {
@@ -6370,7 +6382,7 @@ p {
 }
 
 .application .theme--dark.icon.icon--disabled {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .icon {
@@ -6770,6 +6782,24 @@ p {
   opacity: .46;
 }
 
+.application--light .breadcrumbs li .breadcrumbs__item--disabled,
+.application--light .breadcrumbs li:last-child .breadcrumbs__item,
+.application--light .breadcrumbs li:not(:last-child):after,
+.application .theme--light.breadcrumbs li .breadcrumbs__item--disabled,
+.application .theme--light.breadcrumbs li:last-child .breadcrumbs__item,
+.application .theme--light.breadcrumbs li:not(:last-child):after {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.application--dark .breadcrumbs li .breadcrumbs__item--disabled,
+.application--dark .breadcrumbs li:last-child .breadcrumbs__item,
+.application--dark .breadcrumbs li:not(:last-child):after,
+.application .theme--dark.breadcrumbs li .breadcrumbs__item--disabled,
+.application .theme--dark.breadcrumbs li:last-child .breadcrumbs__item,
+.application .theme--dark.breadcrumbs li:not(:last-child):after {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .breadcrumbs {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -6787,13 +6817,11 @@ p {
 }
 
 .breadcrumbs li:not(:last-child):after {
-  color: #bdbdbd;
   content: attr(data-divider);
   vertical-align: middle;
 }
 
 .breadcrumbs li:last-child a {
-  color: #bdbdbd;
   pointer-events: none;
   cursor: default;
 }
@@ -6808,7 +6836,6 @@ p {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #1976d2;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -6821,12 +6848,7 @@ p {
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
-.breadcrumbs__item:hover {
-  color: #757575;
-}
-
 .breadcrumbs__item--disabled {
-  color: #e0e0e0;
   pointer-events: none;
 }
 
@@ -6872,7 +6894,7 @@ p {
 
 .application--light .btn.btn--disabled,
 .application--light .btn.btn--disabled .icon {
-  color: rgba(0, 0, 0, 0.26);
+  color: rgba(0, 0, 0, 0.26) !important;
 }
 
 .application--light .btn.btn--disabled:not(.btn--icon):not(.btn--flat) {
@@ -6895,7 +6917,7 @@ p {
 
 .application .theme--light.btn.btn--disabled,
 .application .theme--light.btn.btn--disabled .icon {
-  color: rgba(0, 0, 0, 0.26);
+  color: rgba(0, 0, 0, 0.26) !important;
 }
 
 .application .theme--light.btn.btn--disabled:not(.btn--icon):not(.btn--flat) {
@@ -6918,7 +6940,7 @@ p {
 
 .application--dark .btn.btn--disabled,
 .application--dark .btn.btn--disabled .icon {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .application--dark .btn.btn--disabled:not(.btn--icon):not(.btn--flat) {
@@ -6938,7 +6960,7 @@ p {
 
 .application .theme--dark.btn.btn--disabled,
 .application .theme--dark.btn.btn--disabled .icon {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .application .theme--dark.btn.btn--disabled:not(.btn--icon):not(.btn--flat) {
@@ -15524,16 +15546,31 @@ table.table tfoot tr {
 
 
 
-.form.auth {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 30px;
-  border: 1px solid;
+#app.auth {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-.form.auth > h2 {
-  font-size: 35px;
+#app.auth > form {
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #d0d0d0;
+  padding: 30px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+#app.auth > form > h2 {
+  font-size: 32px;
   text-align: center;
   font-weight: bold;
+  text-transform: uppercase;
 }
 

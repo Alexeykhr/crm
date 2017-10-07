@@ -1,10 +1,10 @@
 <template>
-    <form class="form auth" @submit.prevent="login">
-        <h2>Авторизація</h2>
+    <form @submit.prevent="login">
+        <h2>Authorization</h2>
 
         <div class="form__group">
             <v-text-field
-                label="Логін"
+                label="Login"
                 v-model="form.nickname"
                 single-line
                 prepend-icon="perm_identity"
@@ -12,14 +12,15 @@
             ></v-text-field>
 
             <v-text-field
-                label="Пароль"
+                label="Password"
                 v-model="form.password"
                 single-line
                 prepend-icon="lock_outline"
+                type="password"
                 required
             ></v-text-field>
 
-            <v-btn @click.prevent="login" block primary black :disabled="isProcessing">Увійти</v-btn>
+            <v-btn @click.prevent="login" block primary black :disabled="isProcessing">Log In</v-btn>
         </div>
 
         <v-snackbar v-model="snackbar.model">
