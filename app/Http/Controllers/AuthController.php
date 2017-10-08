@@ -6,6 +6,7 @@ use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTFactory;
 
 class AuthController extends Controller
 {
@@ -38,9 +39,9 @@ class AuthController extends Controller
                 'token' => $token,
                 'user' => Auth::user()
             ]]);
-        } else {
-            return response()->json(['error' => ['message' => 'Невірний логін або пароль.']], 401);
         }
+
+        return response()->json(['error' => ['message' => 'Невірний логін або пароль.']], 401);
     }
 
     /**

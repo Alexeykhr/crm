@@ -16,10 +16,10 @@
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "socket.io": "^2.0.3",
     "vue": "^2.1.10",
-    "vue-socket.io": "^2.1.1",
     "vue-router": "^2.7.0",
-    "vuetify": "^0.16.1"
+    "vue-socket.io": "^2.1.1",
+    "vuetify": "^0.16.3",
+    "socket.io-client": "^2.0.3"
   }
 }

@@ -60,7 +60,7 @@
             <v-toolbar class="blue darken-3" dark app clipped-left clipped-right fixed>
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                    Bloody Swords
+                    Company
                 </v-toolbar-title>
                 <v-text-field solo prepend-icon="search" placeholder="Search"></v-text-field>
                 <v-spacer></v-spacer>
@@ -93,8 +93,11 @@
 </template>
 
 <script>
+    import io from 'socket.io-client';
     import Auth from './store/auth'
-    import { post, interceptors } from './helpers/api'
+    import { post } from './helpers/api'
+
+    var socket = io.connect('http://localhost:6379/');
 
     export default {
         data() {
@@ -143,6 +146,28 @@
                 ]
             }
         },
+        mounted() {
+            console.log('Mounted');
+            console.log(Auth.state.token);
+            if (Auth.state.token) {
+                socket.on('connect', () => {
+                    console.log('connect');
+                    socket.emit('authenticate', {token: Auth.state.token});
+
+                    socket.emit('public-my-message', {'msg': 'Hi, Every One.'});
+                });
+
+                socket.on('user-id', function (data) {
+                    console.log('user-id');
+                    console.log(data);
+                });
+
+                socket.on('receive-my-message', function (data) {
+                    console.log('receive-my-message');
+                    this.items = console.log(data);
+                });
+            }
+        },
         computed: {
             auth() {
                 return !!this.authState.token;
@@ -161,6 +186,11 @@
             logout() {
                 Auth.remove();
                 this.$router.push('login');
+            }
+        },
+        watch: {
+            auth() {
+                console.log('Auth');
             }
         }
     }
