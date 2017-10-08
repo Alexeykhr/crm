@@ -15579,6 +15579,10 @@ table.table tfoot tr {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  border: 1px solid #e0e0e0;
 }
 
 .u-left {
@@ -15620,5 +15624,7 @@ table.table tfoot tr {
 
 .u-contacts > h5 {
   border-bottom: 1px solid #c3c3c3;
+  font-weight: 500;
+  font-size: 20px;
 }
 

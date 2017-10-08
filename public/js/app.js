@@ -475,12 +475,38 @@ module.exports = function normalizeComponent (
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        token: null,
+        user: null
+    },
+    initialize: function initialize() {
+        this.state.token = localStorage.getItem('token');
+        this.state.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+    },
+    set: function set(token, user) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        this.initialize();
+    },
+    remove: function remove() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.initialize();
+    }
+});
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = get;
 /* harmony export (immutable) */ __webpack_exports__["b"] = post;
 /* unused harmony export del */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__(2);
 
 
 
@@ -515,32 +541,6 @@ function del(url) {
         }
     });
 }
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    state: {
-        token: null,
-        user: null
-    },
-    initialize: function initialize() {
-        this.state.token = localStorage.getItem('token');
-        this.state.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    },
-    set: function set(token, user) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        this.initialize();
-    },
-    remove: function remove() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.initialize();
-    }
-});
 
 /***/ }),
 /* 4 */
@@ -55620,8 +55620,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -56173,7 +56173,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_auth__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_auth__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_auth_Login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_Dashboard_vue__ = __webpack_require__(47);
@@ -58802,8 +58802,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -59023,7 +59023,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -59107,7 +59107,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__(3);
 //
 //
 //
@@ -59209,8 +59209,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_api__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__(2);
 //
 //
 //
@@ -59238,7 +59237,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -59252,7 +59270,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         name: function name() {
-            return this.user.first_name + ' ' + this.user.last_name;
+            return this.user.first_name + ' ' + (this.user.middle_name ? this.user.middle_name + ' ' : '') + this.user.last_name;
         },
         image: function image() {
             return this.user.image ? this.user.image : '/img/user.png';
@@ -59280,7 +59298,27 @@ var render = function() {
         _c("div", { staticClass: "u-nickname" }, [
           _vm._v(_vm._s(_vm.user.nickname))
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "btn-edit" },
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                to: "/profile/edit",
+                block: "",
+                black: "",
+                color: "primary"
+              }
+            },
+            [_vm._v("Редагувати")]
+          )
+        ],
+        1
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "u-right" }, [
@@ -59288,18 +59326,75 @@ var render = function() {
         _c("div", { staticClass: "u-contacts" }, [
           _c("h5", [_vm._v("Контакти")]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "u-block-contacts" },
-            [
-              _c("span", { staticClass: "ttl" }, [_vm._v("Домашній телефон")]),
-              _vm._v(" "),
-              _c("v-icon", [_vm._v("call")]),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(_vm.user.phone))])
-            ],
-            1
-          )
+          _c("div", { staticClass: "u-block-contacts" }, [
+            _vm.user.phone
+              ? _c(
+                  "div",
+                  { staticClass: "phone" },
+                  [
+                    _c("span", { staticClass: "ttl" }, [
+                      _vm._v("Домашній телефон")
+                    ]),
+                    _vm._v(" "),
+                    _c("v-icon", [_vm._v("call")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.user.phone))])
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.user.phone_work
+              ? _c(
+                  "div",
+                  { staticClass: "phone-work" },
+                  [
+                    _c("span", { staticClass: "ttl" }, [
+                      _vm._v("Робочій телефон")
+                    ]),
+                    _vm._v(" "),
+                    _c("v-icon", [_vm._v("call")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.user.phone_work))])
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.user.email
+              ? _c(
+                  "div",
+                  { staticClass: "email" },
+                  [
+                    _c("span", { staticClass: "ttl" }, [
+                      _vm._v("Домашній email")
+                    ]),
+                    _vm._v(" "),
+                    _c("v-icon", [_vm._v("email")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.user.email))])
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.user.email_work
+              ? _c(
+                  "div",
+                  { staticClass: "email-work" },
+                  [
+                    _c("span", { staticClass: "ttl" }, [
+                      _vm._v("Робочій email")
+                    ]),
+                    _vm._v(" "),
+                    _c("v-icon", [_vm._v("email")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.user.email_work))])
+                  ],
+                  1
+                )
+              : _vm._e()
+          ])
         ])
       ])
     ])

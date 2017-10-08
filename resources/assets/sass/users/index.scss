@@ -1,6 +1,10 @@
 .template.user {
   padding: 20px;
   display: flex;
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  border: 1px solid #e0e0e0;
 }
 
 .u-left {
@@ -42,5 +46,7 @@
 .u-contacts {
   > h5 {
     border-bottom: 1px solid #c3c3c3;
+    font-weight: 500;
+    font-size: 20px;
   }
 }
