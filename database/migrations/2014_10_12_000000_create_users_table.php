@@ -34,13 +34,6 @@ class CreateUsersTable extends Migration
 
             $table->index('job_id');
         });
-
-        DB::table('users')->insert([
-            'nickname' => 'admin',
-            'first_name' => 'Alexey',
-            'last_name' => 'Khrusch',
-            'password' => bcrypt('admin123'),
-        ]);
     }
 
     /**
