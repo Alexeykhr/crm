@@ -10,7 +10,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('all', 'UsersController@all');
 
 //        TODO: isAdmin
-        Route::post('{id}/active', 'UsersController@active');
+        Route::put('{id}/active', 'UsersController@active');
+        Route::delete('{id}', 'UsersController@delete');
 
     });
 

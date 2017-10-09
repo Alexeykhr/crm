@@ -31,7 +31,7 @@ const router = new VueRouter({
         { path: '/users', name: 'users', component: Users },
         { path: '/user/:id/edit', name: 'user-edit', component: UserEdit, meta: { isAdmin: true } },
         { path: '/user/:id', name: 'user', component: User },
-        { path: '*', component: NotFound },
+        { path: '*', name: 'not-found', component: NotFound },
     ]
 });
 
@@ -39,7 +39,9 @@ const router = new VueRouter({
 axios.interceptors.response.use(null, err => {
     if (err.response.status === 401) {
         AuthStore.remove();
-        router.push('login');
+        router.push({ name: 'login' });
+    } else if (err.response.status === 404) {
+        router.push({ name: 'not-found' });
     }
 
     return Promise.reject(err);

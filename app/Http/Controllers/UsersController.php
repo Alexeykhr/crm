@@ -35,7 +35,7 @@ class UsersController extends Controller
         $id = (int)$id;
 
         if ($id === Auth::user()->id) {
-            return response()->json('Неможливо себе видалити', 422);
+            return response()->json('Неможливо себе заблокувати', 403);
         }
 
         $user = User::where('id', $id)->firstOrFail();
@@ -45,9 +45,28 @@ class UsersController extends Controller
         ]);
 
         if ($isUpdated) {
-            return response()->json('Збережно');
+            return response()->json($user->is_active ? 'Заблоковано' : 'Розблоковано');
         }
 
         return response()->json('Зміни не були збережені', 422);
+    }
+
+    public function delete($id)
+    {
+        $id = (int)$id;
+
+        if ($id === Auth::user()->id) {
+            return response()->json('Неможливо себе видалити', 403);
+        }
+
+        $user = User::where('id', $id)->firstOrFail();
+
+        $isDeleted = User::where('id', $id)->delete();
+
+        if ($isDeleted) {
+            return response()->json('Видалено');
+        }
+
+        return response()->json('Не видалено');
     }
 }

@@ -97,7 +97,7 @@
     import Auth from './store/auth'
     import { post } from './helpers/api'
 
-    var socket = io.connect('http://localhost:6379/');
+//    var socket = io.connect('http://localhost:6379/');
 
     export default {
         data() {
@@ -147,26 +147,26 @@
             }
         },
         mounted() {
-            console.log('Mounted');
-            console.log(Auth.state.token);
-            if (Auth.state.token) {
-                socket.on('connect', () => {
-                    console.log('connect');
-                    socket.emit('authenticate', {token: Auth.state.token});
-
-                    socket.emit('public-my-message', {'msg': 'Hi, Every One.'});
-                });
-
-                socket.on('user-id', function (data) {
-                    console.log('user-id');
-                    console.log(data);
-                });
-
-                socket.on('receive-my-message', function (data) {
-                    console.log('receive-my-message');
-                    this.items = console.log(data);
-                });
-            }
+//            console.log('Mounted');
+//            console.log(Auth.state.token);
+//            if (Auth.state.token) {
+//                socket.on('connect', () => {
+//                    console.log('connect');
+//                    socket.emit('authenticate', {token: Auth.state.token});
+//
+//                    socket.emit('public-my-message', {'msg': 'Hi, Every One.'});
+//                });
+//
+//                socket.on('user-id', function (data) {
+//                    console.log('user-id');
+//                    console.log(data);
+//                });
+//
+//                socket.on('receive-my-message', function (data) {
+//                    console.log('receive-my-message');
+//                    this.items = console.log(data);
+//                });
+//            }
         },
         computed: {
             auth() {
@@ -189,9 +189,9 @@
             }
         },
         watch: {
-            auth() {
-                console.log('Auth');
-            }
+//            auth() {
+//                console.log('Auth');
+//            }
         }
     }
 </script>
