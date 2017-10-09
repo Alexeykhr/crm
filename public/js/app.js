@@ -65754,6 +65754,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -65798,199 +65802,215 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.user
-    ? _c("div", { staticClass: "template" }, [
-        _c("div", { staticClass: "user" }, [
-          _c(
-            "div",
-            { staticClass: "u-left" },
-            [
-              _c("div", { staticClass: "u-image" }, [
-                _c("img", {
-                  attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "u-info" }, [
-                _c("div", { staticClass: "u-name" }, [
-                  _vm._v(_vm._s(_vm.name))
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "u-nickname" }, [
-                  _vm._v(_vm._s(_vm.user.nickname))
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    color: "primary",
-                    block: "",
-                    outline: "",
-                    to: "/user/" + _vm.user.id + "/edit"
-                  }
-                },
-                [_vm._v("\n                Редагувати\n            ")]
+    ? _c(
+        "div",
+        { staticClass: "template" },
+        [
+          !_vm.user.is_active
+            ? _c(
+                "v-alert",
+                { attrs: { color: "error", icon: "warning", value: "true" } },
+                [_vm._v("\n        Без доступу\n    ")]
               )
-            ],
-            1
-          ),
+            : _vm._e(),
           _vm._v(" "),
-          _c("div", { staticClass: "u-right" }, [
+          _c("div", { staticClass: "user" }, [
             _c(
               "div",
-              { staticClass: "u-content" },
+              { staticClass: "u-left" },
               [
-                _vm.user.phone ||
-                _vm.user.phone_work ||
-                _vm.user.email ||
-                _vm.user.email_works
-                  ? _c(
-                      "v-list",
-                      { attrs: { "two-line": "", subheader: "" } },
-                      [
-                        _c("v-subheader", { attrs: { inset: "" } }, [
-                          _vm._v("Контакти")
-                        ]),
-                        _vm._v(" "),
-                        _vm.user.phone
-                          ? _c(
-                              "v-list-tile",
-                              {
-                                attrs: {
-                                  href:
-                                    "tel:+" + _vm.user.phone.replace(/\D/g, "")
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-list-tile-avatar",
-                                  [_c("v-icon", [_vm._v("call")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-tile-content",
-                                  [
-                                    _c("v-list-tile-title", [
-                                      _vm._v(_vm._s(_vm.user.phone))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-list-tile-sub-title", [
-                                      _vm._v("Домашній телефон")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.user.phone_work
-                          ? _c(
-                              "v-list-tile",
-                              {
-                                attrs: {
-                                  href:
-                                    "tel:+" +
-                                    _vm.user.phone_work.replace(/\D/g, "")
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-list-tile-avatar",
-                                  [_c("v-icon", [_vm._v("call")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-tile-content",
-                                  [
-                                    _c("v-list-tile-title", [
-                                      _vm._v(_vm._s(_vm.user.phone))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-list-tile-sub-title", [
-                                      _vm._v("Робочий телефон")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.user.email
-                          ? _c(
-                              "v-list-tile",
-                              { attrs: { href: "mailto:" + _vm.user.email } },
-                              [
-                                _c(
-                                  "v-list-tile-avatar",
-                                  [_c("v-icon", [_vm._v("email")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-tile-content",
-                                  [
-                                    _c("v-list-tile-title", [
-                                      _vm._v(_vm._s(_vm.user.email))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-list-tile-sub-title", [
-                                      _vm._v("Домашній email")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.user.email_work
-                          ? _c(
-                              "v-list-tile",
-                              {
-                                attrs: { href: "mailto:" + _vm.user.email_work }
-                              },
-                              [
-                                _c(
-                                  "v-list-tile-avatar",
-                                  [_c("v-icon", [_vm._v("email")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-tile-content",
-                                  [
-                                    _c("v-list-tile-title", [
-                                      _vm._v(_vm._s(_vm.user.email_work))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-list-tile-sub-title", [
-                                      _vm._v("Робочий телефон")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  : _vm._e()
+                _c("div", { staticClass: "u-image" }, [
+                  _c("img", {
+                    attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "u-info" }, [
+                  _c("div", { staticClass: "u-name" }, [
+                    _vm._v(_vm._s(_vm.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "u-nickname" }, [
+                    _vm._v(_vm._s(_vm.user.nickname))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    attrs: {
+                      color: "primary",
+                      block: "",
+                      outline: "",
+                      to: "/user/" + _vm.user.id + "/edit"
+                    }
+                  },
+                  [_vm._v("\n                Редагувати\n            ")]
+                )
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "u-right" }, [
+              _c(
+                "div",
+                { staticClass: "u-content" },
+                [
+                  _vm.user.phone ||
+                  _vm.user.phone_work ||
+                  _vm.user.email ||
+                  _vm.user.email_works
+                    ? _c(
+                        "v-list",
+                        { attrs: { "two-line": "", subheader: "" } },
+                        [
+                          _c("v-subheader", { attrs: { inset: "" } }, [
+                            _vm._v("Контакти")
+                          ]),
+                          _vm._v(" "),
+                          _vm.user.phone
+                            ? _c(
+                                "v-list-tile",
+                                {
+                                  attrs: {
+                                    href:
+                                      "tel:+" +
+                                      _vm.user.phone.replace(/\D/g, "")
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-list-tile-avatar",
+                                    [_c("v-icon", [_vm._v("call")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c("v-list-tile-title", [
+                                        _vm._v(_vm._s(_vm.user.phone))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-list-tile-sub-title", [
+                                        _vm._v("Домашній телефон")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.user.phone_work
+                            ? _c(
+                                "v-list-tile",
+                                {
+                                  attrs: {
+                                    href:
+                                      "tel:+" +
+                                      _vm.user.phone_work.replace(/\D/g, "")
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-list-tile-avatar",
+                                    [_c("v-icon", [_vm._v("call")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c("v-list-tile-title", [
+                                        _vm._v(_vm._s(_vm.user.phone))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-list-tile-sub-title", [
+                                        _vm._v("Робочий телефон")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.user.email
+                            ? _c(
+                                "v-list-tile",
+                                { attrs: { href: "mailto:" + _vm.user.email } },
+                                [
+                                  _c(
+                                    "v-list-tile-avatar",
+                                    [_c("v-icon", [_vm._v("email")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c("v-list-tile-title", [
+                                        _vm._v(_vm._s(_vm.user.email))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-list-tile-sub-title", [
+                                        _vm._v("Домашній email")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.user.email_work
+                            ? _c(
+                                "v-list-tile",
+                                {
+                                  attrs: {
+                                    href: "mailto:" + _vm.user.email_work
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-list-tile-avatar",
+                                    [_c("v-icon", [_vm._v("email")])],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c("v-list-tile-title", [
+                                        _vm._v(_vm._s(_vm.user.email_work))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-list-tile-sub-title", [
+                                        _vm._v("Робочий телефон")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ])
           ])
-        ])
-      ])
+        ],
+        1
+      )
     : _vm._e()
 }
 var staticRenderFns = []
@@ -66155,6 +66175,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -66163,7 +66191,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             user: null,
-            isProcessing: false
+
+            password: null,
+            password_repeat: null,
+
+            isProcessing: false,
+
+            //                TODO: Move to global snackbar
+            snackbar: {
+                timeout: 2000,
+                model: false,
+                color: '',
+                text: ''
+            }
         };
     },
     created: function created() {
@@ -66185,14 +66225,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         saveUser: function saveUser() {
             console.log('Save');
         },
-        blockUser: function blockUser() {
-            Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/users/' + this.$route.params.id + '/block').then(function (res) {
-                return console.log(res);
+        activeUser: function activeUser() {
+            var _this2 = this;
+
+            this.isProcessing = true;
+
+            Object(__WEBPACK_IMPORTED_MODULE_1__helpers_api__["b" /* post */])('/api/users/' + this.$route.params.id + '/active').then(function (res) {
+                _this2.snackbar.model = true;
+                _this2.snackbar.text = res.data;
+                _this2.snackbar.color = 'success';
+                _this2.user.is_active = !_this2.user.is_active;
+                _this2.isProcessing = false;
             }).catch(function (err) {
-                return console.log(err);
+                _this2.snackbar.model = true;
+                _this2.snackbar.text = err.response.data;
+                _this2.snackbar.color = 'error';
+                _this2.isProcessing = false;
             });
         },
-        deleteUser: function deleteUser() {}
+        deleteUser: function deleteUser() {},
+        changePassword: function changePassword() {}
     },
 
     computed: {
@@ -66232,6 +66284,48 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "u-info" },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      label: "Логін",
+                      counter: 40,
+                      disabled: !_vm.user.is_active
+                    },
+                    model: {
+                      value: _vm.user.nickname,
+                      callback: function($$v) {
+                        _vm.user.nickname = $$v
+                      },
+                      expression: "user.nickname"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        color: "purple",
+                        dark: "",
+                        outline: "",
+                        block: ""
+                      },
+                      on: { click: _vm.changePassword }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Змінити пароль\n                "
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "u-right" }, [
+              _c(
+                "div",
+                { staticClass: "u-content" },
                 [
                   _c("v-text-field", {
                     attrs: {
@@ -66278,30 +66372,6 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      label: "Логін",
-                      counter: 40,
-                      disabled: !_vm.user.is_active
-                    },
-                    model: {
-                      value: _vm.user.nickname,
-                      callback: function($$v) {
-                        _vm.user.nickname = $$v
-                      },
-                      expression: "user.nickname"
-                    }
-                  })
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "u-right" }, [
-              _c(
-                "div",
-                { staticClass: "u-content" },
-                [
                   _c("v-text-field", {
                     attrs: {
                       label: "Домашній телефон",
@@ -66409,7 +66479,8 @@ var render = function() {
                                 slot: "activator",
                                 flat: "",
                                 icon: "",
-                                color: "red"
+                                color: "red",
+                                disabled: _vm.isProcessing
                               },
                               on: { click: _vm.deleteUser },
                               slot: "activator"
@@ -66436,9 +66507,10 @@ var render = function() {
                                 slot: "activator",
                                 flat: "",
                                 icon: "",
-                                color: "black"
+                                color: "black",
+                                disabled: _vm.isProcessing
                               },
-                              on: { click: _vm.blockUser },
+                              on: { click: _vm.activeUser },
                               slot: "activator"
                             },
                             [
@@ -66455,7 +66527,15 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c("span", [_vm._v("Заблокувати")])
+                          _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.user.is_active
+                                  ? "Заблокувати"
+                                  : "Розблокувати"
+                              )
+                            )
+                          ])
                         ],
                         1
                       )
@@ -66472,11 +66552,44 @@ var render = function() {
               attrs: {
                 color: "primary",
                 block: "",
-                disabled: _vm.isProcessing
+                disabled: _vm.isProcessing || !_vm.user.is_active
               },
               on: { click: _vm.saveUser }
             },
             [_vm._v("\n        Зберегти\n    ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-snackbar",
+            {
+              attrs: {
+                color: _vm.snackbar.color,
+                timeout: _vm.snackbar.timeout
+              },
+              model: {
+                value: _vm.snackbar.model,
+                callback: function($$v) {
+                  _vm.snackbar.model = $$v
+                },
+                expression: "snackbar.model"
+              }
+            },
+            [
+              _vm._v("\n        " + _vm._s(_vm.snackbar.text) + "\n        "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { dark: "", flat: "" },
+                  nativeOn: {
+                    click: function($event) {
+                      _vm.snackbar.model = false
+                    }
+                  }
+                },
+                [_vm._v("Сховати")]
+              )
+            ],
+            1
           )
         ],
         1

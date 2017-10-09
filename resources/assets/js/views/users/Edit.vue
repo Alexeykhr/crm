@@ -8,6 +8,20 @@
                 </div>
                 <div class="u-info">
                     <v-text-field
+                            label="Логін"
+                            :counter="40"
+                            v-model="user.nickname"
+                            :disabled="!user.is_active"
+                    ></v-text-field>
+                    <v-btn color="purple" dark outline block @click="changePassword">
+                        Змінити пароль
+                    </v-btn>
+                </div>
+            </div>
+
+            <div class="u-right">
+                <div class="u-content">
+                    <v-text-field
                             label="Ім'я"
                             :counter="20"
                             v-model="user.first_name"
@@ -25,17 +39,6 @@
                             v-model="user.last_name"
                             :disabled="!user.is_active"
                     ></v-text-field>
-                    <v-text-field
-                            label="Логін"
-                            :counter="40"
-                            v-model="user.nickname"
-                            :disabled="!user.is_active"
-                    ></v-text-field>
-                </div>
-            </div>
-
-            <div class="u-right">
-                <div class="u-content">
                     <v-text-field
                             label="Домашній телефон"
                             :counter="30"
@@ -70,24 +73,29 @@
                         <span>Вийти</span>
                     </v-tooltip>
                     <v-tooltip bottom v-if="myId != $route.params.id">
-                        <v-btn flat icon color="red" slot="activator" @click="deleteUser">
+                        <v-btn flat icon color="red" slot="activator" :disabled="isProcessing" @click="deleteUser">
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <span>Видалити</span>
                     </v-tooltip>
                     <v-tooltip bottom v-if="myId != $route.params.id">
-                        <v-btn flat icon color="black" slot="activator" @click="blockUser">
+                        <v-btn flat icon color="black" slot="activator" :disabled="isProcessing" @click="activeUser">
                             <v-icon>{{ user.is_active ? 'lock_outline' : 'lock_open' }}</v-icon>
                         </v-btn>
-                        <span>Заблокувати</span>
+                        <span>{{ user.is_active ? 'Заблокувати' : 'Розблокувати' }}</span>
                     </v-tooltip>
                 </div>
             </div>
         </div>
 
-        <v-btn color="primary" block @click="saveUser" :disabled="isProcessing">
+        <v-btn color="primary" block @click="saveUser" :disabled="isProcessing || !user.is_active">
             Зберегти
         </v-btn>
+
+        <v-snackbar :color="snackbar.color" :timeout="snackbar.timeout" v-model="snackbar.model">
+            {{ snackbar.text }}
+            <v-btn dark flat @click.native="snackbar.model = false">Сховати</v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -99,7 +107,19 @@
         data() {
             return {
                 user: null,
+
+                password: null,
+                password_repeat: null,
+
                 isProcessing: false,
+
+//                TODO: Move to global snackbar
+                snackbar: {
+                    timeout: 2000,
+                    model: false,
+                    color: '',
+                    text: ''
+                },
             }
         },
 
@@ -120,12 +140,28 @@
             saveUser() {
                 console.log('Save');
             },
-            blockUser() {
-                post('/api/users/' + this.$route.params.id + '/block')
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err));
+            activeUser() {
+                this.isProcessing = true;
+
+                post('/api/users/' + this.$route.params.id + '/active')
+                    .then(res => {
+                        this.snackbar.model = true;
+                        this.snackbar.text = res.data;
+                        this.snackbar.color = 'success';
+                        this.user.is_active = !this.user.is_active;
+                        this.isProcessing = false;
+                    })
+                    .catch(err => {
+                        this.snackbar.model = true;
+                        this.snackbar.text = err.response.data;
+                        this.snackbar.color = 'error';
+                        this.isProcessing = false;
+                    });
             },
             deleteUser() {
+
+            },
+            changePassword() {
 
             },
         },

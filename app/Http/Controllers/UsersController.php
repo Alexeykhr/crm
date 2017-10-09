@@ -30,15 +30,24 @@ class UsersController extends Controller
         return response()->json($user);
     }
 
-    public function block($id)
+    public function active($id)
     {
         $id = (int)$id;
 
         if ($id === Auth::user()->id) {
-            return response()->json(['error' => ['Видалити себе неможливо']], 422);
+            return response()->json('Неможливо себе видалити', 422);
         }
 
-        dd(Auth::user()->id);
-        dd($id);
+        $user = User::where('id', $id)->firstOrFail();
+
+        $isUpdated = User::where('id', $id)->update([
+            'is_active' => !$user->is_active,
+        ]);
+
+        if ($isUpdated) {
+            return response()->json('Збережно');
+        }
+
+        return response()->json('Зміни не були збережені', 422);
     }
 }

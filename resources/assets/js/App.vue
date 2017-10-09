@@ -143,7 +143,7 @@
                     }, {
                         icon: 'timeline', text: 'Статистика   ', to: '/statistics'
                     },
-                ]
+                ],
             }
         },
         mounted() {

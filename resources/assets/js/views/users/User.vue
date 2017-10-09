@@ -1,5 +1,9 @@
 <template>
     <div class="template" v-if="user">
+        <v-alert color="error" icon="warning" value="true" v-if="!user.is_active">
+            Без доступу
+        </v-alert>
+
         <div class="user">
             <div class="u-left">
                 <div class="u-image">
