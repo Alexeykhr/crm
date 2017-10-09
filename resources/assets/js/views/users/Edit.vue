@@ -8,16 +8,13 @@
                 <div class="u-name">{{ name }}</div>
                 <div class="u-nickname">{{ user.nickname }}</div>
             </div>
-            <v-btn color="primary" block outline :to="'/user/' + user.id + '/edit'">
-                Редагувати
-            </v-btn>
         </div>
 
         <div class="u-right">
             <div class="u-content">
-                <v-list two-line subheader v-if="user.phone || user.phone_work || user.email || user.email_works">
+                <v-list two-line subheader>
                     <v-subheader inset>Контакти</v-subheader>
-                    <v-list-tile v-if="user.phone" :href="'tel:+' + user.phone.replace(/\D/g, '')">
+                    <v-list-tile>
                         <v-list-tile-avatar>
                             <v-icon>call</v-icon>
                         </v-list-tile-avatar>
@@ -26,7 +23,7 @@
                             <v-list-tile-sub-title>Домашній телефон</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-list-tile v-if="user.phone_work" :href="'tel:+' + user.phone_work.replace(/\D/g, '')">
+                    <v-list-tile>
                         <v-list-tile-avatar>
                             <v-icon>call</v-icon>
                         </v-list-tile-avatar>
@@ -34,8 +31,11 @@
                             <v-list-tile-title>{{ user.phone }}</v-list-tile-title>
                             <v-list-tile-sub-title>Робочий телефон</v-list-tile-sub-title>
                         </v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-icon>call</v-icon>
+                        </v-list-tile-action>
                     </v-list-tile>
-                    <v-list-tile v-if="user.email" :href="'mailto:' + user.email">
+                    <v-list-tile>
                         <v-list-tile-avatar>
                             <v-icon>email</v-icon>
                         </v-list-tile-avatar>
@@ -44,7 +44,7 @@
                             <v-list-tile-sub-title>Домашній email</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-list-tile v-if="user.email_work" :href="'mailto:' + user.email_work">
+                    <v-list-tile>
                         <v-list-tile-avatar>
                             <v-icon>email</v-icon>
                         </v-list-tile-avatar>
@@ -54,8 +54,46 @@
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
+            </div>
+            <div class="u-action"> <!-- TODO: is any can -->
+                <v-tooltip bottom> <!-- TODO: v-if -->
+                    <v-btn flat icon color="primary" :to="'/user/' + user.id + '/edit'" slot="activator">
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                    <span>Редагувати</span>
+                </v-tooltip>
+                <!--<v-tooltip bottom> &lt;!&ndash; TODO: v-if &ndash;&gt;-->
+                <!--<v-btn flat icon color="red" slot="activator">-->
+                <!--<v-icon>delete</v-icon>-->
+                <!--</v-btn>-->
+                <!--<span>Видалити</span>-->
+                <!--</v-tooltip>-->
+                <!--<v-tooltip bottom> &lt;!&ndash; TODO: v-if &ndash;&gt;-->
+                <!--<v-btn flat icon color="black" slot="activator">-->
+                <!--<v-icon>block</v-icon>-->
+                <!--</v-btn>-->
+                <!--<span>Заблокувати</span>-->
+                <!--</v-tooltip>-->
 
-                <!-- TODO: get job and role -->
+                <!--<div class="btn-edit"> &lt;!&ndash; TODO: v-if &ndash;&gt;-->
+                <!--<v-btn :to="'/user/' + user.id + '/edit'" outline block black color="primary">Заблокувати доступ</v-btn>-->
+                <!--</div>-->
+                <!--<div class="btn-edit"> &lt;!&ndash; TODO: v-if &ndash;&gt;-->
+                <!--<v-btn :to="'/user/' + user.id + '/edit'" outline block black color="primary">Видалити</v-btn>-->
+                <!--</div>-->
+
+                <!--<v-tooltip bottom v-if="user.phone">-->
+                <!--<v-btn flat icon color="pink" slot="activator" :href="'tel:+' + user.phone.replace(/\D/g, '')">-->
+                <!--<v-icon>call</v-icon>-->
+                <!--</v-btn>-->
+                <!--<span>{{ user.phone }}</span>-->
+                <!--</v-tooltip>-->
+                <!--<v-tooltip bottom v-if="user.phone_work">-->
+                <!--<v-btn flat icon color="pink" slot="activator" :href="'tel:+' + user.phone_work.replace(/\D/g, '')">-->
+                <!--<v-icon>call</v-icon>-->
+                <!--</v-btn>-->
+                <!--<span>{{ user.phone_work }}</span>-->
+                <!--</v-tooltip>-->
             </div>
         </div>
     </div>

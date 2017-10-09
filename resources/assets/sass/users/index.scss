@@ -41,12 +41,15 @@
 .u-right {
   width: 100%;
   margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.u-contacts {
-  > h5 {
-    border-bottom: 1px solid #c3c3c3;
-    font-weight: 500;
-    font-size: 20px;
-  }
+.u-content {
+  width: 100%;
+}
+
+.u-action {
+  display: flex;
+  flex-direction: column;
 }

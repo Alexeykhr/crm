@@ -11,8 +11,9 @@ import AuthStore from '../store/auth';
 // Vue views
 import Login from '../views/auth/Login.vue';
 import Dashboard from '../views/Dashboard.vue';
+import UserEdit from '../views/users/Edit.vue';
+import User from '../views/users/User.vue';
 import Users from '../views/users/Users.vue';
-import Profile from '../views/users/Profile.vue';
 import NotFound from '../views/NotFound.vue';
 
 // Vue use
@@ -28,8 +29,8 @@ const router = new VueRouter({
         { path: '/login', name: 'login', component: Login },
         { path: '/dashboard', name: 'dashboard', component: Dashboard },
         { path: '/users', name: 'users', component: Users },
-        { path: '/profile', name: 'profile', component: Profile },
-        { path: '/user/:id', name: 'user', component: Profile },
+        { path: '/user/:id/edit', name: 'user-edit', component: UserEdit, meta: { isAdmin: true } },
+        { path: '/user/:id', name: 'user', component: User },
         { path: '*', component: NotFound },
     ]
 });
@@ -46,12 +47,16 @@ axios.interceptors.response.use(null, err => {
 
 // Protect router
 router.beforeEach((to, from, next) => {
-    if (! AuthStore.state.token && to.name !== 'login') {
+    if (! AuthStore.state.token && to.name !== '/login') {
         next({ name: 'login' });
+    } else if (AuthStore.state.token && to.path === '/login') {
+        next({ name: 'dashboard' });
     } else if (to.path === '/') {
         next({ name: 'dashboard' });
-    } else if (to.name === 'user' && to.params.id == AuthStore.state.user.id) {
-        next({ name: 'profile' });
+    } else if (to.path === '/profile') {
+        next({ path: '/user/' + AuthStore.state.user.id });
+    } else if (to.path === '/profile/edit') {
+        next({ path: '/user/' + AuthStore.state.user.id + '/edit' });
     } else {
         next();
     }

@@ -12,6 +12,10 @@ export default {
         localStorage.setItem('user', JSON.stringify(user));
         this.initialize();
     },
+    setUser(user) {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.initialize();
+    },
     remove() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');

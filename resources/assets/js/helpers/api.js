@@ -32,3 +32,14 @@ export function del(url) {
         }
     })
 }
+
+export function put(url, data) {
+    return axios({
+        method: 'PUT',
+        url: url,
+        data: data,
+        headers: {
+            'Authorization': 'Bearer ' + Auth.state.token
+        }
+    })
+}
