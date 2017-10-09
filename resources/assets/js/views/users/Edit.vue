@@ -85,6 +85,13 @@
                                     </v-card-text>
                                 </v-card>
                             </v-tabs-content>
+                            <v-tabs-content id="tab-3">
+                                <v-card flat>
+                                    <v-card-text>
+                                        <!-- TODO: add 2 field* -->
+                                    </v-card-text>
+                                </v-card>
+                            </v-tabs-content>
                         </v-tabs-items>
                     </v-tabs>
                 </div>
@@ -92,9 +99,9 @@
                 <div class="u-action">
                     <v-tooltip left>
                         <v-btn icon color="grey darken-4" :to="'/user/' + user.id" slot="activator" class="white--text">
-                            <v-icon>arrow_back</v-icon>
+                            <v-icon>remove_red_eye</v-icon>
                         </v-btn>
-                        <span>Вийти</span>
+                        <span>Переглянути</span>
                     </v-tooltip>
                     <v-tooltip left>
                         <v-btn flat icon color="primary" slot="activator" :disabled="isProcessing || !user.is_active" @click="saveUser">
@@ -153,10 +160,7 @@
                     text: ''
                 },
 
-                items: [
-                    'Інформація', 'Контакти',
-                ],
-                text: 'Lorem ipsum dolor sit amet, aliquip ex ea commodo consequat.'
+                items: ['Інформація', 'Контакти', 'Інше'],
             }
         },
 

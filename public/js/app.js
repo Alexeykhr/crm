@@ -58953,6 +58953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -62188,7 +62189,8 @@ var render = function() {
                 attrs: {
                   persistent: "",
                   clipped: "",
-                  "enable-resize-watcher": "",
+                  disableRouteWatcher: "",
+                  enableResizeWatcher: "",
                   right: "",
                   light: "",
                   app: ""
@@ -62225,11 +62227,7 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "v-list-tile-content",
-                          [
-                            _c("v-list-tile-title", [
-                              _vm._v("Користувачі онлайн")
-                            ])
-                          ],
+                          [_c("v-list-tile-title", [_vm._v("Новини")])],
                           1
                         )
                       ],
@@ -62247,7 +62245,7 @@ var render = function() {
               {
                 attrs: {
                   persistent: "",
-                  "enable-resize-watcher": "",
+                  enableResizeWatcher: "",
                   clipped: "",
                   app: "",
                   "mini-variant": _vm.mini
@@ -62426,8 +62424,8 @@ var render = function() {
                 attrs: {
                   dark: "",
                   app: "",
-                  "clipped-left": "",
-                  "clipped-right": "",
+                  clippedLeft: "",
+                  clippedRight: "",
                   fixed: ""
                 }
               },
@@ -62452,7 +62450,7 @@ var render = function() {
                 _c("v-text-field", {
                   attrs: {
                     solo: "",
-                    "prepend-icon": "search",
+                    prependIcon: "search",
                     placeholder: "Search"
                   }
                 }),
@@ -65631,6 +65629,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -65653,8 +65658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 text: ''
             },
 
-            items: ['Інформація', 'Контакти'],
-            text: 'Lorem ipsum dolor sit amet, aliquip ex ea commodo consequat.'
+            items: ['Інформація', 'Контакти', 'Інше']
         };
     },
     created: function created() {
@@ -65947,6 +65951,20 @@ var render = function() {
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tabs-content",
+                            { attrs: { id: "tab-3" } },
+                            [
+                              _c(
+                                "v-card",
+                                { attrs: { flat: "" } },
+                                [_c("v-card-text")],
+                                1
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -65978,11 +65996,11 @@ var render = function() {
                           },
                           slot: "activator"
                         },
-                        [_c("v-icon", [_vm._v("arrow_back")])],
+                        [_c("v-icon", [_vm._v("remove_red_eye")])],
                         1
                       ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Вийти")])
+                      _c("span", [_vm._v("Переглянути")])
                     ],
                     1
                   ),
@@ -66288,6 +66306,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -66295,7 +66339,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            user: null
+            user: null,
+
+            items: ['Контакти', 'Інше']
         };
     },
     created: function created() {
@@ -66318,6 +66364,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.user.first_name + ' ' + this.user.last_name;
         },
         image: function image() {
+            // TODO: img 200x200 px
             return this.user.image ? this.user.image : '/img/user.png';
         }
     }
@@ -66340,199 +66387,290 @@ var render = function() {
             ? _c(
                 "v-alert",
                 { attrs: { color: "error", icon: "warning", value: "true" } },
-                [_vm._v("\n        Без доступу\n    ")]
+                [_vm._v("\n        Без доступу до сайту.\n    ")]
               )
             : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "user" }, [
-            _c(
-              "div",
-              { staticClass: "u-left" },
-              [
-                _c("div", { staticClass: "u-image" }, [
-                  _c("img", {
-                    attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
-                  })
+            _c("div", { staticClass: "u-left" }, [
+              _c("div", { staticClass: "u-image" }, [
+                _c("img", {
+                  attrs: { src: _vm.image, title: _vm.name, alt: _vm.name }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "u-info" }, [
+                _c("div", { staticClass: "u-name" }, [
+                  _vm._v(_vm._s(_vm.name))
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "u-info" }, [
-                  _c("div", { staticClass: "u-name" }, [
-                    _vm._v(_vm._s(_vm.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "u-nickname" }, [
-                    _vm._v(_vm._s(_vm.user.nickname))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "v-btn",
-                  {
-                    attrs: {
-                      color: "primary",
-                      block: "",
-                      outline: "",
-                      to: "/user/" + _vm.user.id + "/edit"
-                    }
-                  },
-                  [_vm._v("\n                Редагувати\n            ")]
-                )
-              ],
-              1
-            ),
+                _c("div", { staticClass: "u-nickname" }, [
+                  _vm._v(_vm._s(_vm.user.nickname))
+                ])
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "u-right" }, [
               _c(
                 "div",
                 { staticClass: "u-content" },
                 [
-                  _vm.user.phone ||
-                  _vm.user.phone_work ||
-                  _vm.user.email ||
-                  _vm.user.email_works
-                    ? _c(
-                        "v-list",
-                        { attrs: { "two-line": "", subheader: "" } },
+                  _c(
+                    "v-tabs",
+                    { attrs: { light: "", grow: "" } },
+                    [
+                      _c(
+                        "v-tabs-bar",
+                        { staticClass: "grey lighten-4" },
                         [
-                          _c("v-subheader", { attrs: { inset: "" } }, [
-                            _vm._v("Контакти")
-                          ]),
+                          _c("v-tabs-slider"),
                           _vm._v(" "),
-                          _vm.user.phone
-                            ? _c(
-                                "v-list-tile",
-                                {
-                                  attrs: {
-                                    href:
-                                      "tel:+" +
-                                      _vm.user.phone.replace(/\D/g, "")
-                                  }
-                                },
+                          _vm._l(_vm.items, function(item, i) {
+                            return _c(
+                              "v-tabs-item",
+                              { key: i, attrs: { href: "#tab-" + (i + 1) } },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(item) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tabs-items",
+                        [
+                          _c(
+                            "v-tabs-content",
+                            { attrs: { id: "tab-1" } },
+                            [
+                              _c(
+                                "v-card",
+                                { attrs: { flat: "" } },
                                 [
                                   _c(
-                                    "v-list-tile-avatar",
-                                    [_c("v-icon", [_vm._v("call")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-content",
+                                    "v-list",
+                                    {
+                                      attrs: { "two-line": "", subheader: "" }
+                                    },
                                     [
-                                      _c("v-list-tile-title", [
-                                        _vm._v(_vm._s(_vm.user.phone))
-                                      ]),
+                                      _vm.user.phone
+                                        ? _c(
+                                            "v-list-tile",
+                                            {
+                                              attrs: {
+                                                href:
+                                                  "tel:+" +
+                                                  _vm.user.phone.replace(
+                                                    /\D/g,
+                                                    ""
+                                                  )
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-list-tile-avatar",
+                                                [
+                                                  _c("v-icon", [_vm._v("call")])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-tile-content",
+                                                [
+                                                  _c("v-list-tile-title", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.user.phone)
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("v-list-tile-sub-title", [
+                                                    _vm._v("Домашній телефон")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
                                       _vm._v(" "),
-                                      _c("v-list-tile-sub-title", [
-                                        _vm._v("Домашній телефон")
-                                      ])
+                                      _vm.user.phone_work
+                                        ? _c(
+                                            "v-list-tile",
+                                            {
+                                              attrs: {
+                                                href:
+                                                  "tel:+" +
+                                                  _vm.user.phone_work.replace(
+                                                    /\D/g,
+                                                    ""
+                                                  )
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-list-tile-avatar",
+                                                [
+                                                  _c("v-icon", [_vm._v("call")])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-tile-content",
+                                                [
+                                                  _c("v-list-tile-title", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.user.phone)
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("v-list-tile-sub-title", [
+                                                    _vm._v("Робочий телефон")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.user.email
+                                        ? _c(
+                                            "v-list-tile",
+                                            {
+                                              attrs: {
+                                                href: "mailto:" + _vm.user.email
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-list-tile-avatar",
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v("email")
+                                                  ])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-tile-content",
+                                                [
+                                                  _c("v-list-tile-title", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.user.email)
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("v-list-tile-sub-title", [
+                                                    _vm._v("Домашній email")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.user.email_work
+                                        ? _c(
+                                            "v-list-tile",
+                                            {
+                                              attrs: {
+                                                href:
+                                                  "mailto:" +
+                                                  _vm.user.email_work
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-list-tile-avatar",
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v("email")
+                                                  ])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-tile-content",
+                                                [
+                                                  _c("v-list-tile-title", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.user.email_work
+                                                      )
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("v-list-tile-sub-title", [
+                                                    _vm._v("Робочий телефон")
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e()
                                     ],
                                     1
                                   )
                                 ],
                                 1
                               )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.user.phone_work
-                            ? _c(
-                                "v-list-tile",
-                                {
-                                  attrs: {
-                                    href:
-                                      "tel:+" +
-                                      _vm.user.phone_work.replace(/\D/g, "")
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-list-tile-avatar",
-                                    [_c("v-icon", [_vm._v("call")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-content",
-                                    [
-                                      _c("v-list-tile-title", [
-                                        _vm._v(_vm._s(_vm.user.phone))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-tile-sub-title", [
-                                        _vm._v("Робочий телефон")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.user.email
-                            ? _c(
-                                "v-list-tile",
-                                { attrs: { href: "mailto:" + _vm.user.email } },
-                                [
-                                  _c(
-                                    "v-list-tile-avatar",
-                                    [_c("v-icon", [_vm._v("email")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-content",
-                                    [
-                                      _c("v-list-tile-title", [
-                                        _vm._v(_vm._s(_vm.user.email))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-tile-sub-title", [
-                                        _vm._v("Домашній email")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.user.email_work
-                            ? _c(
-                                "v-list-tile",
-                                {
-                                  attrs: {
-                                    href: "mailto:" + _vm.user.email_work
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-list-tile-avatar",
-                                    [_c("v-icon", [_vm._v("email")])],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-content",
-                                    [
-                                      _c("v-list-tile-title", [
-                                        _vm._v(_vm._s(_vm.user.email_work))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-tile-sub-title", [
-                                        _vm._v("Робочий телефон")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
-                    : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "u-action" },
+                [
+                  _c(
+                    "v-tooltip",
+                    { attrs: { left: "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text",
+                          attrs: {
+                            slot: "activator",
+                            icon: "",
+                            color: "grey darken-4",
+                            to: "/user/" + _vm.user.id + "/edit"
+                          },
+                          slot: "activator"
+                        },
+                        [_c("v-icon", [_vm._v("edit")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Редагувати")])
+                    ],
+                    1
+                  )
                 ],
                 1
               )

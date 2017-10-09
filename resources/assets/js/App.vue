@@ -1,20 +1,21 @@
 <template>
     <v-app :class="guest ? 'auth' : ''">
         <template v-if="auth">
-            <v-navigation-drawer persistent clipped enable-resize-watcher v-model="drawerRight" right light app>
+            <v-navigation-drawer persistent clipped disableRouteWatcher enableResizeWatcher
+                                 v-model="drawerRight" right light app>
                 <v-list dense>
                     <v-list-tile @click.stop="drawerRight = !drawerRight">
                         <v-list-tile-action>
                             <v-icon>exit_to_app</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>Користувачі онлайн</v-list-tile-title>
+                            <v-list-tile-title>Новини</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
             </v-navigation-drawer>
 
-            <v-navigation-drawer persistent enable-resize-watcher clipped app :mini-variant.sync="mini" v-model="drawer">
+            <v-navigation-drawer persistent enableResizeWatcher clipped app :mini-variant.sync="mini" v-model="drawer">
                 <v-toolbar flat class="transparent">
                     <v-list class="pa-0">
                         <v-list-tile avatar>
@@ -57,12 +58,12 @@
                 </v-list>
             </v-navigation-drawer>
 
-            <v-toolbar class="blue darken-3" dark app clipped-left clipped-right fixed>
+            <v-toolbar class="blue darken-3" dark app clippedLeft clippedRight fixed>
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                     Компанія
                 </v-toolbar-title>
-                <v-text-field solo prepend-icon="search" placeholder="Search"></v-text-field>
+                <v-text-field solo prependIcon="search" placeholder="Search"></v-text-field>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
                     <v-btn @click="logout" icon slot="activator">
