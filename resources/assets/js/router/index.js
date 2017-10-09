@@ -47,7 +47,7 @@ axios.interceptors.response.use(null, err => {
 
 // Protect router
 router.beforeEach((to, from, next) => {
-    if (! AuthStore.state.token && to.name !== '/login') {
+    if (! AuthStore.state.token && to.name !== 'login') {
         next({ name: 'login' });
     } else if (AuthStore.state.token && to.path === '/login') {
         next({ name: 'dashboard' });

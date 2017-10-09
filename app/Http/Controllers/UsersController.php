@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -27,5 +28,17 @@ class UsersController extends Controller
         $user = User::where('id', $request->id)->firstOrFail();
 
         return response()->json($user);
+    }
+
+    public function block($id)
+    {
+        $id = (int)$id;
+
+        if ($id === Auth::user()->id) {
+            return response()->json(['error' => ['Видалити себе неможливо']], 422);
+        }
+
+        dd(Auth::user()->id);
+        dd($id);
     }
 }

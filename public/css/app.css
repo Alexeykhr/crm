@@ -15574,15 +15574,18 @@ table.table tfoot tr {
   text-transform: uppercase;
 }
 
-.template.user {
+.template {
   padding: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   max-width: 800px;
   margin: 20px auto;
   background: #fff;
   border: 1px solid #e0e0e0;
+}
+
+.template > .user {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .u-left {
@@ -15640,5 +15643,6 @@ table.table tfoot tr {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  margin-left: 10px;
 }
 

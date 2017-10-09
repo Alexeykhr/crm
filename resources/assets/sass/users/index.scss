@@ -1,10 +1,12 @@
-.template.user {
+.template {
   padding: 20px;
-  display: flex;
   max-width: 800px;
   margin: 20px auto;
   background: #fff;
   border: 1px solid #e0e0e0;
+  > .user {
+    display: flex;
+  }
 }
 
 .u-left {
@@ -52,4 +54,5 @@
 .u-action {
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
