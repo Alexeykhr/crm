@@ -58954,6 +58954,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -62179,7 +62181,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
-    { class: _vm.guest ? "auth" : "" },
     [
       _vm.auth
         ? [
@@ -62526,7 +62527,7 @@ var render = function() {
             _vm._v(" "),
             _c("main", [_c("v-content", [_c("router-view")], 1)], 1)
           ]
-        : _c("router-view")
+        : _c("div", { staticClass: "auth" }, [_c("router-view")], 1)
     ],
     2
   )

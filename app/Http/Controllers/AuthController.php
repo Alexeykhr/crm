@@ -6,7 +6,6 @@ use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\Facades\JWTFactory;
 
 class AuthController extends Controller
 {

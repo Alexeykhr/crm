@@ -59,8 +59,6 @@ class UsersController extends Controller
             return response()->json('Неможливо себе видалити', 403);
         }
 
-        $user = User::where('id', $id)->firstOrFail();
-
         $isDeleted = User::where('id', $id)->delete();
 
         if ($isDeleted) {
@@ -68,5 +66,10 @@ class UsersController extends Controller
         }
 
         return response()->json('Не видалено');
+    }
+
+    public function save($id)
+    {
+        // TODO: If user is_active!
     }
 }

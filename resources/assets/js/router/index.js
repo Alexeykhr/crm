@@ -26,6 +26,7 @@ AuthStore.initialize();
 const router = new VueRouter({
     mode: 'history',
     routes: [
+        { path: '/', redirect: { name: 'dashboard' } },
         { path: '/login', name: 'login', component: Login },
         { path: '/dashboard', name: 'dashboard', component: Dashboard },
         { path: '/users', name: 'users', component: Users },
@@ -37,31 +38,47 @@ const router = new VueRouter({
 
 // Axios global interceptors
 axios.interceptors.response.use(null, err => {
-    if (err.response.status === 401) {
-        AuthStore.remove();
-        router.push({ name: 'login' });
+    let token = window.localStorage.getItem('token')
+
+    const originalRequest = err.config
+
+    if (err.response.status === 401 && !originalRequest._retry) {
+        if (! token) {
+            router.push({ name: 'login' })
+        } else {
+            return get('/api/refresh-token')
+                .then(res => {
+                    if (res.data.token) {
+                        window.localStorage.setItem('token', res.data.token)
+                        originalRequest.headers['Authorization'] = 'Bearer ' + res.data.token
+                        return axios(originalRequest)
+                    }
+                })
+                .catch(err => {
+                    window.localStorage.removeItem('token')
+                    router.push({ name: 'login' })
+                })
+        }
     } else if (err.response.status === 404) {
-        router.push({ name: 'not-found' });
+        router.push({ name: 'not-found' })
     }
 
-    return Promise.reject(err);
+    return Promise.reject(err)
 });
 
 // Protect router
 router.beforeEach((to, from, next) => {
     if (! AuthStore.state.token && to.name !== 'login') {
-        next({ name: 'login' });
+        next({ name: 'login' })
     } else if (AuthStore.state.token && to.path === '/login') {
-        next({ name: 'dashboard' });
-    } else if (to.path === '/') {
-        next({ name: 'dashboard' });
+        next({ name: 'dashboard' })
     } else if (to.path === '/profile') {
-        next({ path: '/user/' + AuthStore.state.user.id });
+        next({ path: '/user/' + AuthStore.state.user.id })
     } else if (to.path === '/profile/edit') {
-        next({ path: '/user/' + AuthStore.state.user.id + '/edit' });
+        next({ path: '/user/' + AuthStore.state.user.id + '/edit' })
     } else {
         next();
     }
 });
 
-export default router;
+export default router

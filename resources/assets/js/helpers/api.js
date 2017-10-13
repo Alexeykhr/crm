@@ -9,7 +9,7 @@ export function get(url, params) {
         headers: {
             'Authorization': 'Bearer ' + Auth.state.token
         }
-    });
+    })
 }
 
 export function post(url, data) {
