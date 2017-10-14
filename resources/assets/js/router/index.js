@@ -19,9 +19,6 @@ import NotFound from '../views/NotFound.vue';
 // Vue use
 Vue.use(VueRouter);
 
-// Auth store set
-AuthStore.initialize();
-
 // Vue router
 const router = new VueRouter({
     mode: 'history',
@@ -64,7 +61,7 @@ axios.interceptors.response.use(null, err => {
     }
 
     return Promise.reject(err)
-});
+})
 
 // Protect router
 router.beforeEach((to, from, next) => {
@@ -77,8 +74,8 @@ router.beforeEach((to, from, next) => {
     } else if (to.path === '/profile/edit') {
         next({ path: '/user/' + AuthStore.state.user.id + '/edit' })
     } else {
-        next();
+        next()
     }
-});
+})
 
 export default router
