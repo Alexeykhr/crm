@@ -15546,7 +15546,7 @@ table.table tfoot tr {
 
 
 
-#app.auth {
+.auth {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -15558,7 +15558,7 @@ table.table tfoot tr {
           justify-content: center;
 }
 
-#app.auth > form {
+.auth form {
   width: 100%;
   max-width: 500px;
   border: 1px solid #d0d0d0;
@@ -15567,7 +15567,7 @@ table.table tfoot tr {
   background: #fff;
 }
 
-#app.auth > form > h2 {
+.auth form > h2 {
   font-size: 32px;
   text-align: center;
   font-weight: bold;

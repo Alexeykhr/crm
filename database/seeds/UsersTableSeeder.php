@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::insert([
-            'nickname' => 'admin',
+            'login' => 'admin',
             'first_name' => 'Alexey',
             'last_name' => 'Khrusch',
             'phone' => '+38 (480) 684-89-25',
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         User::insert([
-            'nickname' => 'user',
+            'login' => 'user',
             'first_name' => 'Second',
             'last_name' => 'User',
             'password' => bcrypt('admin123'),

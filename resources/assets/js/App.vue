@@ -1,21 +1,7 @@
 <template>
     <v-app :class="guest ? 'auth' : ''">
-        <template v-if="auth">
-            <v-navigation-drawer persistent clipped disableRouteWatcher enableResizeWatcher
-                                 v-model="drawerRight" right light app>
-                <v-list dense>
-                    <v-list-tile @click.stop="drawerRight = !drawerRight">
-                        <v-list-tile-action>
-                            <v-icon>exit_to_app</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Новини</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-
-            <v-navigation-drawer persistent enableResizeWatcher clipped app :mini-variant.sync="mini" v-model="drawer">
+        <template>
+            <v-navigation-drawer persistent enableResizeWatcher clipped app :mini-variant.sync="mini" v-model="drawer" v-if="guest">
                 <v-toolbar flat class="transparent">
                     <v-list class="pa-0">
                         <v-list-tile avatar>
@@ -59,55 +45,47 @@
             </v-navigation-drawer>
 
             <v-toolbar class="blue darken-3" dark app clippedLeft clippedRight fixed>
-                <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-                    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                    Компанія
-                </v-toolbar-title>
-                <v-text-field solo prependIcon="search" placeholder="Search"></v-text-field>
-                <v-spacer></v-spacer>
-                <v-tooltip bottom>
-                    <v-btn @click="logout" icon slot="activator">
-                        <v-icon>exit_to_app</v-icon>
-                    </v-btn>
-                    <span>Вийти</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <v-btn icon slot="activator">
-                        <v-icon>notifications</v-icon>
-                    </v-btn>
-                    <span>Повідомлення</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight" slot="activator"></v-toolbar-side-icon>
-                    <span>{{ drawerRight ? 'Сховати' : 'Показати' }} онлайн</span>
-                </v-tooltip>
+                <template v-if="guest">
+                    <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+                        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+                        Компанія
+                    </v-toolbar-title>
+                    <v-text-field solo prependIcon="search" placeholder="Search"></v-text-field>
+                    <v-spacer></v-spacer>
+                    <v-tooltip bottom>
+                        <v-btn icon slot="activator">
+                            <v-icon>notifications</v-icon>
+                        </v-btn>
+                        <span>Повідомлення</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <v-btn @click="logout" icon slot="activator">
+                            <v-icon>exit_to_app</v-icon>
+                        </v-btn>
+                        <span>Вийти</span>
+                    </v-tooltip>
+                </template>
             </v-toolbar>
-            <main>
+            <main :class="$route.name === 'login' ? 'auth' : ''">
                 <v-content>
                     <router-view></router-view>
                 </v-content>
             </main>
         </template>
-
-        <router-view v-else></router-view>
     </v-app>
 </template>
 
 <script>
-    import io from 'socket.io-client';
-    import Auth from './store/auth'
+    import io from 'socket.io-client'
     import { post } from './helpers/api'
 
 //    var socket = io.connect('http://localhost:6379/');
 
     export default {
-        data() {
+        data () {
             return {
-                authState: Auth.state,
-
                 drawer: true,
                 mini: true,
-                drawerRight: false,
                 items: [
                     {
                         icon: 'dashboard', text: 'Головна сторінка', to: '/dashboard'
@@ -147,7 +125,7 @@
                 ],
             }
         },
-        mounted() {
+        mounted () {
 //            console.log('Mounted');
 //            console.log(Auth.state.token);
 //            if (Auth.state.token) {
@@ -170,29 +148,20 @@
 //            }
         },
         computed: {
-            auth() {
-                return !!this.authState.token;
+            guest () {
+                return false
             },
-            guest() {
-                return !this.auth;
+            name () {
+                return ''
             },
-            name() {
-                return this.authState.user.first_name + ' ' + this.authState.user.last_name;
-            },
-            image() {
-                return this.authState.user.image ? this.authState.user.image : '/img/user.png';
+            image () {
+                return ''
             },
         },
         methods: {
             logout() {
-                Auth.remove();
-                this.$router.push('login');
+                this.$router.push('login')
             }
-        },
-        watch: {
-//            auth() {
-//                console.log('Auth');
-//            }
         }
     }
 </script>

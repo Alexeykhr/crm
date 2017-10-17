@@ -28,42 +28,40 @@
 </template>
 
 <script>
-    import Auth from '../../store/auth';
-    import { post } from '../../helpers/api';
+    import { post } from '../../helpers/api'
 
     export default {
         data() {
             return {
                 form: {
-                    nickname: '',
-                    password: '',
+                    login: '',
+                    password: ''
                 },
                 snackbar: {
                     model: false,
-                    text: '',
+                    text: ''
                 },
-                isProcessing: false,
+                isProcessing: false
             }
         },
         methods: {
             login() {
-                this.isProcessing = true;
+                this.isProcessing = true
 
                 post('api/login', this.form)
                     .then(res => {
                         if (res.data.response.token) {
-                            Auth.set(res.data.response.token, res.data.response.user);
-                            this.$router.push('dashboard');
+                            this.$router.push('dashboard')
                         }
-                        this.isProcessing = false;
+                        this.isProcessing = false
                     })
                     .catch(err => {
                         if (err.response.data.error.message) {
-                            this.snackbar.model = true;
-                            this.snackbar.text = err.response.data.error.message;
+                            this.snackbar.model = true
+                            this.snackbar.text = err.response.data.error.message
                             // TODO: show normalize errors
                         }
-                        this.isProcessing = false;
+                        this.isProcessing = false
                     })
             }
         }

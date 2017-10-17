@@ -1,9 +1,9 @@
-#app.auth {
+.auth {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  > form {
+  form {
     width: 100%;
     max-width: 500px;
     border: 1px solid #d0d0d0;
