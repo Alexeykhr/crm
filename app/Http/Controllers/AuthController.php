@@ -15,7 +15,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function authenticate(Request $request)
+    public function auth(Request $request)
     {
         $credentials = $request->only('login', 'password');
 
@@ -42,5 +42,21 @@ class AuthController extends Controller
         }
 
         return response()->json(['error' => ['message' => 'Невірний логін або пароль.']], 401);
+    }
+
+    /**
+     * Refresh token to user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken()
+    {
+        $token = JWTAuth::getToken();
+
+        if (! $token) {
+            return response()->json('Токен не дійсний', 401);
+        }
+
+        return response()->json(['token' => JWTAuth::refresh($token)]);
     }
 }

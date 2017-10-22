@@ -1,6 +1,7 @@
 <?php
 
-Route::post('login', 'AuthController@authenticate');
+Route::post('/login', 'AuthController@auth')->middleware('guest');
+Route::get('/refresh-token', 'AuthController@refreshToken')->middleware('guest');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 

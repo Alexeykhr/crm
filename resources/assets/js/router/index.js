@@ -69,10 +69,6 @@ router.beforeEach((to, from, next) => {
         next({ name: 'login' })
     } else if (AuthStore.state.token && to.path === '/login') {
         next({ name: 'dashboard' })
-    } else if (to.path === '/profile') {
-        next({ path: '/user/' + AuthStore.state.user.id })
-    } else if (to.path === '/profile/edit') {
-        next({ path: '/user/' + AuthStore.state.user.id + '/edit' })
     } else {
         next()
     }
