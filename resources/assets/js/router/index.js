@@ -40,6 +40,8 @@ axios.interceptors.response.use(null, err => {
     const originalRequest = err.config
 
     if (err.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+
         if (! token) {
             router.push({ name: 'login' })
         } else {
@@ -51,13 +53,13 @@ axios.interceptors.response.use(null, err => {
                         return axios(originalRequest)
                     }
                 })
-                .catch(err => {
-                    window.localStorage.removeItem('token')
-                    router.push({ name: 'login' })
+                .catch(error => {
+                    if (error.response.status === 401) {
+                        window.localStorage.removeItem('token')
+                        router.push({ name: 'login' })
+                    }
                 })
         }
-    } else if (err.response.status === 404) {
-        router.push({ name: 'not-found' })
     }
 
     return Promise.reject(err)
